@@ -1,0 +1,18 @@
+[package]
+name = "suilings"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ankit Agrawal<ankitagrawal620@gmail.com>"]
+
+[dependencies]
+argh = "0.1"
+console = { version = "0.16.0", features = ["std"] }
+indicatif = "0.17"
+notify = "5.0"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+regex = "1.5"
+
+[[bin]]
+name = "suilings"
+path = "src/main.rs"

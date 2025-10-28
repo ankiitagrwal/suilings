@@ -1,0 +1,4 @@
+/target
+*.move.toml  # Generated test configs
+Cargo.lock  # Optional, commit for reproducibility
+/runner-crate/build
