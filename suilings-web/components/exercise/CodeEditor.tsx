@@ -1,0 +1,168 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import Editor from "@monaco-editor/react";
+import { useExerciseStore } from "@/lib/store/exerciseStore";
+import { Loader2 } from "lucide-react";
+
+export function CodeEditor() {
+  const { currentCode, setCurrentCode } = useExerciseStore();
+  const editorRef = useRef<any>(null);
+
+  const handleEditorDidMount = (editor: any, monaco: any) => {
+    editorRef.current = editor;
+
+    // Define Move language syntax highlighting
+    monaco.languages.register({ id: "move" });
+
+    monaco.languages.setMonarchTokensProvider("move", {
+      keywords: [
+        "module",
+        "public",
+        "fun",
+        "struct",
+        "has",
+        "copy",
+        "drop",
+        "store",
+        "key",
+        "let",
+        "mut",
+        "return",
+        "if",
+        "else",
+        "while",
+        "loop",
+        "break",
+        "continue",
+        "abort",
+        "assert",
+        "move",
+        "copy",
+        "use",
+        "as",
+        "const",
+        "native",
+        "friend",
+        "acquires",
+        "script",
+        "entry",
+      ],
+      typeKeywords: ["bool", "u8", "u16", "u32", "u64", "u128", "u256", "address", "vector"],
+      operators: ["=", ">", "<", "!", "~", "?", ":", "==", "<=", ">=", "!=", "&&", "||", "+", "-", "*", "/", "&", "|", "^", "%", "<<", ">>"],
+      symbols: /[=><!~?:&|+\-*\/\^%]+/,
+      tokenizer: {
+        root: [
+          // identifiers and keywords
+          [
+            /[a-z_$][\w$]*/,
+            {
+              cases: {
+                "@typeKeywords": "type.identifier",
+                "@keywords": "keyword",
+                "@default": "identifier",
+              },
+            },
+          ],
+          [/[A-Z][\w\$]*/, "type.identifier"],
+          // whitespace
+          { include: "@whitespace" },
+          // delimiters and operators
+          [/[{}()\[\]]/, "@brackets"],
+          [/[<>](?!@symbols)/, "@brackets"],
+          [/@symbols/, { cases: { "@operators": "operator", "@default": "" } }],
+          // numbers
+          [/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
+          [/0[xX][0-9a-fA-F]+/, "number.hex"],
+          [/\d+/, "number"],
+          // delimiter: after number because of .\d floats
+          [/[;,.]/, "delimiter"],
+          // strings
+          [/"([^"\\]|\\.)*$/, "string.invalid"],
+          [/"/, { token: "string.quote", bracket: "@open", next: "@string" }],
+          // byte strings
+          [/b"([^"\\]|\\.)*$/, "string.invalid"],
+          [/b"/, { token: "string.quote", bracket: "@open", next: "@string" }],
+        ],
+        string: [
+          [/[^\\"]+/, "string"],
+          [/\\./, "string.escape.invalid"],
+          [/"/, { token: "string.quote", bracket: "@close", next: "@pop" }],
+        ],
+        whitespace: [
+          [/[ \t\r\n]+/, "white"],
+          [/\/\*/, "comment", "@comment"],
+          [/\/\/.*$/, "comment"],
+        ],
+        comment: [
+          [/[^\/*]+/, "comment"],
+          [/\/\*/, "comment", "@push"],
+          ["\\*/", "comment", "@pop"],
+          [/[\/*]/, "comment"],
+        ],
+      },
+    });
+
+    // Configure theme
+    monaco.editor.defineTheme("move-dark", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [
+        { token: "keyword", foreground: "C586C0" },
+        { token: "type.identifier", foreground: "4EC9B0" },
+        { token: "identifier", foreground: "9CDCFE" },
+        { token: "string", foreground: "CE9178" },
+        { token: "number", foreground: "B5CEA8" },
+        { token: "comment", foreground: "6A9955", fontStyle: "italic" },
+      ],
+      colors: {
+        "editor.background": "#0A0E1A",
+        "editor.foreground": "#E6E8F0",
+        "editor.lineHighlightBackground": "#1E2433",
+        "editorCursor.foreground": "#6366F1",
+        "editor.selectionBackground": "#2A3142",
+      },
+    });
+
+    monaco.editor.setTheme("move-dark");
+  };
+
+  const handleEditorChange = (value: string | undefined) => {
+    if (value !== undefined) {
+      setCurrentCode(value);
+    }
+  };
+
+  return (
+    <div className="h-full w-full bg-[#0A0E1A]">
+      <Editor
+        height="100%"
+        defaultLanguage="move"
+        value={currentCode}
+        onChange={handleEditorChange}
+        onMount={handleEditorDidMount}
+        theme="move-dark"
+        loading={
+          <div className="flex items-center justify-center h-full">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        }
+        options={{
+          fontSize: 14,
+          fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+          lineNumbers: "on",
+          minimap: { enabled: true },
+          scrollBeyondLastLine: false,
+          wordWrap: "on",
+          automaticLayout: true,
+          bracketPairColorization: { enabled: true },
+          tabSize: 4,
+          insertSpaces: true,
+          formatOnPaste: true,
+          formatOnType: true,
+        }}
+      />
+    </div>
+  );
+}
+

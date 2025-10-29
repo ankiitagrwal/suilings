@@ -6,11 +6,9 @@
 // Your task:
 // 1. Fix the syntax error in the module declaration.
 // 2. Make the `greet` function public so the test can call it.
-// 3. Remove the `// I AM NOT DONE` line.
 //
 // When the file compiles **and** the test passes you are done.
 
-// I AM NOT DONE
 
 module suilings::greeter {
     fun greet(name: vector<u8>): vector<u8> {

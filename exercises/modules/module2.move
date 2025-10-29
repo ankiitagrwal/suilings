@@ -5,12 +5,10 @@
 // Your task:
 // 1. Add a `use` statement to import `math::add`.
 // 2. Implement `sum_three` using the imported `add` function.
-// 3. Remove the `// I AM NOT DONE` line.
 //
 // The helper module is automatically available because the
 // runner-crate’s Move.toml publishes it at address `suilings`.
 
-// I AM NOT DONE
 
 module suilings::calculator {
 

@@ -1,0 +1,145 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { Header } from "@/components/layout/Header";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { ExerciseInstructions } from "@/components/exercise/ExerciseInstructions";
+import { CodeEditor } from "@/components/exercise/CodeEditor";
+import { OutputConsole } from "@/components/exercise/OutputConsole";
+import { HintDialog } from "@/components/exercise/HintDialog";
+import { useExerciseStore } from "@/lib/store/exerciseStore";
+import { loadExercises } from "@/lib/exerciseLoader";
+import { toast } from "sonner";
+
+export default function ExercisePage() {
+  const [isHintOpen, setIsHintOpen] = useState(false);
+  const {
+    exercises,
+    setExercises,
+    setCurrentExercise,
+    currentCode,
+    setCompilationResult,
+    setIsCompiling,
+    resetExercise,
+    updateExerciseStatus,
+    getCurrentExercise,
+  } = useExerciseStore();
+
+  // Load exercises on mount
+  useEffect(() => {
+    const init = async () => {
+      const loadedExercises = await loadExercises();
+      setExercises(loadedExercises);
+      if (loadedExercises.length > 0) {
+        setCurrentExercise(0);
+      }
+    };
+    init();
+  }, [setExercises, setCurrentExercise]);
+
+  const handleRun = async () => {
+    const currentExercise = getCurrentExercise();
+    if (!currentExercise) return;
+
+    setIsCompiling(true);
+    setCompilationResult(null);
+
+    try {
+      // Call the real compilation API
+      const response = await fetch("/api/compile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: currentCode,
+          mode: currentExercise.mode,
+        }),
+      });
+
+      const result = await response.json();
+
+      setCompilationResult(result);
+
+      if (result.success) {
+        updateExerciseStatus(currentExercise.name, "completed");
+        toast.success("Great job! Your code works perfectly! 🎉");
+      } else {
+        toast.error("Compilation failed! Check the console for details.");
+      }
+    } catch (error) {
+      console.error("Compilation error:", error);
+      setCompilationResult({
+        success: false,
+        output: "",
+        errors: [`Failed to compile: ${(error as Error).message}`],
+      });
+      toast.error("Failed to compile. Please try again.");
+    } finally {
+      setIsCompiling(false);
+    }
+  };
+
+  const handleReset = () => {
+    resetExercise();
+    setCompilationResult(null);
+    toast.info("Exercise reset to initial state");
+  };
+
+  const handleShowHint = () => {
+    setIsHintOpen(true);
+  };
+
+  if (exercises.length === 0) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading exercises...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-screen flex flex-col overflow-hidden">
+      <Header onRun={handleRun} onReset={handleReset} onShowHint={handleShowHint} />
+      
+      <div className="flex-1 flex overflow-hidden">
+        <Sidebar />
+        
+        <main className="flex-1 overflow-hidden">
+          <PanelGroup direction="horizontal">
+            {/* Left Panel - Exercise Instructions */}
+            <Panel defaultSize={30} minSize={20} maxSize={40}>
+              <ExerciseInstructions />
+            </Panel>
+            
+            <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
+            
+            {/* Right Panel - Code Editor + Output Console */}
+            <Panel defaultSize={70} minSize={50}>
+              <PanelGroup direction="vertical">
+                {/* Code Editor */}
+                <Panel defaultSize={60} minSize={30}>
+                  <CodeEditor />
+                </Panel>
+                
+                <PanelResizeHandle className="h-1 bg-border hover:bg-primary transition-colors" />
+                
+                {/* Output Console */}
+                <Panel defaultSize={40} minSize={20}>
+                  <OutputConsole />
+                </Panel>
+              </PanelGroup>
+            </Panel>
+          </PanelGroup>
+        </main>
+      </div>
+
+      <HintDialog open={isHintOpen} onOpenChange={setIsHintOpen} />
+    </div>
+  );
+}
+
