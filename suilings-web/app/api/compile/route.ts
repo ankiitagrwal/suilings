@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
+import { promises as fs, accessSync } from "fs";
 import path from "path";
 import { exec } from "child_process";
 import { promisify } from "util";
@@ -11,8 +11,38 @@ const SUILINGS_ROOT = path.join(process.cwd(), "..");
 const RUNNER_CRATE_PATH = path.join(SUILINGS_ROOT, "runner-crate");
 const MAIN_MOVE_PATH = path.join(RUNNER_CRATE_PATH, "sources", "main.move");
 
+// Check if we're in production (no sui CLI available)
+function isProductionMode() {
+  try {
+    accessSync(RUNNER_CRATE_PATH);
+    return false; // Development mode
+  } catch {
+    return true; // Production mode (no runner-crate)
+  }
+}
+
 export async function POST(request: Request) {
   const startTime = Date.now();
+  
+  // Check if we're in production mode
+  if (isProductionMode()) {
+    return NextResponse.json({
+      success: false,
+      output: "",
+      errors: [
+        "⚠️ DEMO MODE\n\n" +
+        "Compilation is not available in the deployed version.\n\n" +
+        "This demo showcases the UI and learning platform.\n" +
+        "To use real compilation:\n" +
+        "1. Clone the repository\n" +
+        "2. Run locally with: npm run dev\n" +
+        "3. Install Sui CLI for full functionality\n\n" +
+        "Or wait for the backend deployment with full compilation support!"
+      ],
+      duration: Date.now() - startTime,
+      isDemo: true,
+    });
+  }
   
   try {
     const body = await request.json();
