@@ -5,8 +5,12 @@ npm-debug.log
 .git
 .gitignore
 README.md
+DEPLOYMENT.md
+DOCKERFILE_CHOICE.md
 .DS_Store
 *.log
 .vscode
 .idea
-
+runner-crate/build
+Dockerfile
+Dockerfile.prebuilt

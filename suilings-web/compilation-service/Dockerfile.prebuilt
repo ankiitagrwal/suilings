@@ -1,19 +1,29 @@
 # Dockerfile using official suiup installer
 # Fast and reliable - installs latest stable Sui
 
-FROM node:18-slim
+FROM ubuntu:24.04
 
-# Install runtime dependencies
+# Install Node.js 22 and runtime dependencies
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs npm \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Sui using official suiup installer
+# Install suiup (the Sui installer)
 RUN curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
 
-# Copy Sui binary to global location so non-root user can access it
-RUN cp /root/.sui/bin/sui /usr/local/bin/sui && chmod +x /usr/local/bin/sui
+# Add suiup to PATH
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Install Sui CLI
+RUN suiup install sui
+
+# Find and copy sui binary to global location (accessible by all users)
+RUN SUI_PATH=$(find /root/.local/share/suiup/binaries -type f | head -1) && \
+    cp $SUI_PATH /usr/local/bin/sui && \
+    chmod 755 /usr/local/bin/sui
 
 # Verify Sui installation
 RUN sui --version
@@ -25,16 +35,16 @@ WORKDIR /app
 RUN useradd -m -u 1001 appuser
 
 # Copy package files
-COPY suilings-web/compilation-service/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm ci --only=production && \
     npm cache clean --force
 
 # Copy application code
-COPY suilings-web/compilation-service/server.js ./
+COPY server.js ./
 
-# Copy runner-crate (at same level as suilings-web)
+# Copy runner-crate (now in same directory)
 COPY runner-crate ./runner-crate
 
 # Change ownership to non-root user

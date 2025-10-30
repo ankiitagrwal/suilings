@@ -13,6 +13,7 @@
 # compilation service backend
 /compilation-service/node_modules
 /compilation-service/.env
+/compilation-service/runner-crate/build
 
 # testing
 /coverage

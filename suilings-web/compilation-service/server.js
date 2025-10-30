@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Configuration
-const RUNNER_CRATE_PATH = path.join(__dirname, '..', '..', 'runner-crate');
+const RUNNER_CRATE_PATH = process.env.RUNNER_CRATE_PATH || path.join(__dirname, 'runner-crate');
 const MAIN_MOVE_PATH = path.join(RUNNER_CRATE_PATH, 'sources', 'main.move');
 
 // Middleware
@@ -182,18 +182,44 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Startup cleanup - ensure clean state
+async function startup() {
+  try {
+    // Verify runner-crate exists
+    await fs.access(RUNNER_CRATE_PATH);
+    await fs.access(path.join(RUNNER_CRATE_PATH, 'sources'));
+    console.log('✅ Runner crate verified');
+  } catch (error) {
+    console.error('❌ Runner crate not found:', RUNNER_CRATE_PATH);
+    process.exit(1);
+  }
+}
+
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Suilings Compilation Service running on port ${PORT}`);
-  console.log(`📁 Runner crate path: ${RUNNER_CRATE_PATH}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('SIGTERM signal received: closing HTTP server');
-  server.close(() => {
-    console.log('HTTP server closed');
+startup().then(() => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Suilings Compilation Service running on port ${PORT}`);
+    console.log(`Runner crate path: ${RUNNER_CRATE_PATH}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   });
-});
 
+  // Graceful shutdown
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+      console.log('HTTP server closed');
+      process.exit(0);
+    });
+  });
+
+  process.on('SIGINT', () => {
+    console.log('SIGINT signal received: closing HTTP server');
+    server.close(() => {
+      console.log('HTTP server closed');
+      process.exit(0);
+    });
+  });
+}).catch(error => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
+});
