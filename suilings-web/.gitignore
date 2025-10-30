@@ -39,7 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# auto-generated exercise files (created by prebuild script)
-/public/exercises/
-/public/info.toml

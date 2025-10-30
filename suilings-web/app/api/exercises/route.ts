@@ -1,35 +1,15 @@
 import { NextResponse } from "next/server";
-import { promises as fs, accessSync } from "fs";
+import { promises as fs } from "fs";
 import path from "path";
 import toml from "@iarna/toml";
 
-// Determine paths based on environment
-// Dev: Read from parent directory
-// Production: Read from bundled public folder
-function getPaths() {
-  const parentRoot = path.join(process.cwd(), "..");
-  const publicRoot = path.join(process.cwd(), "public");
-  
-  // Check if parent directory has exercises (development)
-  const parentInfoPath = path.join(parentRoot, "info.toml");
-  const publicInfoPath = path.join(publicRoot, "info.toml");
-  
-  try {
-    accessSync(parentInfoPath);
-    // Parent directory exists - use it (development)
-    return { root: parentRoot, isProduction: false };
-  } catch {
-    // Use public folder (production/build)
-    return { root: publicRoot, isProduction: true };
-  }
-}
+// Always read from parent directory (monorepo setup)
+const SUILINGS_ROOT = path.join(process.cwd(), "..");
 
 export async function GET() {
   try {
-    const { root, isProduction } = getPaths();
-    
     // Read info.toml
-    const infoTomlPath = path.join(root, "info.toml");
+    const infoTomlPath = path.join(SUILINGS_ROOT, "info.toml");
     const tomlContent = await fs.readFile(infoTomlPath, "utf-8");
     const parsed = toml.parse(tomlContent) as {
       exercises: Array<{ name: string; path: string; mode: string; hint: string }>;
@@ -38,7 +18,7 @@ export async function GET() {
     // Load each exercise's actual code
     const exercises = await Promise.all(
       parsed.exercises.map(async (ex) => {
-        const exercisePath = path.join(root, ex.path);
+        const exercisePath = path.join(SUILINGS_ROOT, ex.path);
         
         try {
           const code = await fs.readFile(exercisePath, "utf-8");
