@@ -1,15 +1,30 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
+import { promises as fs, accessSync } from "fs";
 import path from "path";
 import toml from "@iarna/toml";
 
-// Always read from parent directory (monorepo setup)
-const SUILINGS_ROOT = path.join(process.cwd(), "..");
+// Use public folder for production (Vercel), parent directory for local dev
+function getExercisesRoot() {
+  const parentRoot = path.join(process.cwd(), "..");
+  const publicRoot = path.join(process.cwd(), "public");
+  
+  // Try parent directory first (local development)
+  const parentInfoPath = path.join(parentRoot, "info.toml");
+  try {
+    accessSync(parentInfoPath);
+    return parentRoot;
+  } catch {
+    // Fall back to public folder (production)
+    return publicRoot;
+  }
+}
 
 export async function GET() {
   try {
+    const root = getExercisesRoot();
+    
     // Read info.toml
-    const infoTomlPath = path.join(SUILINGS_ROOT, "info.toml");
+    const infoTomlPath = path.join(root, "info.toml");
     const tomlContent = await fs.readFile(infoTomlPath, "utf-8");
     const parsed = toml.parse(tomlContent) as {
       exercises: Array<{ name: string; path: string; mode: string; hint: string }>;
@@ -18,7 +33,7 @@ export async function GET() {
     // Load each exercise's actual code
     const exercises = await Promise.all(
       parsed.exercises.map(async (ex) => {
-        const exercisePath = path.join(SUILINGS_ROOT, ex.path);
+        const exercisePath = path.join(root, ex.path);
         
         try {
           const code = await fs.readFile(exercisePath, "utf-8");
