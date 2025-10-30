@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd suilings-web && npm run build",
-  "outputDirectory": "suilings-web/.next",
-  "installCommand": "cd suilings-web && npm install"
-}
-
