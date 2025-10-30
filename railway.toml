@@ -5,7 +5,7 @@
 builder = "DOCKERFILE"
 # Using prebuilt Dockerfile for faster builds (< 5 min vs 30-60 min)
 # To use build-from-source, change to: suilings-web/compilation-service/Dockerfile
-dockerfilePath = "suilings-web/compilation-service/Dockerfile.prebuilt"
+dockerfilePath = "suilings-web/compilation-service/Dockerfile"
 # Build context is the repository root (where this file is)
 watchPatterns = ["suilings-web/compilation-service/**", "runner-crate/**"]
 
