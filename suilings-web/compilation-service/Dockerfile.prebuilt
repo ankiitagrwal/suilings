@@ -48,6 +48,10 @@ COPY suilings-web/compilation-service/server.js ./
 # Copy runner-crate from compilation-service directory
 COPY suilings-web/compilation-service/runner-crate ./runner-crate
 
+# Pre-fetch Sui dependencies during build (as root, before switching user)
+# This prevents memory issues during runtime compilation
+RUN cd /app/runner-crate && sui move build --skip-fetch-latest-git-deps || true
+
 # Change ownership to non-root user
 RUN chown -R appuser:appuser /app
 
