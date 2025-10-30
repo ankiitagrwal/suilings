@@ -110,14 +110,17 @@ railway up
    - Railway auto-deploys on push to main branch
    - Get deployment URL: `https://your-service.up.railway.app`
 
-### Railway Configuration File (Optional)
+### Railway Configuration File
 
-Create `railway.toml` in this directory:
+The `railway.toml` file is located at the repository root (`suilings/railway.toml`), not in this directory.
+
+Content (already created at repository root):
 
 ```toml
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "Dockerfile"
+dockerfilePath = "suilings-web/compilation-service/Dockerfile"
+watchPatterns = ["suilings-web/compilation-service/**", "runner-crate/**"]
 
 [deploy]
 startCommand = "npm start"
@@ -126,6 +129,11 @@ healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 5
 ```
+
+This configuration tells Railway to:
+- Build from repository root
+- Use the Dockerfile in compilation-service
+- Watch for changes in both backend code and runner-crate
 
 ## Fly.io Deployment
 

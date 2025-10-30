@@ -1,7 +1,10 @@
+# Railway configuration for compilation service
+# This file should be at repository root
+
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "suilings-web/compilation-service/Dockerfile"
-# Build context is the repository root
+# Build context is the repository root (where this file is)
 watchPatterns = ["suilings-web/compilation-service/**", "runner-crate/**"]
 
 [deploy]
