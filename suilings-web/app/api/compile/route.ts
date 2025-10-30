@@ -40,6 +40,36 @@ export async function POST(request: Request) {
   
   // Check if we're in production mode
   if (isProductionMode()) {
+    // If backend service URL is configured, use it
+    const backendUrl = process.env.COMPILATION_BACKEND_URL;
+    
+    if (backendUrl) {
+      try {
+        const body = await request.json();
+        
+        // Forward request to backend compilation service
+        const response = await fetch(`${backendUrl}/api/compile`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+        
+        const data = await response.json();
+        return NextResponse.json(data);
+      } catch (error) {
+        console.error('Backend compilation service error:', error);
+        return NextResponse.json({
+          success: false,
+          output: "",
+          errors: [`Failed to connect to compilation service: ${(error as Error).message}`],
+          duration: Date.now() - startTime,
+        });
+      }
+    }
+    
+    // No backend configured - show demo mode
     return NextResponse.json({
       success: false,
       output: "",
