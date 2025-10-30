@@ -6,7 +6,6 @@ import toml from "@iarna/toml";
 // Use public folder for production (Vercel), parent directory for local dev
 function getExercisesRoot() {
   const parentRoot = path.join(process.cwd(), "..");
-  const publicRoot = path.join(process.cwd(), "public");
   
   // Try parent directory first (local development)
   const parentInfoPath = path.join(parentRoot, "info.toml");
@@ -14,17 +13,33 @@ function getExercisesRoot() {
     accessSync(parentInfoPath);
     return parentRoot;
   } catch {
-    // Fall back to public folder (production)
-    return publicRoot;
+    // On Vercel, files in public/ are at process.cwd() + '/.next/server/app' 
+    // or we need to use the standalone build location
+    // Let's try .next/standalone location or just use cwd
+    const vercelRoot = path.join(process.cwd());
+    const vercelPublicPath = path.join(vercelRoot, "public");
+    
+    // Check if public folder exists at cwd
+    try {
+      accessSync(path.join(vercelPublicPath, "info.toml"));
+      return vercelPublicPath;
+    } catch {
+      // Last resort - try relative to .next
+      const nextServerPath = path.join(vercelRoot, ".next", "server");
+      return path.join(nextServerPath, "public");
+    }
   }
 }
 
 export async function GET() {
   try {
     const root = getExercisesRoot();
+    console.log("[DEBUG] Exercise root:", root);
+    console.log("[DEBUG] Process CWD:", process.cwd());
     
     // Read info.toml
     const infoTomlPath = path.join(root, "info.toml");
+    console.log("[DEBUG] Info.toml path:", infoTomlPath);
     const tomlContent = await fs.readFile(infoTomlPath, "utf-8");
     const parsed = toml.parse(tomlContent) as {
       exercises: Array<{ name: string; path: string; mode: string; hint: string }>;
@@ -94,8 +109,15 @@ export async function GET() {
     return NextResponse.json({ exercises: validExercises });
   } catch (error) {
     console.error("Failed to load exercises:", error);
+    const err = error as Error & { code?: string };
     return NextResponse.json(
-      { error: "Failed to load exercises", details: (error as Error).message },
+      { 
+        error: "Failed to load exercises", 
+        details: err.message,
+        code: err.code,
+        cwd: process.cwd(),
+        stack: err.stack 
+      },
       { status: 500 }
     );
   }
