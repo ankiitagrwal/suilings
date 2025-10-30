@@ -1,0 +1,40 @@
+{
+  "exercises": [
+    {
+      "name": "intro1",
+      "path": "exercises/intro/intro1.move",
+      "mode": "test",
+      "hint": "No hints this time ;)\n",
+      "description": "This exercise introduces a simple Hello World module in Move for the Sui blockchain.\nYour task is to ensure the module compiles successfully.",
+      "initialCode": "module suilings::intro1 {\n    public fun say_hello(): vector<u8> {\n        b\"Hello World\" // Fix this line to return a valid string\n}\n}",
+      "status": "pending"
+    },
+    {
+      "name": "variables1",
+      "path": "exercises/variables/variables.move",
+      "mode": "build",
+      "hint": "No hint this time\n",
+      "description": "This exercise requires the module to compile successfully.\nFix the syntax error in the function.",
+      "initialCode": "module suilings::variables1 {\n    public fun add(a: u64, b: u64): u64 {\n        a + // Fix this line to make the module compile\n    }\n}",
+      "status": "pending"
+    },
+    {
+      "name": "module1",
+      "path": "exercises/modules/module1.move",
+      "mode": "test",
+      "hint": "No hint this time\n",
+      "description": "==== MODULE DECLARATION EXERCISE ====\nA Move module must be declared with `module <address>::<name> { … }`.\nThe address can be a placeholder (`suilings`) because the runner-crate\nsupplies a real address in its Move.toml.\n\nYour task:\n1. Fix the syntax error in the module declaration.\n2. Make the `greet` function public so the test can call it.\n\nWhen the file compiles **and** the test passes you are done.",
+      "initialCode": "module suilings::greeter {\n    fun greet(name: vector<u8>): vector<u8> {\n        // concatenate \"Hello, \" + name\n        let hello = b\"Hello, \";\n        let mut result = hello;\n        result.append(name);\n        result\n    }\n\n    #[test]\n    fun test_greet() {\n        let name = b\"Alice\";\n        let greeting = greet(name);\n        assert!(greeting == b\"Hello, Alice\", 0);\n    }\n}",
+      "status": "pending"
+    },
+    {
+      "name": "module2",
+      "path": "exercises/modules/module2.move",
+      "mode": "test",
+      "hint": "No hint this time\n",
+      "description": "==== MODULE IMPORT EXERCISE ====\nMove lets you `use` a function from another module.\nThe runner-crate contains a tiny helper module that we can import.\n\nYour task:\n1. Add a `use` statement to import `math::add`.\n2. Implement `sum_three` using the imported `add` function.\n\nThe helper module is automatically available because the\nrunner-crate’s Move.toml publishes it at address `suilings`.",
+      "initialCode": "module suilings::calculator {\n\n    // <-- add the `use` line here\n    public fun sum_three(x: u64, y: u64, z: u64): u64 {\n        // replace the dummy return with a call to `add`\n        0\n    }\n\n    #[test]\n    fun test_sum_three() {\n        assert!(sum_three(1, 2, 3) == 6, 0);\n        assert!(sum_three(10, 20, 30) == 60, 0);\n    }\n}\n\n// -------------------------------------------------------------------\n// Helper module – defined **in the same file** (no extra .move needed)\n// -------------------------------------------------------------------\nmodule suilings::math {\n    /// Simple addition – used by the import exercise.\n    public fun add(a: u64, b: u64): u64 {\n        a + b\n    }\n}",
+      "status": "pending"
+    }
+  ]
+}
