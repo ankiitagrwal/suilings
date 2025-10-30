@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
-// Import the exercises data generated at build time
-import exercisesData from "@/lib/exercises-data.json";
+import { promises as fs } from "fs";
+import path from "path";
 
 export async function GET() {
   try {
-    // Return the pre-generated exercises data
+    // Read the pre-generated exercises JSON file
+    const jsonPath = path.join(process.cwd(), "lib", "exercises-data.json");
+    const fileContent = await fs.readFile(jsonPath, "utf-8");
+    const exercisesData = JSON.parse(fileContent);
+    
     return NextResponse.json({ exercises: exercisesData.exercises || [] });
   } catch (error) {
     console.error("Failed to load exercises:", error);
@@ -13,6 +17,7 @@ export async function GET() {
       { 
         error: "Failed to load exercises", 
         details: err.message,
+        cwd: process.cwd()
       },
       { status: 500 }
     );
