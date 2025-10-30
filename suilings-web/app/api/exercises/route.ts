@@ -1,125 +1,20 @@
 import { NextResponse } from "next/server";
-import { promises as fs, accessSync } from "fs";
-import path from "path";
-import toml from "@iarna/toml";
-
-// Use public folder for production (Vercel), parent directory for local dev
-function getExercisesRoot() {
-  const parentRoot = path.join(process.cwd(), "..");
-  
-  // Try parent directory first (local development)
-  const parentInfoPath = path.join(parentRoot, "info.toml");
-  try {
-    accessSync(parentInfoPath);
-    return parentRoot;
-  } catch {
-    // On Vercel, files in public/ are at process.cwd() + '/.next/server/app' 
-    // or we need to use the standalone build location
-    // Let's try .next/standalone location or just use cwd
-    const vercelRoot = path.join(process.cwd());
-    const vercelPublicPath = path.join(vercelRoot, "public");
-    
-    // Check if public folder exists at cwd
-    try {
-      accessSync(path.join(vercelPublicPath, "info.toml"));
-      return vercelPublicPath;
-    } catch {
-      // Last resort - try relative to .next
-      const nextServerPath = path.join(vercelRoot, ".next", "server");
-      return path.join(nextServerPath, "public");
-    }
-  }
-}
+// Import the exercises data generated at build time
+import exercisesData from "@/lib/exercises-data.json";
 
 export async function GET() {
   try {
-    const root = getExercisesRoot();
-    console.log("[DEBUG] Exercise root:", root);
-    console.log("[DEBUG] Process CWD:", process.cwd());
-    
-    // Read info.toml
-    const infoTomlPath = path.join(root, "info.toml");
-    console.log("[DEBUG] Info.toml path:", infoTomlPath);
-    const tomlContent = await fs.readFile(infoTomlPath, "utf-8");
-    const parsed = toml.parse(tomlContent) as {
-      exercises: Array<{ name: string; path: string; mode: string; hint: string }>;
-    };
-
-    // Load each exercise's actual code
-    const exercises = await Promise.all(
-      parsed.exercises.map(async (ex) => {
-        const exercisePath = path.join(root, ex.path);
-        
-        try {
-          const code = await fs.readFile(exercisePath, "utf-8");
-          
-          // Extract description from comments (first few lines)
-          const lines = code.split("\n");
-          const commentLines = [];
-          const cleanCodeLines = [];
-          let inDescriptionBlock = true;
-          
-          for (const line of lines) {
-            const trimmed = line.trim();
-            
-            // Skip "I AM NOT DONE" line and its comment entirely
-            if (trimmed.includes("I AM NOT DONE") || trimmed === "// I AM NOT DONE") {
-              continue;
-            }
-            
-            // Collect description from top comments
-            if (inDescriptionBlock && trimmed.startsWith("//")) {
-              commentLines.push(line.replace(/^\/\/\s*/, ""));
-            } else if (trimmed && !trimmed.startsWith("//")) {
-              // First non-comment, non-empty line - stop description collection
-              inDescriptionBlock = false;
-              cleanCodeLines.push(line);
-            } else if (!inDescriptionBlock) {
-              // After description block, keep all lines (including blank lines)
-              // But skip standalone empty comment lines that might have been markers
-              if (trimmed !== "//" || cleanCodeLines.length > 0) {
-                cleanCodeLines.push(line);
-              }
-            }
-          }
-          
-          const description = commentLines.join("\n").trim();
-          // Remove "I AM NOT DONE" and description comments from the code
-          const cleanCode = cleanCodeLines.join("\n").trim();
-
-          return {
-            name: ex.name,
-            path: ex.path,
-            mode: ex.mode,
-            hint: ex.hint,
-            description: description || `Exercise: ${ex.name}`,
-            initialCode: cleanCode,
-            status: "pending",
-          };
-        } catch (error) {
-          console.error(`Failed to load exercise ${ex.name}:`, error);
-          return null;
-        }
-      })
-    );
-
-    // Filter out any failed exercises
-    const validExercises = exercises.filter((ex) => ex !== null);
-
-    return NextResponse.json({ exercises: validExercises });
+    // Return the pre-generated exercises data
+    return NextResponse.json({ exercises: exercisesData.exercises || [] });
   } catch (error) {
     console.error("Failed to load exercises:", error);
-    const err = error as Error & { code?: string };
+    const err = error as Error;
     return NextResponse.json(
       { 
         error: "Failed to load exercises", 
         details: err.message,
-        code: err.code,
-        cwd: process.cwd(),
-        stack: err.stack 
       },
       { status: 500 }
     );
   }
 }
-
