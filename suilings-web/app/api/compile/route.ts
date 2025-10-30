@@ -11,11 +11,25 @@ const SUILINGS_ROOT = path.join(process.cwd(), "..");
 const RUNNER_CRATE_PATH = path.join(SUILINGS_ROOT, "runner-crate");
 const MAIN_MOVE_PATH = path.join(RUNNER_CRATE_PATH, "sources", "main.move");
 
-// Check if we're in production (no sui CLI available)
+// Check if we're in production (no sui CLI available or read-only filesystem)
 function isProductionMode() {
+  // Check if running on Vercel (VERCEL environment variable is set)
+  if (process.env.VERCEL || process.env.VERCEL_ENV) {
+    return true;
+  }
+  
+  // Check if runner-crate directory exists and is writable
   try {
     accessSync(RUNNER_CRATE_PATH);
-    return false; // Development mode
+    // Try to test if filesystem is writable
+    const testPath = path.join(RUNNER_CRATE_PATH, '.write-test');
+    try {
+      require('fs').writeFileSync(testPath, 'test');
+      require('fs').unlinkSync(testPath);
+      return false; // Development mode - can write
+    } catch {
+      return true; // Production mode - read-only filesystem
+    }
   } catch {
     return true; // Production mode (no runner-crate)
   }
