@@ -1,0 +1,31 @@
+[[exercises]]
+name = "intro1"
+path = "exercises/intro/intro1.move"
+mode = "test"
+hint = """
+No hints this time ;)
+"""
+
+[[exercises]]
+name = "variables1"
+path = "exercises/variables/variables.move"
+mode = "build"
+hint = """
+No hint this time
+"""
+
+[[exercises]]
+name = "module1"
+path = "exercises/modules/module1.move"
+mode = "test"
+hint = """
+No hint this time
+"""
+
+[[exercises]]
+name = "module2"
+path = "exercises/modules/module2.move"
+mode = "test"
+hint = """
+No hint this time
+"""
