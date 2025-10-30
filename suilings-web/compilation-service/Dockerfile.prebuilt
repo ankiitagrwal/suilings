@@ -1,34 +1,19 @@
-# Stage 1: Build Sui CLI
-FROM rust:1.75-slim as sui-builder
+# Dockerfile using official suiup installer
+# Fast and reliable - installs latest stable Sui
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    build-essential \
-    libssl-dev \
-    pkg-config \
-    clang \
-    libclang-dev \
-    cmake \
-    && rm -rf /var/lib/apt/lists/*
-
-# Clone and build Sui
-WORKDIR /build
-RUN git clone https://github.com/MystenLabs/sui.git
-WORKDIR /build/sui
-RUN cargo build --release --bin sui
-
-# Stage 2: Runtime
 FROM node:18-slim
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Sui binary from builder
-COPY --from=sui-builder /build/sui/target/release/sui /usr/local/bin/sui
+# Install Sui using official suiup installer
+RUN curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
+
+# Copy Sui binary to global location so non-root user can access it
+RUN cp /root/.sui/bin/sui /usr/local/bin/sui && chmod +x /usr/local/bin/sui
 
 # Verify Sui installation
 RUN sui --version
