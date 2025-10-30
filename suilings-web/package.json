@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
-    "prebuild": "node scripts/copy-exercises.js",
+    "dev": "node scripts/generate-exercises-json.js && next dev --webpack",
+    "prebuild": "node scripts/generate-exercises-json.js",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint"
