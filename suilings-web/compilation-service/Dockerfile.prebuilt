@@ -34,18 +34,18 @@ WORKDIR /app
 # Create non-root user
 RUN useradd -m -u 1001 appuser
 
-# Copy package files
-COPY package*.json ./
+# Copy package files from compilation-service directory
+COPY suilings-web/compilation-service/package*.json ./
 
 # Install dependencies
 RUN npm ci --only=production && \
     npm cache clean --force
 
-# Copy application code
-COPY server.js ./
+# Copy application code from compilation-service directory
+COPY suilings-web/compilation-service/server.js ./
 
-# Copy runner-crate (now in same directory)
-COPY runner-crate ./runner-crate
+# Copy runner-crate from compilation-service directory
+COPY suilings-web/compilation-service/runner-crate ./runner-crate
 
 # Change ownership to non-root user
 RUN chown -R appuser:appuser /app
