@@ -26,37 +26,31 @@ export function ExerciseInstructions() {
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <div className="border-b border-border p-4 flex-shrink-0">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="text-lg font-semibold flex items-center gap-2">
-            <BookOpen className="h-5 w-5" />
-            {currentExercise.name}
-          </h2>
-          <Badge
-            variant={currentExercise.mode === "test" ? "default" : "secondary"}
-          >
-            {currentExercise.mode}
-          </Badge>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Exercise {currentExerciseIndex + 1} of {exercises.length}
-        </p>
-      </div>
-
       <ScrollArea className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4 pb-8">
+          {/* Exercise Title */}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              <Info className="h-6 w-6 text-primary" />
+              {currentExercise.name}
+            </h2>
+          </div>
+
+          {/* Exercise Description */}
           {currentExercise.description && (
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <Info className="h-4 w-4" />
-                  About This Exercise
+            <Card className="border-blue-500/30 bg-blue-500/5">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                  <BookOpen className="h-5 w-5" />
+                  Instructions
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                  {currentExercise.description}
-                </p>
+                <div className="prose prose-sm dark:prose-invert max-w-none">
+                  <p className="text-base leading-relaxed whitespace-pre-wrap font-medium text-foreground">
+                    {currentExercise.description}
+                  </p>
+                </div>
               </CardContent>
             </Card>
           )}

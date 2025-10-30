@@ -65,11 +65,6 @@ function generateExercisesJson() {
       for (const line of lines) {
         const trimmed = line.trim();
         
-        // Skip "I AM NOT DONE" line
-        if (trimmed.includes('I AM NOT DONE') || trimmed === '// I AM NOT DONE') {
-          continue;
-        }
-        
         // Collect description from top comments
         if (inDescriptionBlock && trimmed.startsWith('//')) {
           commentLines.push(line.replace(/^\/\/\s*/, ''));

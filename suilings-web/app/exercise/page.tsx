@@ -112,14 +112,14 @@ export default function ExercisePage() {
         <main className="flex-1 overflow-hidden">
           <PanelGroup direction="horizontal">
             {/* Left Panel - Exercise Instructions */}
-            <Panel defaultSize={30} minSize={20} maxSize={40}>
+            <Panel defaultSize={40} minSize={30} maxSize={50}>
               <ExerciseInstructions />
             </Panel>
             
             <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
             
             {/* Right Panel - Code Editor + Output Console */}
-            <Panel defaultSize={70} minSize={50}>
+            <Panel defaultSize={60} minSize={50}>
               <PanelGroup direction="vertical">
                 {/* Code Editor */}
                 <Panel defaultSize={60} minSize={30}>
@@ -129,7 +129,7 @@ export default function ExercisePage() {
                 <PanelResizeHandle className="h-1 bg-border hover:bg-primary transition-colors" />
                 
                 {/* Output Console */}
-                <Panel defaultSize={40} minSize={20}>
+                <Panel defaultSize={30} minSize={20}>
                   <OutputConsole />
                 </Panel>
               </PanelGroup>

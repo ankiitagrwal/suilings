@@ -16,7 +16,6 @@ It guides you through **real `.move` files** with live feedback.
 - Interactive **watch mode** (`suilings watch`)
 - **Build** or **test** exercises (`mode: build` or `test`)
 - Real-time feedback with `sui move build` / `sui move test`
-- `// I AM NOT DONE` → blocks progress until removed
 - `runner-crate` isolates exercises (no `Move.toml` in exercises)
 - Clean, colorful UI with progress bar
 - `r` = reset, `n` = next, `q` = quit

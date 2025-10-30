@@ -1,11 +1,11 @@
 // ==== MODULE DECLARATION EXERCISE ====
 // A Move module must be declared with `module <address>::<name> { … }`.
-// The address can be a placeholder (`suilings`) because the runner-crate
-// supplies a real address in its Move.toml.
+// In Move, functions are private by default. To call them from other modules,
+// they must be marked as `public`.
 //
 // Your task:
-// 1. Fix the syntax error in the module declaration.
-// 2. Make the `greet` function public so the test can call it.
+// Make the `greet` function public so the test module can call it.
+// (Hint: Add the `public` keyword before `fun`)
 //
 // When the file compiles **and** the test passes you are done.
 
@@ -18,11 +18,17 @@ module suilings::greeter {
         result.append(name);
         result
     }
+}
 
+// Test module - this is in a DIFFERENT module, so it requires greet() to be public
+#[test_only]
+module suilings::greeter_tests {
+    use suilings::greeter;
+    
     #[test]
     fun test_greet() {
         let name = b"Alice";
-        let greeting = greet(name);
+        let greeting = greeter::greet(name);
         assert!(greeting == b"Hello, Alice", 0);
     }
 }

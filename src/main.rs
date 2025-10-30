@@ -366,8 +366,8 @@ Here's how Suilings works:
 3. If you're stuck on an exercise, there is a helpful hint you can view by
    typing `hint` (in watch mode), or running `cargo run -r --bin suilings hint
    exercise_name`
-4. When you have solved the exercise successfully, remove the `// I AM NOT DONE`
-   comment to move on to the next exercise.
+4. When you have solved the exercise successfully, the tests will pass and you
+   can move on to the next exercise.
 5. If an exercise doesn't make sense to you, please open an issue on GitHub!
 
 Got all that? Great! To get started, run `suilings watch` in order to get the

@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/generate-exercises-json.js && next dev --webpack",
+    "dev:watch": "npm-run-all --parallel dev:exercises dev:next",
+    "dev:exercises": "nodemon --watch ../exercises --ext move,toml -x 'node scripts/generate-exercises-json.js'",
+    "dev:next": "next dev --webpack",
     "prebuild": "node scripts/generate-exercises-json.js",
     "build": "next build --webpack",
     "start": "next start",
@@ -38,6 +41,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
+    "nodemon": "^3.1.10",
+    "npm-run-all": "^4.1.5",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.4.0",
     "typescript": "^5"
