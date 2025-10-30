@@ -1,0 +1,13 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "suilings-web/compilation-service/Dockerfile"
+# Build context is the repository root
+watchPatterns = ["suilings-web/compilation-service/**", "runner-crate/**"]
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
+

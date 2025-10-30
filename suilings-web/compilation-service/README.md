@@ -44,10 +44,17 @@ curl -X POST http://localhost:3001/api/compile \
 
 ### Build Image
 
+**Important:** Build from the `suilings` root directory (parent of suilings-web)
+
 ```bash
-# From the suilings-web directory
-docker build -t suilings-backend -f compilation-service/Dockerfile .
+# Navigate to suilings root directory
+cd suilings
+
+# Build the Docker image
+docker build -t suilings-backend -f suilings-web/compilation-service/Dockerfile .
 ```
+
+The Dockerfile uses `suilings` (repository root) as the build context, allowing access to both `suilings-web/compilation-service/` and `runner-crate/`.
 
 ### Run Container
 
@@ -88,9 +95,9 @@ railway up
    - Connect GitHub repo
 
 2. **Configure Service**
-   - Root Directory: `suilings-web/compilation-service`
-   - Build: Use Dockerfile
-   - Watch Paths: `suilings-web/compilation-service/**`
+   - Root Directory: `` (empty - use repository root)
+   - Dockerfile Path: `suilings-web/compilation-service/Dockerfile`
+   - Watch Paths: `suilings-web/compilation-service/**`, `runner-crate/**`
 
 3. **Environment Variables** (Optional)
    ```
