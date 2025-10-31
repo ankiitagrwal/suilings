@@ -27,5 +27,146 @@ name = "module2"
 path = "exercises/modules/module2.move"
 mode = "test"
 hint = """
-No hint this time
+use suilings::math::add;
+
+let sum = add(x, y);
+add(sum, z)
+"""
+
+[[exercises]]
+name = "module3"
+path = "exercises/modules/module3.move"
+mode = "test"
+hint = """
+Import vector with: use std::vector;
+Then use vector::empty(), vector::push_back()
+"""
+
+[[exercises]]
+name = "primitives1"
+path = "exercises/primitives/primitives1.move"
+mode = "test"
+hint = """
+u8 holds 0-255, u64 holds much larger numbers.
+For add_numbers, use: a + b
+"""
+
+[[exercises]]
+name = "primitives2"
+path = "exercises/primitives/primitives2.move"
+mode = "test"
+hint = """
+Use comparison operators: >=, <=, &&
+Example: age >= 18 && is_citizen
+"""
+
+[[exercises]]
+name = "structs1"
+path = "exercises/structs/structs1.move"
+mode = "test"
+hint = """
+Add 'has drop' after struct name.
+Create instance: Person { name, age }
+Access field: person.age
+"""
+
+[[exercises]]
+name = "structs2"
+path = "exercises/structs/structs2.move"
+mode = "test"
+hint = """
+Abilities are added after struct name: struct Name has copy, drop { ... }
+- drop: can be destroyed
+- copy: can be copied
+- store: can be stored in other structs
+"""
+
+[[exercises]]
+name = "structs3"
+path = "exercises/structs/structs3.move"
+mode = "test"
+hint = """
+Nested field access: dept.manager.name
+Access deeply nested: dept.manager.address.city
+Include nested struct in constructor: Employee { name, address, salary }
+"""
+
+[[exercises]]
+name = "structs4"
+path = "exercises/structs/structs4.move"
+mode = "test"
+hint = """
+Use & for read-only: account.balance
+Use &mut for modification: account.balance = new_value
+Access fields through reference: account.field_name
+"""
+
+[[exercises]]
+name = "structs5"
+path = "exercises/structs/structs5.move"
+mode = "test"
+hint = """
+Generic struct: struct Box<T: drop> has drop { value: T }
+Destructure: let Box { value } = box;
+Generic function: fun create<T: drop>(val: T): Box<T>
+"""
+
+[[exercises]]
+name = "functions1"
+path = "exercises/functions/functions1.move"
+mode = "test"
+hint = """
+multiply: return a * b
+square: return num * num
+max: use if (a > b) a else b
+"""
+
+[[exercises]]
+name = "functions2"
+path = "exercises/functions/functions2.move"
+mode = "test"
+hint = """
+Multiple returns: fun name(): (Type1, Type2) { (val1, val2) }
+Destructure: let (a, b) = function_call();
+Return tuple: (result1, result2)
+"""
+
+[[exercises]]
+name = "functions3"
+path = "exercises/functions/functions3.move"
+mode = "test"
+hint = """
+Modify through &mut: *value = new_value
+Increment: *value = *value + 1
+Swap needs temp: let temp = *a; *a = *b; *b = temp;
+"""
+
+[[exercises]]
+name = "functions4"
+path = "exercises/functions/functions4.move"
+mode = "test"
+hint = """
+Generic function: fun name<T: drop>(value: T): T
+Type constraints: <T: copy + drop>
+Identity: just return value unchanged
+"""
+
+[[exercises]]
+name = "functions5"
+path = "exercises/functions/functions5.move"
+mode = "test"
+hint = """
+Destructure generic struct: let Container { value, count: _ } = container;
+Loop with vector: while (i < vector::length(&v)) { ... }
+Access vector element: *vector::borrow(&vec, i)
+"""
+
+[[exercises]]
+name = "control_flow1"
+path = "exercises/control_flow/control_flow1.move"
+mode = "test"
+hint = """
+abs_diff: if (a > b) { a - b } else { b - a }
+clamp: use nested if expressions
+get_grade: if (score >= 90) b"A" else if (score >= 80) b"B" ...
 """
