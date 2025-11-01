@@ -19,7 +19,7 @@ name = "module1"
 path = "exercises/modules/module1.move"
 mode = "test"
 hint = """
-No hint this time
+Add the `public` keyword before `fun`
 """
 
 [[exercises]]

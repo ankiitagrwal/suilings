@@ -22,8 +22,8 @@
       "name": "module1",
       "path": "exercises/modules/module1.move",
       "mode": "test",
-      "hint": "No hint this time\n",
-      "description": "==== MODULE DECLARATION EXERCISE ====\nA Move module must be declared with `module <address>::<name> { … }`.\nIn Move, functions are private by default. To call them from other modules,\nthey must be marked as `public`.\n\nYour task:\nMake the `greet` function public so the test module can call it.\n(Hint: Add the `public` keyword before `fun`)\n\nWhen the file compiles **and** the test passes you are done.",
+      "hint": "Add the `public` keyword before `fun`\n",
+      "description": "==== MODULE DECLARATION EXERCISE ====\nA Move module must be declared with `module <address>::<name> { … }`.\nIn Move, functions are private by default. To call them from other modules,\nthey must be marked as `public`.\n\nYour task:\nMake the `greet` function public so the test module can call it.\n\nWhen the file compiles **and** the test passes you are done.",
       "initialCode": "module suilings::greeter {\n    fun greet(name: vector<u8>): vector<u8> {\n        // concatenate \"Hello, \" + name\n        let hello = b\"Hello, \";\n        let mut result = hello;\n        result.append(name);\n        result\n    }\n}\n\n// Test module - this is in a DIFFERENT module, so it requires greet() to be public\n#[test_only]\nmodule suilings::greeter_tests {\n    use suilings::greeter;\n    \n    #[test]\n    fun test_greet() {\n        let name = b\"Alice\";\n        let greeting = greeter::greet(name);\n        assert!(greeting == b\"Hello, Alice\", 0);\n    }\n}",
       "status": "pending"
     },

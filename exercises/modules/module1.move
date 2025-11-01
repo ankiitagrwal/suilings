@@ -5,7 +5,6 @@
 //
 // Your task:
 // Make the `greet` function public so the test module can call it.
-// (Hint: Add the `public` keyword before `fun`)
 //
 // When the file compiles **and** the test passes you are done.
 
