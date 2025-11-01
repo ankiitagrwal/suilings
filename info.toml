@@ -170,3 +170,102 @@ abs_diff: if (a > b) { a - b } else { b - a }
 clamp: use nested if expressions
 get_grade: if (score >= 90) b"A" else if (score >= 80) b"B" ...
 """
+
+[[exercises]]
+name = "control_flow2"
+path = "exercises/control_flow/control_flow2.move"
+mode = "test"
+hint = """
+sum_range: let mut sum = 0; while (i <= end) { sum = sum + i; i = i + 1 }
+count_even: Check if num % 2 == 0
+factorial: let mut result = 1; loop { if (n == 0) break; result = result * n; n = n - 1 }
+"""
+
+[[exercises]]
+name = "vectors1"
+path = "exercises/vectors/vectors1.move"
+mode = "test"
+hint = """
+create_range: Use while loop with vector::push_back
+sum_vector: Use while loop with vector::borrow to access elements
+reverse_vector: Iterate backwards or pop from original and build new
+filter_even: Check num % 2 == 0 before adding to result
+"""
+
+[[exercises]]
+name = "vectors2"
+path = "exercises/vectors/vectors2.move"
+mode = "test"
+hint = """
+remove_duplicates: Use vector::contains to check if already added
+find_max: Track max value while iterating
+merge_sorted: Use two indices, compare elements, add smaller one
+chunk_vector: Use nested loop or calculate positions
+"""
+
+[[exercises]]
+name = "options1"
+path = "exercises/options/options1.move"
+mode = "test"
+hint = """
+divide: if (b != 0) option::some(a / b) else option::none()
+get_or_default: if (option::is_some(&opt)) *option::borrow(&opt) else default
+find_in_vector: Use loop to search, return option::some(index) when found
+max_of_options: Check both with is_some, compare values if both exist
+"""
+
+[[exercises]]
+name = "options2"
+path = "exercises/options/options2.move"
+mode = "test"
+hint = """
+safe_divide: assert!(b != 0, EDIVISION_BY_ZERO);
+get_element: assert!(index < vector::length(vec), EOUT_OF_RANGE);
+calculate_average: assert!(vector::length(&numbers) > 0, EEMPTY_VECTOR);
+withdraw: Use multiple asserts for different conditions
+"""
+
+[[exercises]]
+name = "objects1"
+path = "exercises/objects/objects1.move"
+mode = "test"
+hint = """
+Coin struct: struct Coin has key, store { id: UID, value: u64, currency: vector<u8> }
+create_coin: Use object::new(ctx) to create the UID
+Wallet struct: struct Wallet has key { id: UID, owner: address, coins: vector<Coin> }
+"""
+
+[[exercises]]
+name = "objects2"
+path = "exercises/objects/objects2.move"
+mode = "test"
+hint = """
+mint_nft: Create NFT, then use transfer::transfer(nft, sender)
+transfer_nft: Just call transfer::transfer(nft, recipient)
+create_shared_counter: Create Counter, then transfer::share_object(counter)
+increment_counter: counter.value = counter.value + 1
+freeze_card: transfer::freeze_object(card)
+"""
+
+[[exercises]]
+name = "events1"
+path = "exercises/events/events1.move"
+mode = "test"
+hint = """
+Event structs need: has copy, drop abilities
+TransferEvent: struct TransferEvent has copy, drop { from: address, to: address, amount: u64 }
+Emit events: event::emit(TransferEvent { from, to, amount })
+Use object::uid_to_inner(&id) to get ID for events
+"""
+
+[[exercises]]
+name = "generics1"
+path = "exercises/generics/generics1.move"
+mode = "test"
+hint = """
+Pair: struct Pair<T, U> has drop { first: T, second: U }
+Result: struct Result<T, E> has drop { ok: Option<T>, err: Option<E> }
+swap_pair: let Pair { first, second } = pair; Pair { first: second, second: first }
+ok: Result { ok: option::some(value), err: option::none() }
+is_ok: option::is_some(&result.ok)
+"""
