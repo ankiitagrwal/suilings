@@ -13,7 +13,10 @@ export default function HomePage() {
           <div className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
             Suilings
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <Link href="/dashboard">
+              <Button variant="ghost">Dashboard</Button>
+            </Link>
             <ThemeToggle />
             <Link href="/exercise">
               <Button>Get Started</Button>
@@ -48,6 +51,12 @@ export default function HomePage() {
               <Button size="lg" className="gap-2">
                 <Rocket className="h-5 w-5" />
                 Start Learning
+              </Button>
+            </Link>
+            <Link href="/dashboard">
+              <Button size="lg" variant="outline" className="gap-2">
+                <Target className="h-5 w-5" />
+                View Dashboard
               </Button>
             </Link>
           </div>
