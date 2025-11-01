@@ -10,20 +10,27 @@ import { OutputConsole } from "@/components/exercise/OutputConsole";
 import { HintDialog } from "@/components/exercise/HintDialog";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { loadExercises } from "@/lib/exerciseLoader";
+import { useAuth } from "@/lib/hooks/useAuth";
 import { toast } from "sonner";
 
 export default function ExercisePage() {
   const [isHintOpen, setIsHintOpen] = useState(false);
+  const { user } = useAuth();
   const {
     exercises,
     setExercises,
     setCurrentExercise,
+    currentExerciseIndex,
     currentCode,
     setCompilationResult,
     setIsCompiling,
     resetExercise,
     updateExerciseStatus,
     getCurrentExercise,
+    fetchProgress,
+    loadExerciseProgress,
+    markExerciseComplete,
+    saveProgress,
   } = useExerciseStore();
 
   // Load exercises on mount
@@ -31,12 +38,29 @@ export default function ExercisePage() {
     const init = async () => {
       const loadedExercises = await loadExercises();
       setExercises(loadedExercises);
+      
+      // Fetch user progress if authenticated
+      if (user) {
+        await fetchProgress();
+      }
+      
       if (loadedExercises.length > 0) {
         setCurrentExercise(0);
       }
     };
     init();
-  }, [setExercises, setCurrentExercise]);
+  }, [setExercises, setCurrentExercise, fetchProgress, user]);
+
+  // Load saved code when exercise changes
+  useEffect(() => {
+    const currentExercise = getCurrentExercise();
+    if (currentExercise && user) {
+      // Small delay to ensure progress is fetched
+      setTimeout(() => {
+        loadExerciseProgress(currentExercise.name);
+      }, 100);
+    }
+  }, [currentExerciseIndex, user]); // Changed dependency to currentExerciseIndex
 
   const handleRun = async () => {
     const currentExercise = getCurrentExercise();
@@ -64,8 +88,29 @@ export default function ExercisePage() {
 
       if (result.success) {
         updateExerciseStatus(currentExercise.name, "completed");
-        toast.success("Great job! Your code works perfectly! 🎉");
+        
+        // Save to backend if user is authenticated
+        if (user) {
+          await markExerciseComplete(currentExercise.name);
+          toast.success("Great job! Your code works perfectly! 🎉");
+        } else {
+          toast.success("Great job! Your code works perfectly! 🎉", {
+            description: "Sign in to save your progress permanently",
+            action: {
+              label: "Sign In",
+              onClick: () => window.location.href = '/login',
+            },
+          });
+        }
       } else {
+        // Save progress even on failure (for authenticated users)
+        if (user) {
+          await saveProgress(currentExercise.name, {
+            status: 'in_progress',
+            last_code: currentCode,
+          });
+        }
+        
         toast.error("Compilation failed! Check the console for details.");
       }
     } catch (error) {

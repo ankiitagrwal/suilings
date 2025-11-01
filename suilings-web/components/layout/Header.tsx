@@ -7,6 +7,9 @@ import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { calculateProgress } from "@/lib/exerciseLoader";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb } from "lucide-react";
+import { LoginButton } from "@/components/auth/LoginButton";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 interface HeaderProps {
   onRun: () => void;
@@ -17,6 +20,7 @@ interface HeaderProps {
 export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
   const { exercises, currentExerciseIndex, isCompiling, nextExercise, previousExercise } =
     useExerciseStore();
+  const { user, loading } = useAuth();
   const currentExercise = exercises[currentExerciseIndex];
   const { completed, total, percentage } = calculateProgress(exercises);
 
@@ -97,7 +101,7 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
           </Button>
         </div>
 
-        {/* Right Side - Progress & Theme Toggle */}
+        {/* Right Side - Progress, Auth & Theme Toggle */}
         <div className="flex items-center gap-4 min-w-64">
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
@@ -108,6 +112,18 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
             </div>
             <Progress value={percentage} className="h-2" />
           </div>
+          
+          {/* Auth UI */}
+          {!loading && (
+            <>
+              {user ? (
+                <UserMenu />
+              ) : (
+                <LoginButton />
+              )}
+            </>
+          )}
+          
           <ThemeToggle />
         </div>
       </div>
