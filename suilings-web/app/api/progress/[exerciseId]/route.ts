@@ -41,7 +41,7 @@ export async function POST(
 
     // Increment attempts count
     const { data: existingProgress } = await supabase
-      .from('user_progress')
+      .from('exercise_progress')
       .select('attempts_count')
       .eq('user_id', user.id)
       .eq('exercise_id', exerciseId)
@@ -51,7 +51,7 @@ export async function POST(
 
     // Upsert progress
     const { data, error } = await supabase
-      .from('user_progress')
+      .from('exercise_progress')
       .upsert(updateData, {
         onConflict: 'user_id,exercise_id',
       })
@@ -96,7 +96,7 @@ export async function GET(
 
     // Fetch specific progress
     const { data: progress, error } = await supabase
-      .from('user_progress')
+      .from('exercise_progress')
       .select('*')
       .eq('user_id', user.id)
       .eq('exercise_id', exerciseId)

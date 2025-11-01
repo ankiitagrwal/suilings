@@ -44,7 +44,7 @@ export async function GET() {
     // If user is authenticated, also fetch their progress
     if (user) {
       const { data: progress, error: progressError } = await supabase
-        .from('user_progress')
+        .from('exercise_progress')
         .select('*')
         .eq('user_id', user.id)
 

@@ -119,8 +119,8 @@ export default function DashboardPage() {
           const data = await response.json();
           setStreakDays(data.stats?.streakDays || 0);
         }
-      } catch (error) {
-        console.error('Failed to fetch streak:', error);
+      } catch {
+        setStreakDays(0);
       }
     };
     
@@ -389,6 +389,12 @@ export default function DashboardPage() {
                 <Button variant="outline" className="gap-2">
                   <BookOpen className="h-4 w-4" />
                   Sui Move Documentation
+                </Button>
+              </Link>
+              <Link href="/leaderboard">
+                <Button variant="outline" className="gap-2">
+                  <Trophy className="h-4 w-4" />
+                  View Leaderboard
                 </Button>
               </Link>
             </CardContent>

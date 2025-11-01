@@ -17,6 +17,9 @@ export default function HomePage() {
             <Link href="/dashboard">
               <Button variant="ghost">Dashboard</Button>
             </Link>
+            <Link href="/leaderboard">
+              <Button variant="ghost">Leaderboard</Button>
+            </Link>
             <ThemeToggle />
             <Link href="/exercise">
               <Button>Get Started</Button>
