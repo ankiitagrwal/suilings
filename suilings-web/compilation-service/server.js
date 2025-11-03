@@ -59,6 +59,34 @@ app.get('/health', async (req, res) => {
   }
 });
 
+// Warmup/ping endpoint - keeps compiler warm
+app.get('/api/ping', async (req, res) => {
+  const startTime = Date.now();
+  try {
+    // Quick compilation to keep compiler warm
+    const warmupCode = `module suilings_runner::ping {
+    public fun pong(): u64 { 42 }
+}`;
+    await fs.writeFile(MAIN_MOVE_PATH, warmupCode, 'utf-8');
+    await execAsync(`sui move build --path ${RUNNER_CRATE_PATH}`, {
+      cwd: RUNNER_CRATE_PATH,
+      timeout: 10000,
+    });
+    
+    res.json({
+      status: 'warm',
+      duration: Date.now() - startTime,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.json({
+      status: 'cold',
+      duration: Date.now() - startTime,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
 // Compilation endpoint
 app.post('/api/compile', async (req, res) => {
   const startTime = Date.now();
@@ -182,13 +210,33 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Startup cleanup - ensure clean state
+// Startup cleanup - ensure clean state and pre-warm compiler
 async function startup() {
   try {
     // Verify runner-crate exists
     await fs.access(RUNNER_CRATE_PATH);
     await fs.access(path.join(RUNNER_CRATE_PATH, 'sources'));
     console.log('✅ Runner crate verified');
+    
+    // Pre-warm the compiler with a simple test
+    console.log('🔥 Pre-warming Sui compiler...');
+    const warmupCode = `module suilings_runner::warmup {
+    public fun hello(): u64 {
+        42
+    }
+}`;
+    
+    await fs.writeFile(MAIN_MOVE_PATH, warmupCode, 'utf-8');
+    
+    try {
+      const { stdout } = await execAsync(`sui move build --path ${RUNNER_CRATE_PATH}`, {
+        cwd: RUNNER_CRATE_PATH,
+        timeout: 60000, // 60 second timeout for warmup
+      });
+      console.log('✅ Compiler pre-warmed successfully');
+    } catch (error) {
+      console.warn('⚠️ Compiler pre-warm failed (non-critical):', error.message);
+    }
   } catch (error) {
     console.error('❌ Runner crate not found:', RUNNER_CRATE_PATH);
     process.exit(1);
