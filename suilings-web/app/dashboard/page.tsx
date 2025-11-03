@@ -119,8 +119,8 @@ export default function DashboardPage() {
           const data = await response.json();
           setStreakDays(data.stats?.streakDays || 0);
         }
-      } catch (error) {
-        console.error('Failed to fetch streak:', error);
+      } catch {
+        setStreakDays(0);
       }
     };
     
@@ -130,11 +130,11 @@ export default function DashboardPage() {
   }, [exercises]);
 
   return (
-    <div className="h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       <SimpleHeader />
       
       <main className="flex-1 overflow-y-auto">
-        <div className="container mx-auto p-6 space-y-6">
+        <div className="container mx-auto p-6 space-y-6 pb-16">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
@@ -391,10 +391,35 @@ export default function DashboardPage() {
                   Sui Move Documentation
                 </Button>
               </Link>
+              <Link href="/leaderboard">
+                <Button variant="outline" className="gap-2">
+                  <Trophy className="h-4 w-4" />
+                  View Leaderboard
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-background">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-muted-foreground">
+              <p>Suilings © 2025 • Learn Move on Sui</p>
+            </div>
+            <div className="flex items-center gap-6">
+              <Link href="https://docs.sui.io" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Sui Docs
+              </Link>
+              <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

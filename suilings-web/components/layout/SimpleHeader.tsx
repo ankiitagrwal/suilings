@@ -6,7 +6,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { LayoutDashboard, BookOpen, Home } from "lucide-react";
+import { LayoutDashboard, BookOpen, Home, Trophy } from "lucide-react";
 
 interface SimpleHeaderProps {
   showNavigation?: boolean;
@@ -44,6 +44,12 @@ export function SimpleHeader({ showNavigation = true }: SimpleHeaderProps) {
                 <Button variant="ghost" size="sm" className="gap-2">
                   <BookOpen className="h-4 w-4" />
                   Exercises
+                </Button>
+              </Link>
+              <Link href="/leaderboard">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <Trophy className="h-4 w-4" />
+                  Leaderboard
                 </Button>
               </Link>
             </nav>

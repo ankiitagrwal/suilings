@@ -22,7 +22,7 @@ export async function GET() {
 
     // Fetch user's progress
     const { data: progress, error: progressError } = await supabase
-      .from('user_progress')
+      .from('exercise_progress')
       .select('*')
       .eq('user_id', user.id)
       .order('updated_at', { ascending: false })
