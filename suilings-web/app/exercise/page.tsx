@@ -49,6 +49,22 @@ export default function ExercisePage() {
       }
     };
     init();
+    
+    // Pre-warm the compilation service on page load
+    const warmupCompiler = async () => {
+      try {
+        await fetch('/api/compile/warmup', {
+          method: 'GET',
+          priority: 'low', // Don't block other requests
+        });
+      } catch {
+        // Silently fail - warmup is optional
+      }
+    };
+    
+    // Warm up after a short delay to not block initial page load
+    const warmupTimer = setTimeout(warmupCompiler, 2000);
+    return () => clearTimeout(warmupTimer);
   }, [setExercises, setCurrentExercise, fetchProgress, user]);
 
   // Load saved code when exercise changes

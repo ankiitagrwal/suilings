@@ -47,23 +47,38 @@ export async function POST(request: Request) {
       try {
         const body = await request.json();
         
-        // Forward request to backend compilation service
+        // Forward request to backend compilation service with optimizations
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s timeout
+        
         const response = await fetch(`${backendUrl}/api/compile`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Connection': 'keep-alive',
           },
           body: JSON.stringify(body),
+          signal: controller.signal,
+          keepalive: true,
         });
         
+        clearTimeout(timeoutId);
         const data = await response.json();
         return NextResponse.json(data);
       } catch (error) {
-        console.error('Backend compilation service error:', error);
+        const err = error as Error;
+        if (err.name === 'AbortError') {
+          return NextResponse.json({
+            success: false,
+            output: "",
+            errors: ["Compilation timeout (45s). The code may be too complex or the service is cold-starting. Please try again."],
+            duration: Date.now() - startTime,
+          });
+        }
         return NextResponse.json({
           success: false,
           output: "",
-          errors: [`Failed to connect to compilation service: ${(error as Error).message}`],
+          errors: [`Failed to connect to compilation service: ${err.message}`],
           duration: Date.now() - startTime,
         });
       }
