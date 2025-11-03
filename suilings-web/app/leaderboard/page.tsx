@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -53,8 +54,9 @@ export default function LeaderboardPage() {
         setLeaderboard(data.leaderboard || []);
         setUserPosition(data.userPosition || null);
       }
-    } catch (error) {
-      console.error('Failed to fetch leaderboard:', error);
+    } catch {
+      setLeaderboard([]);
+      setUserPosition(null);
     } finally {
       setIsLoading(false);
     }
@@ -108,7 +110,7 @@ export default function LeaderboardPage() {
       <SimpleHeader />
       
       <main className="flex-1">
-        <div className="container mx-auto p-6 space-y-6">
+        <div className="container mx-auto p-6 space-y-6 pb-16">
           {/* Header */}
           <div className="text-center space-y-2">
             <div className="flex items-center justify-center gap-3">
@@ -330,6 +332,25 @@ export default function LeaderboardPage() {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-background">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-muted-foreground">
+              <p>Suilings © 2025 • Learn Move on Sui</p>
+            </div>
+            <div className="flex items-center gap-6">
+              <Link href="https://docs.sui.io" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Sui Docs
+              </Link>
+              <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
