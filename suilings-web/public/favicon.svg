@@ -1,0 +1,46 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with gradient -->
+  <defs>
+    <linearGradient id="faviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A855F7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="faviconWave" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0E7FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main background circle -->
+  <circle cx="32" cy="32" r="30" fill="url(#faviconGradient)"/>
+  
+  <!-- Sui wave symbol (stylized S) -->
+  <path d="M18 25C18 25 22 18 32 18C42 18 46 25 46 25" 
+        stroke="url(#faviconWave)" 
+        stroke-width="4" 
+        stroke-linecap="round" 
+        fill="none"/>
+  
+  <path d="M18 39C18 39 22 32 32 32C42 32 46 39 46 39" 
+        stroke="url(#faviconWave)" 
+        stroke-width="4" 
+        stroke-linecap="round" 
+        fill="none"/>
+  
+  <!-- Code bracket symbols -->
+  <path d="M22 46L17 42L22 38" 
+        stroke="white" 
+        stroke-width="3" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        opacity="0.9"/>
+  
+  <path d="M42 46L47 42L42 38" 
+        stroke="white" 
+        stroke-width="3" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        opacity="0.9"/>
+</svg>
+

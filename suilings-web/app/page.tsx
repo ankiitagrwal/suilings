@@ -22,12 +22,12 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/30">
+    <div className="min-h-screen bg-linear-to-b from-background via-background to-muted/30">
       <SimpleHeader />
 
       {/* Hero Section */}
       <section className="relative container mx-auto px-4 py-16 md:py-24">
-        <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent"></div>
         
         <div className="max-w-5xl mx-auto text-center space-y-8">
           {/* Badge */}
@@ -40,7 +40,7 @@ export default function HomePage() {
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-tight animate-in fade-in slide-in-from-top-6 duration-700 delay-100">
             Master Sui Blockchain
-            <span className="block mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="block mt-2 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               Development in Hours
             </span>
             <span className="block mt-2">Not Months</span>
@@ -81,7 +81,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-green-500" />
-              <span>No Credit Card</span>
+              <span>No Setup Required</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-green-500" />
@@ -313,8 +313,8 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <section className="relative container mx-auto px-4 py-20">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10"></div>
-        <Card className="max-w-5xl mx-auto bg-gradient-to-br from-primary/10 via-background to-primary/5 border-2 border-primary/20 shadow-2xl">
+        <div className="absolute inset-0 -z-10 bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10"></div>
+        <Card className="max-w-5xl mx-auto bg-linear-to-br from-primary/10 via-background to-primary/5 border-2 border-primary/20 shadow-2xl">
           <CardContent className="p-12 md:p-16 text-center">
             <Badge className="mb-6" variant="secondary">
               <Sparkles className="h-3 w-3 mr-1" />
@@ -322,12 +322,12 @@ export default function HomePage() {
             </Badge>
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
               Start Building on Sui
-              <span className="block mt-2 bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="block mt-2 bg-linear-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
                 Today, For Free
               </span>
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join hundreds of developers already learning Move on Sui. No credit card required. Start coding in under 60 seconds.
+              Join hundreds of developers already learning Move on Sui. Start coding in under 60 seconds.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Link href="/exercise" className="w-full sm:w-auto">
@@ -370,6 +370,9 @@ export default function HomePage() {
               <p>Suilings © 2025 • Learn Move on Sui</p>
             </div>
             <div className="flex items-center gap-6">
+              <Link href="https://move-book.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Move Book
+              </Link>
               <Link href="https://docs.sui.io" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Sui Docs
               </Link>

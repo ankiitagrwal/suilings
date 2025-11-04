@@ -18,6 +18,35 @@ export const metadata: Metadata = {
   title: "Suilings - Learn Move on Sui",
   description: "Master smart contract development with interactive exercises. Learn Move programming for the Sui blockchain in your browser.",
   keywords: ["Move", "Sui", "blockchain", "smart contracts", "tutorial", "learning"],
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/suilings-logo.svg', type: 'image/svg+xml' }
+    ],
+    apple: '/suilings-logo.svg',
+  },
+  openGraph: {
+    title: "Suilings - Learn Move on Sui",
+    description: "Master smart contract development with interactive exercises. 100% free, 27 exercises, no setup required.",
+    url: "https://suilings.com",
+    siteName: "Suilings",
+    images: [
+      {
+        url: '/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Suilings - Learn Move on Sui',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Suilings - Learn Move on Sui",
+    description: "Master smart contract development with interactive exercises. 100% free, 27 exercises, no setup required.",
+    images: ['/og-image.svg'],
+  },
 };
 
 export default function RootLayout({

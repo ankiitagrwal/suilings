@@ -1,0 +1,92 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1E1B4B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#312E81;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="logoGradientLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A855F7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Grid pattern overlay -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(99, 102, 241, 0.1)" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Large logo circle -->
+  <circle cx="300" cy="315" r="140" fill="url(#logoGradientLarge)" opacity="0.9"/>
+  
+  <!-- Sui wave symbol on logo -->
+  <path d="M220 275C220 275 240 240 300 240C360 240 380 275 380 275" 
+        stroke="white" 
+        stroke-width="12" 
+        stroke-linecap="round" 
+        fill="none"
+        opacity="0.9"/>
+  
+  <path d="M220 355C220 355 240 320 300 320C360 320 380 355 380 355" 
+        stroke="white" 
+        stroke-width="12" 
+        stroke-linecap="round" 
+        fill="none"
+        opacity="0.9"/>
+  
+  <!-- Code brackets on logo -->
+  <path d="M240 390L210 365L240 340" 
+        stroke="white" 
+        stroke-width="10" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        opacity="0.8"/>
+  
+  <path d="M360 390L390 365L360 340" 
+        stroke="white" 
+        stroke-width="10" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        opacity="0.8"/>
+  
+  <!-- Text content -->
+  <text x="500" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="80" font-weight="bold" fill="white">
+    Suilings
+  </text>
+  
+  <text x="500" y="350" font-family="system-ui, -apple-system, sans-serif" font-size="40" fill="rgba(255, 255, 255, 0.7)">
+    Learn Move on Sui
+  </text>
+  
+  <text x="500" y="410" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="rgba(255, 255, 255, 0.5)">
+    Interactive exercises for blockchain developers
+  </text>
+  
+  <!-- Features badges -->
+  <g transform="translate(580, 460)">
+    <rect x="0" y="0" width="140" height="40" rx="20" fill="rgba(99, 102, 241, 0.2)" stroke="url(#textGradient)" stroke-width="2"/>
+    <text x="70" y="26" font-family="system-ui" font-size="18" fill="white" text-anchor="middle">100% Free</text>
+  </g>
+  
+  <g transform="translate(740, 460)">
+    <rect x="0" y="0" width="180" height="40" rx="20" fill="rgba(99, 102, 241, 0.2)" stroke="url(#textGradient)" stroke-width="2"/>
+    <text x="90" y="26" font-family="system-ui" font-size="18" fill="white" text-anchor="middle">No Setup</text>
+  </g>
+  
+  <g transform="translate(940, 460)">
+    <rect x="0" y="0" width="220" height="40" rx="20" fill="rgba(99, 102, 241, 0.2)" stroke="url(#textGradient)" stroke-width="2"/>
+    <text x="110" y="26" font-family="system-ui" font-size="18" fill="white" text-anchor="middle">Browser Based</text>
+  </g>
+</svg>
+

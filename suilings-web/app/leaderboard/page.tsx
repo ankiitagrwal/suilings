@@ -341,6 +341,9 @@ export default function LeaderboardPage() {
               <p>Suilings © 2025 • Learn Move on Sui</p>
             </div>
             <div className="flex items-center gap-6">
+              <Link href="https://move-book.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Move Book
+              </Link>
               <Link href="https://docs.sui.io" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Sui Docs
               </Link>
