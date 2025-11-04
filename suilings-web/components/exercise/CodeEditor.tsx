@@ -3,14 +3,21 @@
 import { useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
+import { useTheme } from "next-themes";
 import { Loader2 } from "lucide-react";
 
 export function CodeEditor() {
   const { currentCode, setCurrentCode } = useExerciseStore();
+  const { theme } = useTheme();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const monacoRef = useRef<any>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor;
+    monacoRef.current = monaco;
 
     // Define Move language syntax highlighting
     monaco.languages.register({ id: "move" });
@@ -103,7 +110,7 @@ export function CodeEditor() {
       },
     });
 
-    // Configure theme
+    // Configure dark theme
     monaco.editor.defineTheme("move-dark", {
       base: "vs-dark",
       inherit: true,
@@ -124,8 +131,39 @@ export function CodeEditor() {
       },
     });
 
-    monaco.editor.setTheme("move-dark");
+    // Configure light theme
+    monaco.editor.defineTheme("move-light", {
+      base: "vs",
+      inherit: true,
+      rules: [
+        { token: "keyword", foreground: "AF00DB" },
+        { token: "type.identifier", foreground: "267F99" },
+        { token: "identifier", foreground: "001080" },
+        { token: "string", foreground: "A31515" },
+        { token: "number", foreground: "098658" },
+        { token: "comment", foreground: "008000", fontStyle: "italic" },
+      ],
+      colors: {
+        "editor.background": "#FFFFFF",
+        "editor.foreground": "#000000",
+        "editor.lineHighlightBackground": "#F0F0F0",
+        "editorCursor.foreground": "#6366F1",
+        "editor.selectionBackground": "#ADD6FF",
+      },
+    });
+
+    // Set initial theme
+    const initialTheme = theme === "dark" ? "move-dark" : "move-light";
+    monaco.editor.setTheme(initialTheme);
   };
+
+  // Update editor theme when app theme changes
+  useEffect(() => {
+    if (monacoRef.current && editorRef.current) {
+      const editorTheme = theme === "dark" ? "move-dark" : "move-light";
+      monacoRef.current.editor.setTheme(editorTheme);
+    }
+  }, [theme]);
 
   const handleEditorChange = (value: string | undefined) => {
     if (value !== undefined) {
@@ -134,14 +172,14 @@ export function CodeEditor() {
   };
 
   return (
-    <div className="h-full w-full bg-[#0A0E1A]">
+    <div className="h-full w-full bg-background">
       <Editor
         height="100%"
         defaultLanguage="move"
         value={currentCode}
         onChange={handleEditorChange}
         onMount={handleEditorDidMount}
-        theme="move-dark"
+        theme={theme === "dark" ? "move-dark" : "move-light"}
         loading={
           <div className="flex items-center justify-center h-full">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />

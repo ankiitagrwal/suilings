@@ -1,13 +1,12 @@
-// AI Chat API Route
+// AI Chat API Route (Using Google Gemini - FREE!)
 
 import { NextRequest, NextResponse } from "next/server";
-import { openai, AI_CONFIG } from "@/lib/ai/openai";
+import { geminiModel, AI_CONFIG } from "@/lib/ai/gemini";
 import {
   buildSystemPrompt,
   buildHintPrompt,
   buildErrorExplanationPrompt,
   buildCodeReviewPrompt,
-  COMMON_RESPONSES,
 } from "@/lib/ai/prompts";
 import type { AIChatRequest, AIChatResponse, AIChatMessage } from "@/types/ai";
 
@@ -81,86 +80,96 @@ export async function POST(req: NextRequest) {
       userPrompt = buildCodeReviewPrompt(context);
     }
 
-    // Prepare messages for OpenAI
-    const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
-      { role: "system", content: systemPrompt },
-    ];
+    // Build conversation history for Gemini
+    const conversationText = conversationHistory
+      .slice(-5) // Keep last 5 messages for context
+      .map((msg) => {
+        const role = msg.role === "assistant" ? "AI Assistant" : "User";
+        return `${role}: ${msg.content}`;
+      })
+      .join("\n\n");
 
-    // Add conversation history (last 5 messages to keep context manageable)
-    const recentHistory = conversationHistory.slice(-5);
-    for (const msg of recentHistory) {
-      if (msg.role === "user" || msg.role === "assistant") {
-        messages.push({
-          role: msg.role,
-          content: msg.content,
-        });
-      }
-    }
+    // Combine system prompt, history, and current message for Gemini
+    const fullPrompt = `${systemPrompt}
 
-    // Add current message
-    messages.push({
-      role: "user",
-      content: userPrompt,
+${conversationText ? `## Previous Conversation:\n${conversationText}\n\n` : ""}## Current User Message:
+${userPrompt}
+
+Please provide a helpful, concise response focused on Move programming and Sui blockchain.`;
+
+    // Call Gemini API (FREE!)
+    const result = await geminiModel.generateContent({
+      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+      generationConfig: {
+        temperature: AI_CONFIG.temperature,
+        maxOutputTokens: AI_CONFIG.maxOutputTokens,
+        topP: AI_CONFIG.topP,
+        topK: AI_CONFIG.topK,
+      },
     });
 
-    // Call OpenAI API
-    const completion = await openai.chat.completions.create({
-      model: AI_CONFIG.model,
-      messages,
-      temperature: AI_CONFIG.temperature,
-      max_tokens: AI_CONFIG.maxTokens,
-      presence_penalty: AI_CONFIG.presencePenalty,
-      frequency_penalty: AI_CONFIG.frequencyPenalty,
-    });
+    const response = await result.response;
+    const assistantMessageText = response.text();
 
-    const assistantMessage = completion.choices[0].message;
-    const usage = completion.usage;
+    // Estimate token usage (Gemini doesn't provide exact counts in responses)
+    const estimatedPromptTokens = Math.ceil(fullPrompt.length / 4);
+    const estimatedCompletionTokens = Math.ceil(assistantMessageText.length / 4);
 
     // Create response message
     const responseMessage: AIChatMessage = {
       id: `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       role: "assistant",
-      content: assistantMessage.content || "I'm sorry, I couldn't generate a response.",
+      content: assistantMessageText || "I'm sorry, I couldn't generate a response.",
       timestamp: Date.now(),
       metadata: {
         exerciseId: context.exerciseId,
       },
     };
 
-    const response: AIChatResponse = {
+    const apiResponse: AIChatResponse = {
       success: true,
       message: responseMessage,
-      usage: usage
-        ? {
-            promptTokens: usage.prompt_tokens,
-            completionTokens: usage.completion_tokens,
-            totalTokens: usage.total_tokens,
-          }
-        : undefined,
+      usage: {
+        promptTokens: estimatedPromptTokens,
+        completionTokens: estimatedCompletionTokens,
+        totalTokens: estimatedPromptTokens + estimatedCompletionTokens,
+      },
     };
 
-    return NextResponse.json(response);
-  } catch (error: any) {
+    return NextResponse.json(apiResponse);
+  } catch (error: unknown) {
     console.error("AI Chat API Error:", error);
+    
+    const errorMessage = error instanceof Error ? error.message : String(error);
 
-    // Handle specific OpenAI errors
-    if (error?.status === 429) {
+    // Handle specific Gemini errors
+    if (errorMessage.includes("quota") || errorMessage.includes("RESOURCE_EXHAUSTED")) {
       return NextResponse.json(
         {
           success: false,
-          error: "OpenAI rate limit reached. Please try again in a moment.",
+          error: "API quota exceeded. Please try again in a moment.",
         },
         { status: 429 }
       );
     }
 
-    if (error?.status === 401) {
+    if (errorMessage.includes("API_KEY") || errorMessage.includes("invalid")) {
       return NextResponse.json(
         {
           success: false,
-          error: "OpenAI API key is invalid. Please contact support.",
+          error: "Invalid API key. Please check your GEMINI_API_KEY.",
         },
         { status: 500 }
+      );
+    }
+
+    if (errorMessage.includes("SAFETY")) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Content blocked by safety filters. Please rephrase your question.",
+        },
+        { status: 400 }
       );
     }
 
@@ -178,8 +187,11 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     status: "ok",
+    provider: "google-gemini",
     model: AI_CONFIG.model,
+    package: "@google/generative-ai",
     enabled: true,
+    cost: "FREE! 🎉",
   });
 }
 

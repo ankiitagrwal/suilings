@@ -14,9 +14,9 @@ export function OutputConsole() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#0A0E1A] border-t border-border overflow-hidden">
+    <div className="h-full flex flex-col bg-muted/20 border-t border-border overflow-hidden">
       {/* Console Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border/50 flex-shrink-0">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border/50 shrink-0 bg-background/50">
         <div className="flex items-center gap-2">
           <Terminal className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm font-medium text-foreground">Output Console</span>
