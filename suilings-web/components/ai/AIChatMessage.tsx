@@ -30,10 +30,10 @@ export function AIChatMessage({ message }: Props) {
     >
       {/* Avatar */}
       <div
-        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+        className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
           isUser
             ? "bg-primary text-primary-foreground"
-            : "bg-gradient-to-br from-purple-500 to-pink-500 text-white"
+            : "bg-linear-to-br from-purple-500 to-pink-500 text-white"
         }`}
       >
         {isUser ? "You" : "🤖"}
@@ -53,7 +53,9 @@ export function AIChatMessage({ message }: Props) {
           ) : (
             <ReactMarkdown
               components={{
-                code({ node, inline, className, children, ...props }) {
+                code(props) {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  const { inline, className, children, ...rest } = props as any;
                   const match = /language-(\w+)/.exec(className || "");
                   const codeString = String(children).replace(/\n$/, "");
 
@@ -74,13 +76,13 @@ export function AIChatMessage({ message }: Props) {
                         style={vscDarkPlus}
                         language={match[1]}
                         PreTag="div"
-                        {...props}
+                        {...rest}
                       >
                         {codeString}
                       </SyntaxHighlighter>
                     </div>
                   ) : (
-                    <code className={className} {...props}>
+                    <code className={className} {...rest}>
                       {children}
                     </code>
                   );
