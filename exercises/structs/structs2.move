@@ -42,6 +42,19 @@ module suilings::struct_abilities {
     public fun copy_point(p: Point): Point {
         p
     }
+    
+    // Getter functions to access fields from tests
+    public fun get_point_x(p: &Point): u64 {
+        p.x
+    }
+    
+    public fun get_point_y(p: &Point): u64 {
+        p.y
+    }
+    
+    public fun get_stats_health(s: &Stats): u64 {
+        s.health
+    }
 }
 
 #[test_only]
@@ -50,7 +63,7 @@ module suilings::struct_abilities_tests {
     
     #[test]
     fun test_temporary_data() {
-        let temp = struct_abilities::create_temporary(42);
+        let _temp = struct_abilities::create_temporary(42);
         // temp should be automatically dropped
     }
     
@@ -59,14 +72,14 @@ module suilings::struct_abilities_tests {
         let p1 = struct_abilities::create_point(10, 20);
         let p2 = struct_abilities::copy_point(p1);
         // Both p1 and p2 should be valid because Point has 'copy'
-        assert!(p1.x == 10 && p2.x == 10, 0);
+        assert!(struct_abilities::get_point_x(&p1) == 10 && struct_abilities::get_point_x(&p2) == 10, 0);
     }
     
     #[test]
     fun test_stats() {
         let stats = struct_abilities::create_stats(100, 50);
         // stats should be droppable
-        assert!(stats.health == 100, 0);
+        assert!(struct_abilities::get_stats_health(&stats) == 100, 0);
     }
 }
 
