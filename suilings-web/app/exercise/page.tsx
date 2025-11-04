@@ -8,13 +8,19 @@ import { ExerciseInstructions } from "@/components/exercise/ExerciseInstructions
 import { CodeEditor } from "@/components/exercise/CodeEditor";
 import { OutputConsole } from "@/components/exercise/OutputConsole";
 import { HintDialog } from "@/components/exercise/HintDialog";
+import { AIChat } from "@/components/ai/AIChat";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { loadExercises } from "@/lib/exerciseLoader";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { toast } from "sonner";
+import { Sparkles, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function ExercisePage() {
   const [isHintOpen, setIsHintOpen] = useState(false);
+  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { user } = useAuth();
   const {
     exercises,
@@ -167,20 +173,49 @@ export default function ExercisePage() {
     <div className="h-screen flex flex-col overflow-hidden">
       <Header onRun={handleRun} onReset={handleReset} onShowHint={handleShowHint} />
       
-      <div className="flex-1 flex overflow-hidden">
-        <Sidebar />
+      <div className="flex-1 flex overflow-hidden relative">
+        {(!isSidebarOpen || isAIChatOpen) && (
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute left-0 top-16 z-50 h-10 w-10 rounded-r-lg rounded-l-none shadow-lg bg-background/95 backdrop-blur border-l-0 border-2 hover:bg-accent transition-all"
+            onClick={() => {
+              if (isAIChatOpen) {
+                setIsAIChatOpen(false);
+              }
+              setIsSidebarOpen(true);
+            }}
+            title="Show sidebar"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        )}
         
-        <main className="flex-1 overflow-hidden">
+        <div 
+          className={cn(
+            "transition-all duration-300 ease-in-out overflow-hidden shrink-0",
+            (isAIChatOpen || !isSidebarOpen) 
+              ? "w-0 opacity-0 pointer-events-none" 
+              : "w-64 opacity-100 pointer-events-auto"
+          )}
+        >
+          <Sidebar onToggle={() => setIsSidebarOpen(false)} />
+        </div>
+        
+        <main className={cn(
+          "flex-1 overflow-hidden transition-all duration-300",
+          (!isSidebarOpen && !isAIChatOpen) && "pl-0"
+        )}>
           <PanelGroup direction="horizontal">
             {/* Left Panel - Exercise Instructions */}
-            <Panel defaultSize={40} minSize={30} maxSize={50}>
+            <Panel defaultSize={35} minSize={25} maxSize={50}>
               <ExerciseInstructions />
             </Panel>
             
             <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
             
-            {/* Right Panel - Code Editor + Output Console */}
-            <Panel defaultSize={60} minSize={50}>
+            {/* Middle Panel - Code Editor + Output Console */}
+            <Panel defaultSize={40} minSize={30}>
               <PanelGroup direction="vertical">
                 {/* Code Editor */}
                 <Panel defaultSize={60} minSize={30}>
@@ -190,14 +225,35 @@ export default function ExercisePage() {
                 <PanelResizeHandle className="h-1 bg-border hover:bg-primary transition-colors" />
                 
                 {/* Output Console */}
-                <Panel defaultSize={30} minSize={20}>
+                <Panel defaultSize={40} minSize={20}>
                   <OutputConsole />
                 </Panel>
               </PanelGroup>
             </Panel>
+
+            {/* Right Panel - AI Chat (Conditional) */}
+            {isAIChatOpen && (
+              <>
+                <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
+                <Panel defaultSize={25} minSize={20} maxSize={40}>
+                  <AIChat onClose={() => setIsAIChatOpen(false)} />
+                </Panel>
+              </>
+            )}
           </PanelGroup>
         </main>
       </div>
+
+      {/* Floating AI Button (when chat is closed) */}
+      {!isAIChatOpen && (
+        <Button
+          onClick={() => setIsAIChatOpen(true)}
+          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all z-50"
+          size="icon"
+        >
+          <Sparkles className="w-6 h-6" />
+        </Button>
+      )}
 
       <HintDialog open={isHintOpen} onOpenChange={setIsHintOpen} />
     </div>

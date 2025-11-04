@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { calculateProgress } from "@/lib/exerciseLoader";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, PanelLeft, PanelLeftClose } from "lucide-react";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -15,9 +15,11 @@ interface HeaderProps {
   onRun: () => void;
   onReset: () => void;
   onShowHint: () => void;
+  onToggleSidebar?: () => void;
+  isSidebarVisible?: boolean;
 }
 
-export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
+export function Header({ onRun, onReset, onShowHint, onToggleSidebar, isSidebarVisible = true }: HeaderProps) {
   const { exercises, currentExerciseIndex, isCompiling, nextExercise, previousExercise } =
     useExerciseStore();
   const { user, loading } = useAuth();
