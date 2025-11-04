@@ -1,187 +1,135 @@
-# Suilings Web
+# Suilings Web App
 
-> Learn Move on Sui — interactively, in your browser.
+Interactive learning platform for Move programming language on Sui blockchain.
 
-A modern web-based learning platform for Move programming on the Sui blockchain. Built with Next.js 14, TypeScript, and Monaco Editor.
+## 🚀 Quick Start
 
-## 🚀 Features
-
-- **No Setup Required**: Start learning immediately in your browser
-- **Interactive Code Editor**: Full-featured Monaco editor with Move syntax highlighting
-- **Real-time Feedback**: Instant compilation and test results
-- **Progress Tracking**: Save your progress with localStorage (Zustand)
-- **Responsive Layout**: Horizontal split design for better code visibility
-- **Dark Mode First**: Beautiful dark theme optimized for coding
-
-## 🛠️ Tech Stack
-
-- **Frontend**: Next.js 14 (App Router) + TypeScript
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Code Editor**: Monaco Editor
-- **State Management**: Zustand
-- **UI Components**: shadcn/ui (Radix UI)
-- **Icons**: Lucide React
-- **Toasts**: Sonner
-
-## 📦 Installation
+### 1. Install Dependencies
 
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
 ```
+
+### 2. Setup Environment Variables
+
+Copy the example environment file:
+
+```bash
+cp env.example .env
+```
+
+> **Note:** Next.js loads environment variables from `.env` (which is git-ignored). Either `.env` or `.env.local` works - both are safe!
+
+### 3. Configure Required Variables
+
+**Required - Gemini API Key (FREE):**
+
+Get your free API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+
+```env
+GEMINI_API_KEY=AIza...your_key_here
+```
+
+**Optional - Supabase (for authentication):**
+
+If you want user accounts and progress saving:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+> **Note:** The app works without Supabase, but progress won't be saved across sessions.
+
+### 4. Run Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) 🎉
+
+## 📝 Environment Files Explained
+
+Next.js loads environment variables in this order:
+1. `.env.local` (highest priority, git-ignored)
+2. `.env` (git-ignored)
+3. `.env.production` or `.env.development` (committed to git)
+
+**For local development:** Use either `.env` or `.env.local` - both work!
+
+## 🛠️ Available Scripts
+
+```bash
+npm run dev              # Start dev server with hot reload
+npm run dev:watch        # Watch exercises folder for changes
+npm run build            # Build for production
+npm run start            # Start production server
+npm run lint             # Run ESLint
+npm run seed:exercises   # Seed exercises to Supabase
+```
+
+## 🔑 Getting API Keys
+
+### Google Gemini (Required for AI features)
+
+1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Click "Create API Key"
+3. Copy the key (starts with `AIza...`)
+4. Add to `.env` file
+
+**Cost:** FREE! 🎉
+- 60 requests per minute
+- 1,500 requests per day
+
+### Supabase (Optional for auth)
+
+1. Create account at [Supabase](https://supabase.com)
+2. Create new project
+3. Go to Settings > API
+4. Copy URL and anon key
+5. Add to `.env` file
 
 ## 🏗️ Project Structure
 
 ```
 suilings-web/
-├── app/
-│   ├── page.tsx              # Landing page
-│   ├── exercise/
-│   │   └── page.tsx          # Main exercise page
-│   ├── layout.tsx            # Root layout
-│   └── globals.css           # Global styles
-├── components/
-│   ├── layout/
-│   │   ├── Header.tsx        # Header with actions
-│   │   └── Sidebar.tsx       # Exercise list sidebar
-│   ├── exercise/
-│   │   ├── CodeEditor.tsx    # Monaco code editor
-│   │   ├── ExerciseInstructions.tsx
-│   │   ├── OutputConsole.tsx # Compilation output
-│   │   └── HintDialog.tsx    # Hint modal
-│   └── ui/                   # shadcn/ui components
-├── lib/
-│   ├── store/
-│   │   └── exerciseStore.ts  # Zustand store
-│   ├── exerciseLoader.ts     # Load exercises
-│   └── utils.ts              # Utility functions
-└── types/
-    └── exercise.ts           # TypeScript types
+├── app/                 # Next.js App Router pages
+├── components/          # React components
+├── lib/                 # Utilities and helpers
+├── public/              # Static assets
+├── env.example          # Environment template
+└── package.json
 ```
 
-## 🎨 Layout
+## 🐛 Troubleshooting
 
-The application uses a horizontal split layout:
+### AI not working?
 
-```
-┌────────────────────────────────────────────────────┐
-│ Header: [Logo] [Actions] [Progress]               │
-├──────────┬──────────────────┬──────────────────────┤
-│          │   Exercise       │   Code Editor        │
-│ Sidebar  │   Instructions   │   (60%)              │
-│          │   (30%)          ├──────────────────────┤
-│          │                  │   Output Console     │
-│          │                  │   (40%)              │
-└──────────┴──────────────────┴──────────────────────┘
-```
+1. Check `.env` file has `GEMINI_API_KEY`
+2. Restart dev server: `npm run dev`
+3. Check console for errors
 
-## 🔧 Key Features
+### Authentication not working?
 
-### Auto-Complete on Success
-- Automatically marks exercises as complete when code compiles/tests pass
-- Clean code editor without manual markers or comments
+1. Verify Supabase keys in `.env`
+2. Check Supabase dashboard is accessible
+3. Auth is optional - app works without it
 
-### Resizable Panels
-- Drag panel dividers to resize sections
-- Horizontal and vertical splits for optimal workflow
+## 📚 Learn More
 
-### Monaco Editor
-- Move language syntax highlighting
-- Custom dark theme matching the app design
-- Line numbers, minimap, and bracket matching
-- Auto-save functionality
-
-### State Persistence
-- Progress saved to localStorage
-- Code changes persist across sessions
-- Resume where you left off
-
-## 🎯 Next Steps
-
-### Phase 1: Current Implementation ✅
-- [x] Basic UI layout
-- [x] Exercise navigation
-- [x] Code editor with Move highlighting
-- [x] Mock compilation results
-- [x] Progress tracking
-
-### Phase 2: Backend Integration (TODO)
-- [ ] Node.js/Express backend
-- [ ] Real Sui CLI integration
-- [ ] Docker-based code compilation
-- [ ] User authentication (optional)
-- [ ] Database integration (Supabase)
-
-### Phase 3: Advanced Features (TODO)
-- [ ] Real-time collaboration
-- [ ] Code sharing
-- [ ] Leaderboards
-- [ ] Additional exercises
-- [ ] Video tutorials
-- [ ] AI-powered hints
-
-## 📝 Development
-
-### Adding New Exercises
-
-1. Edit `lib/exerciseLoader.ts`
-2. Add exercise object with:
-   - name
-   - path
-   - mode (build/test)
-   - hint
-   - description
-   - initialCode
-
-Example:
-```typescript
-{
-  name: "structs1",
-  path: "exercises/structs/structs1.move",
-  mode: "test",
-  hint: "Structs define custom types...",
-  description: "Learn about struct definitions in Move",
-  initialCode: `module suilings::structs1 { ... }`,
-  status: "pending",
-}
-```
-
-### Customizing Theme
-
-Edit `app/globals.css` to customize colors:
-- Dark theme variables under `.dark`
-- Adjust `--background`, `--foreground`, `--primary`, etc.
-
-## 🐛 Known Issues
-
-- Mock compilation results (backend integration needed)
-- No real Sui CLI integration yet
-- Limited to 4 sample exercises
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Move Language](https://move-language.github.io/move/)
+- [Sui Documentation](https://docs.sui.io/)
+- [Google Gemini](https://ai.google.dev/)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-MIT License - see the LICENSE file for details.
-
-## 🔗 Links
-
-- [Sui Blockchain](https://sui.io/)
-- [Move Language](https://github.com/move-language/move)
-- [Next.js](https://nextjs.org/)
-- [Monaco Editor](https://microsoft.github.io/monaco-editor/)
+When sharing your setup with other developers:
+1. Never commit `.env` or `.env.local` files (they're in `.gitignore`)
+2. Update `env.example` with new variables
+3. Document any new environment requirements in this README
 
 ---
 
-Made with ❤️ for the Sui community
+Built with ❤️ for the Sui community

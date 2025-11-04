@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ interface CategoryStats {
 }
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { exercises, setCurrentExercise, fetchProgress } = useExerciseStore();
   const [streakDays, setStreakDays] = useState(0);
 
@@ -305,7 +307,7 @@ export default function DashboardPage() {
                         className="flex items-center justify-between p-3 rounded-lg border hover:bg-accent transition-colors cursor-pointer"
                         onClick={() => {
                           setCurrentExercise(ex.index);
-                          window.location.href = '/exercise';
+                          router.push('/exercise');
                         }}
                       >
                         <div className="flex items-center gap-3">
