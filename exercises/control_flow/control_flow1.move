@@ -1,4 +1,3 @@
-// ==== CONTROL FLOW EXERCISE ====
 // Control flow in Move uses if/else expressions.
 // Unlike statements, expressions return values!
 //

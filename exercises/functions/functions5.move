@@ -1,4 +1,3 @@
-// ==== ADVANCED FUNCTIONS EXERCISE ====
 // This exercise combines multiple concepts: generics, references, and complex logic.
 //
 // Your task:

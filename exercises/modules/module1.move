@@ -1,4 +1,3 @@
-// ==== MODULE DECLARATION EXERCISE ====
 // A Move module must be declared with `module <address>::<name> { … }`.
 // In Move, functions are private by default. To call them from other modules,
 // they must be marked as `public`.

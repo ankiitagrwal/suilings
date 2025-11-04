@@ -1,4 +1,3 @@
-// ==== PRIMITIVE TYPES EXERCISE ====
 // Move has several integer types: u8, u16, u32, u64, u128, u256
 // Each type has a specific range of values it can hold.
 //

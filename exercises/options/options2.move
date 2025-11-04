@@ -1,4 +1,3 @@
-// ==== ERROR HANDLING - ASSERT AND ABORT ====
 // Move uses abort and assert for error handling.
 //
 // - assert!(condition, error_code) - abort if condition is false

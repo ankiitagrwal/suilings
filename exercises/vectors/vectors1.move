@@ -1,4 +1,3 @@
-// ==== VECTORS - BASIC OPERATIONS ====
 // Vectors are growable arrays in Move.
 //
 // Common operations:

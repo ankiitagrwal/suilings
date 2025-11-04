@@ -1,4 +1,3 @@
-// ==== EVENTS IN SUI ====
 // Events allow smart contracts to emit notifications about state changes.
 // Events are structs with the 'copy' and 'drop' abilities.
 //

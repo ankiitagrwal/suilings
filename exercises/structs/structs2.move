@@ -1,4 +1,3 @@
-// ==== STRUCT ABILITIES EXERCISE ====
 // Structs in Move can have abilities: copy, drop, store, and key
 // - copy: The value can be copied
 // - drop: The value can be dropped/destroyed

@@ -1,4 +1,3 @@
-// ==== MODULE IMPORTS EXERCISE ====
 // In Move, you can use functions and types from other modules by importing them.
 // The `use` statement allows you to bring items into scope.
 //

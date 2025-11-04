@@ -1,4 +1,3 @@
-// ==== OPTION TYPE - BASICS ====
 // Option<T> represents a value that may or may not exist.
 // It's Move's way of handling nullable values safely.
 //

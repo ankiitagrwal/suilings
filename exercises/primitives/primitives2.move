@@ -1,4 +1,3 @@
-// ==== BOOLEAN OPERATIONS EXERCISE ====
 // Booleans in Move are represented by the `bool` type.
 // Common operations: && (and), || (or), ! (not), == (equal), != (not equal)
 //

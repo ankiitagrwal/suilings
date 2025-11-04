@@ -1,4 +1,3 @@
-// ==== FUNCTIONS EXERCISE ====
 // Functions in Move are declared with the `fun` keyword.
 // They can have parameters and return values.
 //

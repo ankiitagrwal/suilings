@@ -1,4 +1,3 @@
-// ==== MULTIPLE RETURN VALUES EXERCISE ====
 // Functions in Move can return multiple values using tuples.
 // Syntax: fun name(): (Type1, Type2) { (value1, value2) }
 // To destructure: let (var1, var2) = function_call();

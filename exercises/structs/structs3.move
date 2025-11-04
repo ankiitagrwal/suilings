@@ -1,4 +1,3 @@
-// ==== NESTED STRUCTS EXERCISE ====
 // Structs can contain other structs as fields.
 // This allows you to build complex data structures.
 //

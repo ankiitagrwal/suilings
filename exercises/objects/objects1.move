@@ -1,4 +1,3 @@
-// ==== SUI OBJECTS - BASICS ====
 // In Sui, objects are the fundamental unit of storage.
 // Objects have unique IDs and can be owned by addresses or shared.
 //

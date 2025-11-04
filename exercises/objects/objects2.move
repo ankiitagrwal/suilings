@@ -1,4 +1,3 @@
-// ==== SUI OBJECTS - TRANSFER AND OWNERSHIP ====
 // Sui objects can be transferred between addresses.
 //
 // Transfer functions:

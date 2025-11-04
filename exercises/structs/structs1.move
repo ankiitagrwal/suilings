@@ -1,4 +1,3 @@
-// ==== STRUCTS EXERCISE ====
 // Structs allow you to create custom data types with named fields.
 // Syntax: struct Name { field1: Type1, field2: Type2 }
 //

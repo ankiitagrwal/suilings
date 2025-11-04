@@ -1,4 +1,3 @@
-// ==== GENERIC FUNCTIONS EXERCISE ====
 // Generic functions work with any type that satisfies the specified constraints.
 // Syntax: fun name<T: ability>(param: T): T { ... }
 //

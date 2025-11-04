@@ -1,4 +1,3 @@
-// ==== MODULE IMPORT EXERCISE ====
 // Move lets you `use` a function from another module.
 // The runner-crate contains a tiny helper module that we can import.
 //

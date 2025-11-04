@@ -1,4 +1,3 @@
-// ==== MUTABLE REFERENCES EXERCISE ====
 // Functions can take mutable references (&mut) to modify values in place.
 // This is more efficient than copying large values.
 //

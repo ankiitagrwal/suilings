@@ -1,4 +1,3 @@
-// ==== STRUCT METHODS & BORROWING EXERCISE ====
 // In Move, you can pass structs by reference (&) or mutable reference (&mut).
 // - & allows reading but not modifying
 // - &mut allows both reading and modifying

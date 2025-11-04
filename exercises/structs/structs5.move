@@ -1,4 +1,3 @@
-// ==== GENERIC STRUCTS EXERCISE ====
 // Generics allow you to write structs that work with any type.
 // Syntax: struct Name<T> { field: T }
 // You can also constrain generics with abilities: <T: copy + drop>

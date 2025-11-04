@@ -1,4 +1,3 @@
-// ==== VECTORS - ADVANCED OPERATIONS ====
 // More complex vector manipulations and algorithms.
 //
 // Additional operations:

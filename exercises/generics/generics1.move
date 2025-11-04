@@ -1,4 +1,3 @@
-// ==== ADVANCED GENERICS ====
 // Generics in Move can have multiple type parameters and constraints.
 //
 // Phantom type parameters are used when a type parameter doesn't appear
