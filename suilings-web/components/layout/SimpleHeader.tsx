@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -13,14 +14,14 @@ interface SimpleHeaderProps {
   showNavigation?: boolean;
 }
 
-export function SimpleHeader({ showNavigation = true }: SimpleHeaderProps) {
+export const SimpleHeader = memo(function SimpleHeader({ showNavigation = true }: SimpleHeaderProps) {
   const { user, loading } = useAuth();
 
   return (
     <header className="border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 sticky top-0 z-50">
       <div className="container flex h-16 items-center gap-4 px-4 max-w-screen-2xl mx-auto">
         {/* Left: Logo + Navigation */}
-        <div className="flex items-center gap-6 shrink-0 flex-1 min-w-0">
+        <div className="flex items-center gap-3 shrink-0 flex-1 min-w-0">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Image 
               src="/suilings-logo.svg" 
@@ -34,35 +35,40 @@ export function SimpleHeader({ showNavigation = true }: SimpleHeaderProps) {
             </div>
           </Link>
           
+          <div className="h-6 w-px bg-border hidden md:block" />
+          
           {showNavigation && (
             <nav className="hidden md:flex items-center gap-1">
-              <Link href="/">
-                <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                <Link href="/">
                   <Home className="h-3.5 w-3.5" />
                   Home
-                </Button>
-              </Link>
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                <Link href="/dashboard">
                   <LayoutDashboard className="h-3.5 w-3.5" />
                   Dashboard
-                </Button>
-              </Link>
-              <Link href="/exercise">
-                <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                <Link href="/exercise">
                   <BookOpen className="h-3.5 w-3.5" />
                   Exercises
-                </Button>
-              </Link>
-              <Link href="/leaderboard">
-                <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                <Link href="/leaderboard">
                   <Trophy className="h-3.5 w-3.5" />
                   Leaderboard
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </nav>
           )}
         </div>
+
+        {/* Center: Empty spacer to match Header structure */}
+        <div className="flex items-center justify-center gap-2 shrink-0" />
 
         {/* Right: Auth & Theme Toggle */}
         <div className="flex items-center justify-end gap-3 shrink-0 flex-1 min-w-0">
@@ -81,5 +87,5 @@ export function SimpleHeader({ showNavigation = true }: SimpleHeaderProps) {
       </div>
     </header>
   );
-}
+});
 

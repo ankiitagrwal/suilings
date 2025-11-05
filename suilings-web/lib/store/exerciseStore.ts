@@ -46,7 +46,7 @@ export const useExerciseStore = create<ExerciseStore>()(
   persist(
     (set, get) => ({
       exercises: [],
-      currentExerciseIndex: 0,
+      currentExerciseIndex: -1, // -1 means no exercise selected yet
       currentCode: "",
       compilationResult: null,
       isCompiling: false,
@@ -59,6 +59,14 @@ export const useExerciseStore = create<ExerciseStore>()(
         const exercises = get().exercises;
         if (index >= 0 && index < exercises.length) {
           const exercise = exercises[index];
+          
+          // Save to localStorage immediately to persist selection
+          try {
+            localStorage.setItem('suilings-current-exercise', index.toString());
+          } catch {
+            // Ignore localStorage errors in SSR or when disabled
+          }
+          
           set({
             currentExerciseIndex: index,
             compilationResult: null,
@@ -207,9 +215,10 @@ export const useExerciseStore = create<ExerciseStore>()(
     }),
     {
       name: "suilings-exercise-storage",
-      version: 3, // Increment to clear old cached data
+      version: 4, // Increment to clear old cached data with new -1 default
       partialize: (state) => ({
         currentExerciseIndex: state.currentExerciseIndex,
+        currentCode: state.currentCode, // Also persist current code to prevent loss
         // Don't persist exercises or progress - always load fresh from API
       }),
     }

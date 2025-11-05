@@ -39,19 +39,29 @@ export default function ExercisePage() {
     saveProgress,
   } = useExerciseStore();
 
-  // Load exercises on mount
+  // Load exercises on mount - only run once
   useEffect(() => {
+    let mounted = true;
+    
     const init = async () => {
-      const loadedExercises = await loadExercises();
-      setExercises(loadedExercises);
+      if (!mounted) return;
       
-      // Fetch user progress if authenticated
-      if (user) {
-        await fetchProgress();
+      // Only load exercises if not already loaded
+      if (exercises.length === 0) {
+        const loadedExercises = await loadExercises();
+        if (!mounted) return;
+        
+        setExercises(loadedExercises);
+        
+        // Only set to first exercise if no exercise is currently selected
+        if (loadedExercises.length > 0 && currentExerciseIndex === -1) {
+          setCurrentExercise(0);
+        }
       }
       
-      if (loadedExercises.length > 0) {
-        setCurrentExercise(0);
+      // Fetch user progress if authenticated (always refresh this)
+      if (user && mounted) {
+        await fetchProgress();
       }
     };
     init();
@@ -70,8 +80,13 @@ export default function ExercisePage() {
     
     // Warm up after a short delay to not block initial page load
     const warmupTimer = setTimeout(warmupCompiler, 2000);
-    return () => clearTimeout(warmupTimer);
-  }, [setExercises, setCurrentExercise, fetchProgress, user]);
+    
+    return () => {
+      mounted = false;
+      clearTimeout(warmupTimer);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount, ignore other deps to prevent resets
 
   // Load saved code when exercise changes
   useEffect(() => {
@@ -82,7 +97,8 @@ export default function ExercisePage() {
         loadExerciseProgress(currentExercise.name);
       }, 100);
     }
-  }, [currentExerciseIndex, user]); // Changed dependency to currentExerciseIndex
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentExerciseIndex, user]); // Only depend on index and user, not functions
 
   const handleRun = async () => {
     const currentExercise = getCurrentExercise();
@@ -160,10 +176,13 @@ export default function ExercisePage() {
 
   if (exercises.length === 0) {
     return (
-      <div className="h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading exercises...</p>
+      <div className="h-screen flex flex-col overflow-hidden">
+        <Header onRun={handleRun} onReset={handleReset} onShowHint={handleShowHint} />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading exercises...</p>
+          </div>
         </div>
       </div>
     );

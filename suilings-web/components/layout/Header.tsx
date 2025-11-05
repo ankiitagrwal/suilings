@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { calculateProgress } from "@/lib/exerciseLoader";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, Home } from "lucide-react";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -18,7 +19,7 @@ interface HeaderProps {
   onShowHint: () => void;
 }
 
-export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
+export const Header = memo(function Header({ onRun, onReset, onShowHint }: HeaderProps) {
   const { exercises, currentExerciseIndex, isCompiling, nextExercise, previousExercise } =
     useExerciseStore();
   const { user, loading } = useAuth();
@@ -26,10 +27,11 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
 
   const canGoPrevious = currentExerciseIndex > 0;
   const canGoNext = currentExerciseIndex < exercises.length - 1;
+  const hasExercises = exercises.length > 0;
 
   return (
-    <header className="border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="flex h-16 items-center gap-4 px-4 max-w-screen-2xl mx-auto">
+    <header className="border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 sticky top-0 z-50">
+      <div className="container flex h-16 items-center gap-4 px-4 max-w-screen-2xl mx-auto">
         {/* Left: Logo + Navigation */}
         <div className="flex items-center gap-3 shrink-0 flex-1 min-w-0">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -48,18 +50,24 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
           <div className="h-6 w-px bg-border hidden md:block" />
           
           <div className="hidden md:flex items-center gap-1">
-            <Link href="/dashboard">
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+            <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+              <Link href="/">
+                <Home className="h-3.5 w-3.5" />
+                Home
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+              <Link href="/dashboard">
                 <LayoutDashboard className="h-3.5 w-3.5" />
                 Dashboard
-              </Button>
-            </Link>
-            <Link href="/leaderboard">
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+              <Link href="/leaderboard">
                 <Trophy className="h-3.5 w-3.5" />
                 Leaderboard
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
 
@@ -69,7 +77,7 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
             variant="outline"
             size="sm"
             onClick={previousExercise}
-            disabled={!canGoPrevious}
+            disabled={!hasExercises || !canGoPrevious}
           >
             <ChevronLeft className="h-4 w-4 md:mr-1" />
             <span className="hidden md:inline">Prev</span>
@@ -79,7 +87,7 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
             variant="default"
             size="sm"
             onClick={onRun}
-            disabled={isCompiling}
+            disabled={!hasExercises || isCompiling}
             className="min-w-20"
           >
             {isCompiling ? (
@@ -96,12 +104,12 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
             )}
           </Button>
 
-          <Button variant="outline" size="sm" onClick={onShowHint} className="hidden sm:flex">
+          <Button variant="outline" size="sm" onClick={onShowHint} disabled={!hasExercises} className="hidden sm:flex">
             <Lightbulb className="h-4 w-4 md:mr-1" />
             <span className="hidden md:inline">Hint</span>
           </Button>
 
-          <Button variant="outline" size="sm" onClick={onReset} className="hidden sm:flex">
+          <Button variant="outline" size="sm" onClick={onReset} disabled={!hasExercises} className="hidden sm:flex">
             <RotateCcw className="h-4 w-4 md:mr-1" />
             <span className="hidden md:inline">Reset</span>
           </Button>
@@ -110,7 +118,7 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
             variant="outline"
             size="sm"
             onClick={nextExercise}
-            disabled={!canGoNext}
+            disabled={!hasExercises || !canGoNext}
           >
             <span className="hidden md:inline">Next</span>
             <ChevronRight className="h-4 w-4 md:ml-1" />
@@ -141,5 +149,5 @@ export function Header({ onRun, onReset, onShowHint }: HeaderProps) {
       </div>
     </header>
   );
-}
+});
 
