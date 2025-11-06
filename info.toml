@@ -269,3 +269,57 @@ swap_pair: let Pair { first, second } = pair; Pair { first: second, second: firs
 ok: Result { ok: option::some(value), err: option::none() }
 is_ok: option::is_some(&result.ok)
 """
+
+[[exercises]]
+name = "strings1"
+path = "exercises/strings/strings1.move"
+mode = "test"
+hint = """
+Create string: string::utf8(b"text")
+Greeting: let mut greeting = string::utf8(b"Hello, "); string::append(&mut greeting, name); string::append(&mut greeting, string::utf8(b"!")); greeting
+Length: string::length(&s)
+Empty check: string::is_empty(&s)
+Concatenate: string::append(&mut s1, s2); s1
+Repeat: Use a loop with string::append
+"""
+
+[[exercises]]
+name = "strings2"
+path = "exercises/strings/strings2.move"
+mode = "test"
+hint = """
+Substring: string::sub_string(&s, start, end)
+Contains: option::is_some(&string::index_of(&haystack, &needle))
+Starts with: Check length first, then compare substring(s, 0, prefix_len) == prefix
+Ends with: substring(s, s_len - suffix_len, s_len) == suffix
+Count char: let bytes = string::bytes(&s); loop through vector, count matches
+Uppercase: Loop through bytes, if byte >= 97 && byte <= 122, subtract 32
+"""
+
+[[exercises]]
+name = "generics2"
+path = "exercises/generics/generics2.move"
+mode = "test"
+hint = """
+Stack: struct Stack<T: drop> has drop { items: vector<T> }
+Push: vector::push_back(&mut stack.items, item)
+Pop: vector::pop_back(&mut stack.items)
+Peek: vector::borrow(&stack.items, vector::length(&stack.items) - 1)
+Queue: struct Queue<T: drop> has drop { items: vector<T> }
+Enqueue: vector::push_back(&mut queue.items, item)
+Dequeue: vector::remove(&mut queue.items, 0)
+"""
+
+[[exercises]]
+name = "generics3"
+path = "exercises/generics/generics3.move"
+mode = "test"
+hint = """
+Box: struct Box<T: store + drop, State> has drop { value: T }
+unlock_box: let Box { value } = box; Box { value }
+Coin: struct Coin<Currency> has drop { value: u64 }
+merge_coins: let Coin { value: v1 } = coin1; let Coin { value: v2 } = coin2; Coin { value: v1 + v2 }
+split_coin: assert!(amount <= coin.value); let Coin { value } = coin; (Coin { value: amount }, Coin { value: value - amount })
+Container: struct Container<T: drop> has drop { inner: Option<T> }
+create_with_value: Container { inner: option::some(value) }
+"""
