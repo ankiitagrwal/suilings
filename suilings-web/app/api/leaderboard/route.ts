@@ -52,13 +52,25 @@ export async function GET(request: NextRequest) {
       const adminClient = createAdminClient();
       const { data: { users: allAuthUsers }, error: usersError } = await adminClient.auth.admin.listUsers();
       
+      if (usersError) {
+        console.error('❌ Supabase admin.listUsers() error:', usersError);
+      }
+      
       // Combine: users with progress + users without progress
       if (allAuthUsers && !usersError) {
+        console.log(`✅ Admin client success: Found ${allAuthUsers.length} total users, ${progressUserIds.length} with progress`);
         allUserIds = [...new Set([...progressUserIds, ...allAuthUsers.map(u => u.id)])];
+      } else {
+        console.warn('⚠️ Admin client returned no users or had error');
       }
-    } catch (error) {
+    } catch (error: any) {
       // If admin access fails, fall back to showing only users with progress
-      console.warn('Could not fetch all users, showing only users with progress');
+      console.error('❌ Admin client failed:', error.message);
+      console.error('Environment check:', {
+        hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+        serviceKeyLength: process.env.SUPABASE_SERVICE_ROLE_KEY?.length || 0
+      });
     }
     
     if (allUserIds.length === 0) {
