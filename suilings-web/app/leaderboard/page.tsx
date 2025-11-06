@@ -38,6 +38,7 @@ export default function LeaderboardPage() {
   const { user } = useAuth();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [userPosition, setUserPosition] = useState<LeaderboardEntry | null>(null);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('all-time');
 
@@ -53,6 +54,7 @@ export default function LeaderboardPage() {
         const data = await response.json();
         setLeaderboard(data.leaderboard || []);
         setUserPosition(data.userPosition || null);
+        setTotalUsers(data.totalUsers || 0);
       }
     } catch {
       setLeaderboard([]);
@@ -95,6 +97,12 @@ export default function LeaderboardPage() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
+    
+    // Check if user has never been active (Unix epoch or very old date)
+    if (date.getTime() < 86400000) { // Less than 1 day from epoch (Jan 1, 1970)
+      return 'Never';
+    }
+    
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
@@ -186,15 +194,25 @@ export default function LeaderboardPage() {
           {/* Leaderboard Table */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Top Performers
-              </CardTitle>
-              <CardDescription>
-                {timeFilter === 'all-time' && 'All-time rankings based on total exercises completed'}
-                {timeFilter === 'monthly' && 'Rankings for this month'}
-                {timeFilter === 'weekly' && 'Rankings for this week'}
-              </CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5" />
+                    Top Performers
+                  </CardTitle>
+                  <CardDescription>
+                    {timeFilter === 'all-time' && 'All-time rankings based on total exercises completed'}
+                    {timeFilter === 'monthly' && 'Rankings for this month'}
+                    {timeFilter === 'weekly' && 'Rankings for this week'}
+                  </CardDescription>
+                </div>
+                {!isLoading && totalUsers > 0 && (
+                  <div className="text-sm text-muted-foreground">
+                    Showing <span className="font-semibold text-foreground">{leaderboard.length}</span> of{' '}
+                    <span className="font-semibold text-foreground">{totalUsers}</span> users
+                  </div>
+                )}
+              </div>
             </CardHeader>
             <CardContent>
               {isLoading ? (
@@ -209,7 +227,7 @@ export default function LeaderboardPage() {
                   <p className="text-sm">Be the first to complete exercises!</p>
                 </div>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                   {leaderboard.map((entry) => (
                     <div
                       key={entry.user_id}

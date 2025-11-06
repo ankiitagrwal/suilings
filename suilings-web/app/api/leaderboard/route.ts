@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function GET(request: NextRequest) {
   try {
@@ -41,9 +42,26 @@ export async function GET(request: NextRequest) {
       throw progressError;
     }
 
-    const userIds = [...new Set(progressData?.map((p: any) => p.user_id) || [])];
+    // Get ALL users who have ever logged in (via exercise_progress or auth)
+    // First get user IDs from progress
+    const progressUserIds = [...new Set(progressData?.map((p: any) => p.user_id) || [])];
     
-    if (userIds.length === 0) {
+    // Also get all users from auth to include users with no progress
+    let allUserIds = progressUserIds;
+    try {
+      const adminClient = createAdminClient();
+      const { data: { users: allAuthUsers }, error: usersError } = await adminClient.auth.admin.listUsers();
+      
+      // Combine: users with progress + users without progress
+      if (allAuthUsers && !usersError) {
+        allUserIds = [...new Set([...progressUserIds, ...allAuthUsers.map(u => u.id)])];
+      }
+    } catch (error) {
+      // If admin access fails, fall back to showing only users with progress
+      console.warn('Could not fetch all users, showing only users with progress');
+    }
+    
+    if (allUserIds.length === 0) {
       return NextResponse.json({
         leaderboard: [],
         userPosition: null,
@@ -57,7 +75,7 @@ export async function GET(request: NextRequest) {
 
     const totalExercises = totalExercisesCount || 31;
 
-    const userStats = userIds.map(userId => {
+    const userStats = allUserIds.map(userId => {
       const userProgress = progressData?.filter((p: any) => p.user_id === userId) || [];
       const completed = userProgress.filter((p: any) => p.status === 'completed').length;
       const totalTimeSpent = userProgress.reduce((sum: number, p: any) => sum + (p.time_spent || 0), 0);
@@ -71,7 +89,7 @@ export async function GET(request: NextRequest) {
               return Math.max(completedDate, updatedDate);
             })
           ))
-        : new Date();
+        : new Date(0); // Unix epoch for users with no activity
 
       const completionRate = totalExercises > 0 ? (completed / totalExercises) * 100 : 0;
       const isCurrentUser = userId === currentUserId;
