@@ -1,7 +1,7 @@
 // Advanced string operations in Move.
 //
 // String manipulation:
-// - string::sub_string(s, start, end) - extract substring
+// - string::substring(s, start, end) - extract substring
 // - string::index_of(s, substring) - find index of substring
 // - Working with bytes for character operations
 //
@@ -10,7 +10,6 @@
 
 module suilings::strings2 {
     use std::string::{Self, String};
-    use std::vector;
     
     public fun substring(s: String, start: u64, end: u64): String {
         // TODO: Extract a substring from start to end (exclusive)

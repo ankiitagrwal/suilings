@@ -6,7 +6,7 @@
 // - string::length(s) - get length
 // - string::is_empty(s) - check if empty
 // - string::append(s1, s2) - concatenate strings
-// - string::bytes(s) - get underlying bytes
+// - string::as_bytes(s) - get underlying bytes
 //
 // Your task:
 // Implement basic string operations using Move's string module.
