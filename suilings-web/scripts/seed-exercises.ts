@@ -6,14 +6,28 @@ import * as TOML from '@iarna/toml'
 
 // Load environment variables
 import * as dotenv from 'dotenv'
-dotenv.config({ path: path.resolve(__dirname, '../.env.local') })
+const envLocalPath = path.resolve(__dirname, '../.env.local')
+const envPath = path.resolve(__dirname, '../.env')
+
+// Try .env.local first, then fall back to .env
+if (fs.existsSync(envLocalPath)) {
+  dotenv.config({ path: envLocalPath })
+  console.log('📄 Loaded environment from .env.local')
+} else if (fs.existsSync(envPath)) {
+  dotenv.config({ path: envPath })
+  console.log('📄 Loaded environment from .env')
+} else {
+  // Try default dotenv behavior (checks .env in current directory)
+  dotenv.config()
+  console.log('📄 Loaded environment from default .env')
+}
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error('❌ Missing SUPABASE environment variables')
-  console.error('Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local')
+  console.error('Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env or .env.local')
   process.exit(1)
 }
 

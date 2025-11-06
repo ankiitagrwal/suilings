@@ -7,7 +7,6 @@
 module suilings::control_flow {
     public fun abs_diff(a: u64, b: u64): u64 {
         // TODO: Return the absolute difference between a and b
-        // Hint: if (a > b) { a - b } else { b - a }
         0
     }
     

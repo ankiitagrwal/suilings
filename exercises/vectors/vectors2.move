@@ -69,7 +69,7 @@ module suilings::vectors2_tests {
         let merged = vectors2::merge_sorted(a, b);
         
         assert!(vector::length(&merged) == 8, 0);
-        let i = 0;
+        let mut i = 0;
         while (i < 8) {
             assert!(*vector::borrow(&merged, i) == i + 1, i);
             i = i + 1;
