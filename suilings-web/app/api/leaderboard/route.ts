@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
       .from('exercises')
       .select('*', { count: 'exact', head: true });
 
-    const totalExercises = totalExercisesCount || 27;
+    const totalExercises = totalExercisesCount || 31;
 
     const userStats = userIds.map(userId => {
       const userProgress = progressData?.filter((p: any) => p.user_id === userId) || [];

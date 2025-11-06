@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SimpleHeader } from "@/components/layout/SimpleHeader";
+import { TOTAL_EXERCISES } from "@/lib/exerciseConfig";
 import { 
   Rocket, 
   Zap, 
@@ -77,7 +78,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-green-500" />
-              <span>27 Interactive Exercises</span>
+              <span>{TOTAL_EXERCISES} Interactive Exercises</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-green-500" />
@@ -141,7 +142,7 @@ export default function HomePage() {
               <div className="flex justify-center mb-3">
                 <BookOpen className="h-8 w-8 text-primary" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold mb-1">27</div>
+              <div className="text-3xl md:text-4xl font-bold mb-1">{TOTAL_EXERCISES}</div>
               <div className="text-sm text-muted-foreground">Exercises</div>
             </Card>
             
@@ -183,7 +184,7 @@ export default function HomePage() {
               <Rocket className="h-12 w-12 text-primary mx-auto mb-4 mt-4" />
               <CardTitle className="mb-3">Choose Exercise</CardTitle>
               <CardDescription className="text-base">
-                Pick from 27 curated exercises covering basics to advanced Move concepts
+                Pick from {TOTAL_EXERCISES} curated exercises covering basics to advanced Move concepts
               </CardDescription>
             </Card>
 

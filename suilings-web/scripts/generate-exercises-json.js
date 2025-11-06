@@ -101,7 +101,23 @@ function generateExercisesJson() {
     // Write to JSON file
     fs.writeFileSync(EXERCISES_JSON, JSON.stringify({ exercises }, null, 2));
     console.log(`\n✅ Generated exercises JSON with ${exercises.length} exercises`);
-    console.log(`   Saved to: ${path.relative(process.cwd(), EXERCISES_JSON)}\n`);
+    console.log(`   Saved to: ${path.relative(process.cwd(), EXERCISES_JSON)}`);
+    
+    // Generate exerciseConfig.ts with total count
+    const configPath = path.join(__dirname, '..', 'lib', 'exerciseConfig.ts');
+    const configContent = `// Auto-generated exercise configuration
+// This file is updated by generate-exercises-json.js
+// DO NOT EDIT MANUALLY - Run 'node scripts/generate-exercises-json.js' to regenerate
+
+export const TOTAL_EXERCISES = ${exercises.length};
+
+export function getTotalExercises(): number {
+  return TOTAL_EXERCISES;
+}
+`;
+    fs.writeFileSync(configPath, configContent);
+    console.log(`✅ Generated exercise config with ${exercises.length} total exercises`);
+    console.log(`   Saved to: ${path.relative(process.cwd(), configPath)}\n`);
   } catch (error) {
     console.error('❌ Error generating exercises JSON:', error.message);
     console.error(error.stack);
