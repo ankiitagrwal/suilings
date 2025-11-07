@@ -35,6 +35,7 @@ export async function GET() {
         path: ex.path,
         mode: ex.mode,
         hint: ex.hint,
+        difficulty: localEx?.difficulty || 'basic',
         description: localEx?.description || '',
         initialCode: localEx?.initialCode || '',
         status: 'pending' as const,

@@ -323,3 +323,40 @@ split_coin: assert!(amount <= coin.value); let Coin { value } = coin; (Coin { va
 Container: struct Container<T: drop> has drop { inner: Option<T> }
 create_with_value: Container { inner: option::some(value) }
 """
+
+# Advanced Exercises - Coming Soon
+[[exercises]]
+name = "nft_basics"
+path = "exercises/advanced/nft_basics.move"
+mode = "test"
+difficulty = "advanced"
+hint = """
+Coming soon! Learn how to create NFTs on Sui.
+"""
+
+[[exercises]]
+name = "defi_swap"
+path = "exercises/advanced/defi_swap.move"
+mode = "test"
+difficulty = "advanced"
+hint = """
+Coming soon! Build a simple token swap protocol.
+"""
+
+[[exercises]]
+name = "multisig_wallet"
+path = "exercises/advanced/multisig_wallet.move"
+mode = "test"
+difficulty = "advanced"
+hint = """
+Coming soon! Implement a multi-signature wallet.
+"""
+
+[[exercises]]
+name = "marketplace"
+path = "exercises/advanced/marketplace.move"
+mode = "test"
+difficulty = "advanced"
+hint = """
+Coming soon! Create an NFT marketplace with listings and purchases.
+"""

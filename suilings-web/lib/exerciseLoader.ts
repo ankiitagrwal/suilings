@@ -42,6 +42,14 @@ export function groupExercisesByCategory(exercises: Exercise[]) {
   return grouped;
 }
 
+// Group exercises by difficulty level
+export function groupExercisesByDifficulty(exercises: Exercise[]) {
+  const basic = exercises.filter((ex) => !ex.difficulty || ex.difficulty === "basic");
+  const advanced = exercises.filter((ex) => ex.difficulty === "advanced");
+  
+  return { basic, advanced };
+}
+
 // Calculate progress
 export function calculateProgress(exercises: Exercise[]) {
   const completed = exercises.filter((ex) => ex.status === "completed").length;

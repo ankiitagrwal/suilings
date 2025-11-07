@@ -86,6 +86,7 @@ function generateExercisesJson() {
         path: ex.path,
         mode: ex.mode,
         hint: ex.hint,
+        difficulty: ex.difficulty || 'basic', // Default to 'basic' if not specified
         description: description || `Exercise: ${ex.name}`,
         initialCode: cleanCode,
         status: 'pending',
