@@ -97,6 +97,6 @@ suilings/
 
 ---
 
-Made with ❤️ by the Sui Community  
+Made with ❤️ by the Suilings team.  
 Built with Rust, Sui, and a love for learning.
 

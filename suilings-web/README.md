@@ -132,4 +132,4 @@ When sharing your setup with other developers:
 
 ---
 
-Built with ❤️ for the Sui community
+Built with ❤️ for the Suilings community!
