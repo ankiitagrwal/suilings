@@ -226,6 +226,46 @@ withdraw: Use multiple asserts for different conditions
 """
 
 [[exercises]]
+name = "enums1"
+path = "exercises/enums/enums1.move"
+mode = "test"
+hint = """
+Define enum: public enum Status { Pending, Active, Completed }
+Return variant: Status::Pending
+Compare: status == Status::Pending
+"""
+
+[[exercises]]
+name = "enums2"
+path = "exercises/enums/enums2.move"
+mode = "test"
+hint = """
+Match syntax: match (direction) { Direction::North => b"North", Direction::South => b"South", ... }
+Match must cover all variants
+Return values from match arms
+"""
+
+[[exercises]]
+name = "enums3"
+path = "exercises/enums/enums3.move"
+mode = "test"
+hint = """
+Enum with data: public enum Result<T, E> { Ok(T), Err(E) }
+Create variant: Result::Ok(value)
+Match with destructure: match (result) { Result::Ok(value) => value, Result::Err(e) => abort e }
+"""
+
+[[exercises]]
+name = "enums4"
+path = "exercises/enums/enums4.move"
+mode = "test"
+hint = """
+Match nested data: PaymentMethod::CreditCard(num, name) => ...
+Extract data: match (status) { OrderStatus::Shipped(tracking) => tracking, _ => vector::empty() }
+Handle multiple variants: match (status) { OrderStatus::Pending => true, OrderStatus::Processing => true, _ => false }
+"""
+
+[[exercises]]
 name = "objects1"
 path = "exercises/objects/objects1.move"
 mode = "test"
@@ -258,17 +298,6 @@ Emit events: event::emit(TransferEvent { from, to, amount })
 Use object::uid_to_inner(&id) to get ID for events
 """
 
-[[exercises]]
-name = "generics1"
-path = "exercises/generics/generics1.move"
-mode = "test"
-hint = """
-Pair: struct Pair<T, U> has drop { first: T, second: U }
-Result: struct Result<T, E> has drop { ok: Option<T>, err: Option<E> }
-swap_pair: let Pair { first, second } = pair; Pair { first: second, second: first }
-ok: Result { ok: option::some(value), err: option::none() }
-is_ok: option::is_some(&result.ok)
-"""
 
 [[exercises]]
 name = "strings1"
@@ -294,6 +323,148 @@ Starts with: Check length first, then compare substring(s, 0, prefix_len) == pre
 Ends with: substring(s, s_len - suffix_len, s_len) == suffix
 Count char: let bytes = string::bytes(&s); loop through vector, count matches
 Uppercase: Loop through bytes, if byte >= 97 && byte <= 122, subtract 32
+"""
+
+[[exercises]]
+name = "storage1"
+path = "exercises/storage/storage1.move"
+mode = "test"
+hint = """
+Store objects: Objects with 'store' ability can be stored in vectors inside other objects
+Add to vector: vector::push_back(&mut parent.children, child)
+Count: vector::length(&parent.children)
+"""
+
+[[exercises]]
+name = "storage2"
+path = "exercises/storage/storage2.move"
+mode = "test"
+hint = """
+Remove from vector: vector::remove(&mut container.items, index) returns the item
+Add to vector: vector::push_back(&mut container.items, item)
+Count: vector::length(&container.items)
+"""
+
+[[exercises]]
+name = "storage3"
+path = "exercises/storage/storage3.move"
+mode = "test"
+hint = """
+Key-value storage: Use parallel vectors for keys and values
+Add: vector::push_back for both keys and values vectors
+Count: vector::length (should be same for both vectors)
+"""
+
+[[exercises]]
+name = "ownership1"
+path = "exercises/ownership/ownership1.move"
+mode = "test"
+hint = """
+Ownership is transferred when passing values
+Destructure: let Box { value } = box;
+Update mutable: box.value = new_value
+"""
+
+[[exercises]]
+name = "ownership2"
+path = "exercises/ownership/ownership2.move"
+mode = "test"
+hint = """
+Use & for read-only: fun read(counter: &Counter)
+Use &mut for modification: fun increment(counter: &mut Counter)
+References don't transfer ownership
+"""
+
+[[exercises]]
+name = "ownership3"
+path = "exercises/ownership/ownership3.move"
+mode = "test"
+hint = """
+Copy ability: struct Point has copy, drop { ... } can be copied
+Without copy: values are moved (ownership transferred)
+Copy allows: (point, point) - same value used twice
+"""
+
+[[exercises]]
+name = "ownership4"
+path = "exercises/ownership/ownership4.move"
+mode = "test"
+hint = """
+Nested structs: account.wallet.balance
+Extract from nested: let Account { wallet, transactions: _ } = account; wallet
+Modify through reference: account.wallet.balance = new_value
+"""
+
+[[exercises]]
+name = "uid_id1"
+path = "exercises/uid_id/uid_id1.move"
+mode = "test"
+hint = """
+Get ID from object: object::id(&obj)
+Convert UID to ID: object::uid_to_inner(&uid)
+Compare IDs: id1 == id2
+"""
+
+[[exercises]]
+name = "uid_id2"
+path = "exercises/uid_id/uid_id2.move"
+mode = "test"
+hint = """
+Store IDs: vector::push_back(&mut ids, object::id(&token))
+Check ID: Loop through vector and compare IDs
+Count: vector::length(&ids)
+"""
+
+[[exercises]]
+name = "uid_id3"
+path = "exercises/uid_id/uid_id3.move"
+mode = "test"
+hint = """
+Get ID: object::id(&asset) or object::uid_to_inner(&asset.id)
+Use in events: event::emit(Event { asset_id: object::id(&asset), ... })
+ID is copyable and can be stored in events
+"""
+
+[[exercises]]
+name = "receiving1"
+path = "exercises/receiving/receiving1.move"
+mode = "test"
+hint = """
+Entry function: public entry fun receive(obj: ObjectType, ctx: &mut TxContext)
+Transfer: transfer::transfer(obj, recipient)
+Destroy: Let object go out of scope or destructure it
+"""
+
+[[exercises]]
+name = "receiving2"
+path = "exercises/receiving/receiving2.move"
+mode = "test"
+hint = """
+Multiple objects: public entry fun func(obj1: Type1, obj2: Type2, ctx: &mut TxContext)
+Transfer multiple: transfer::transfer for each object
+Combine values: Extract values, create new object, transfer it
+"""
+
+[[exercises]]
+name = "receiving3"
+path = "exercises/receiving/receiving3.move"
+mode = "test"
+hint = """
+Mutable shared objects: public entry fun func(obj: &mut SharedObject)
+Modify: obj.field = new_value
+Combine operations: Modify object, then transfer or destroy other objects
+"""
+
+[[exercises]]
+name = "generics1"
+path = "exercises/generics/generics1.move"
+mode = "test"
+hint = """
+Pair: struct Pair<T, U> has drop { first: T, second: U }
+Result: struct Result<T, E> has drop { ok: Option<T>, err: Option<E> }
+swap_pair: let Pair { first, second } = pair; Pair { first: second, second: first }
+ok: Result { ok: option::some(value), err: option::none() }
+is_ok: option::is_some(&result.ok)
 """
 
 [[exercises]]
@@ -323,6 +494,7 @@ split_coin: assert!(amount <= coin.value); let Coin { value } = coin; (Coin { va
 Container: struct Container<T: drop> has drop { inner: Option<T> }
 create_with_value: Container { inner: option::some(value) }
 """
+
 
 # Advanced Exercises - Coming Soon
 [[exercises]]
