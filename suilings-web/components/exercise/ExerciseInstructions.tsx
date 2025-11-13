@@ -25,14 +25,14 @@ export function ExerciseInstructions() {
   }
 
   return (
-    <div className="h-full flex flex-col overflow-hidden">
+    <div className="h-full flex flex-col overflow-hidden bg-background">
       <ScrollArea className="flex-1 overflow-y-auto">
-        <div className="p-4 space-y-4 pb-8">
+        <div className="p-6 space-y-4 pb-8">
           {/* Exercise Title */}
           <div className="space-y-2">
             <h2 className="text-2xl font-bold flex items-center gap-2">
-              <Info className="h-6 w-6 text-primary" />
-              {currentExercise.name}
+              <Info className="h-6 w-6 text-primary shrink-0" />
+              <span>{currentExercise.name}</span>
             </h2>
           </div>
 

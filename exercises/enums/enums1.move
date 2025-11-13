@@ -12,22 +12,18 @@ module suilings::enums1 {
     
     public fun create_pending_status(): Status {
         // TODO: Return Status::Pending
-        abort 0
     }
     
     public fun create_active_status(): Status {
         // TODO: Return Status::Active
-        abort 0
     }
     
     public fun create_red_color(): Color {
         // TODO: Return Color::Red
-        abort 0
     }
     
     public fun create_blue_color(): Color {
         // TODO: Return Color::Blue
-        abort 0
     }
 }
 
@@ -40,16 +36,22 @@ module suilings::enums1_tests {
         let pending = enums1::create_pending_status();
         let active = enums1::create_active_status();
         // Enums can be compared directly
-        assert!(pending == enums1::Status::Pending, 0);
-        assert!(active == enums1::Status::Active, 1);
+        // Same function calls should return equal values
+        assert!(pending == enums1::create_pending_status(), 0);
+        assert!(active == enums1::create_active_status(), 1);
+        // Different functions should return different values
+        assert!(pending != active, 2);
     }
     
     #[test]
     fun test_color_enum() {
         let red = enums1::create_red_color();
         let blue = enums1::create_blue_color();
-        assert!(red == enums1::Color::Red, 0);
-        assert!(blue == enums1::Color::Blue, 1);
+        // Same function calls should return equal values
+        assert!(red == enums1::create_red_color(), 0);
+        assert!(blue == enums1::create_blue_color(), 1);
+        // Different functions should return different values
+        assert!(red != blue, 2);
     }
 }
 

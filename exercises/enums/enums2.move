@@ -21,48 +21,43 @@ module suilings::enums2 {
     }
     
     public fun get_direction_name(direction: Direction): vector<u8> {
-        // TODO: Use match to return the name of the direction
-        // North => b"North", South => b"South", etc.
-        b""
+        /// Returns the string name of the direction as bytes
+        // TODO: Use a match expression to return the correct name
     }
     
+   
     public fun get_priority_value(priority: Priority): u8 {
-        // TODO: Use match to return a numeric value
-        // Low => 1, Medium => 2, High => 3
-        0
+         /// Returns a numeric value for priority: Low=1, Medium=2, High=3
+         /// TODO: Use a match expression to return the correct value
+        
     }
-    
-    public fun is_opposite(dir1: Direction, dir2: Direction): bool {
-        // TODO: Use match to check if two directions are opposite
-        // North <-> South, East <-> West
-        false
-    }
-}
 
-#[test_only]
-module suilings::enums2_tests {
-    use suilings::enums2;
+    public fun is_opposite(dir1: Direction, dir2: Direction): bool {
+        /// Checks if two directions are opposites
+        // TODO: Use match expressions to determine if dir1 and dir2 are opposites
+    }
     
     #[test]
     fun test_direction_name() {
-        assert!(enums2::get_direction_name(enums2::Direction::North) == b"North", 0);
-        assert!(enums2::get_direction_name(enums2::Direction::South) == b"South", 1);
-        assert!(enums2::get_direction_name(enums2::Direction::East) == b"East", 2);
-        assert!(enums2::get_direction_name(enums2::Direction::West) == b"West", 3);
+        assert!(get_direction_name(Direction::North) == b"North", 0);
+        assert!(get_direction_name(Direction::South) == b"South", 1);
+        assert!(get_direction_name(Direction::East)  == b"East",  2);
+        assert!(get_direction_name(Direction::West)  == b"West",  3);
     }
-    
+
     #[test]
     fun test_priority_value() {
-        assert!(enums2::get_priority_value(enums2::Priority::Low) == 1, 0);
-        assert!(enums2::get_priority_value(enums2::Priority::Medium) == 2, 1);
-        assert!(enums2::get_priority_value(enums2::Priority::High) == 3, 2);
+        assert!(get_priority_value(Priority::Low)    == 1, 0);
+        assert!(get_priority_value(Priority::Medium) == 2, 1);
+        assert!(get_priority_value(Priority::High)   == 3, 2);
     }
     
     #[test]
     fun test_is_opposite() {
-        assert!(enums2::is_opposite(enums2::Direction::North, enums2::Direction::South) == true, 0);
-        assert!(enums2::is_opposite(enums2::Direction::East, enums2::Direction::West) == true, 1);
-        assert!(enums2::is_opposite(enums2::Direction::North, enums2::Direction::East) == false, 2);
+        assert!(is_opposite(Direction::North, Direction::South) == true, 0);
+        assert!(is_opposite(Direction::East,  Direction::West)  == true, 1);
+        assert!(is_opposite(Direction::North, Direction::East)  == false, 2);
+        assert!(is_opposite(Direction::West,  Direction::East)  == true, 3);
     }
 }
 

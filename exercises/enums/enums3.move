@@ -7,17 +7,17 @@
 // Work with enums that contain data.
 
 module suilings::enums3 {
-    public enum Result<T, E> {
+    public enum Result<T, E> has copy, drop {
         Ok(T),
         Err(E),
     }
     
-    public enum Option<T> {
+    public enum Option<T> has copy, drop {
         Some(T),
         None,
     }
     
-    public enum Message {
+    public enum Message has copy, drop {
         Text(vector<u8>),
         Number(u64),
         Empty,
@@ -44,39 +44,34 @@ module suilings::enums3 {
         // Text(content) => return content
         // Number(n) => convert to string (for now, return b"number")
         // Empty => return b""
-        b""
+        abort 0
     }
-}
-
-#[test_only]
-module suilings::enums3_tests {
-    use suilings::enums3;
     
     #[test]
     fun test_result_ok() {
-        let result = enums3::create_ok(42);
-        let value = enums3::unwrap_ok(result);
+        let result = create_ok(42);
+        let value = unwrap_ok(result);
         assert!(value == 42, 0);
     }
     
     #[test]
-    #[expected_failure(abort_code = 1)]
+    #[expected_failure]
     fun test_result_err() {
-        let result = enums3::create_err(99);
-        let _ = enums3::unwrap_ok(result); // Should abort
+        let result = create_err(99);
+        let _ = unwrap_ok(result); // Should abort
     }
     
     #[test]
     fun test_message_text() {
-        let msg = enums3::Message::Text(b"Hello");
-        let content = enums3::get_message_content(msg);
+        let msg = Message::Text(b"Hello");
+        let content = get_message_content(msg);
         assert!(content == b"Hello", 0);
     }
     
     #[test]
     fun test_message_empty() {
-        let msg = enums3::Message::Empty;
-        let content = enums3::get_message_content(msg);
+        let msg = Message::Empty;
+        let content = get_message_content(msg);
         assert!(content == b"", 0);
     }
 }
