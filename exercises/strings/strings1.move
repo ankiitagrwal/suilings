@@ -13,6 +13,7 @@
 
 module suilings::strings1 {
     use std::string::{Self, String};
+    use std::vector;
     
     public fun create_greeting(name: String): String {
         // TODO: Create a greeting string "Hello, {name}!"

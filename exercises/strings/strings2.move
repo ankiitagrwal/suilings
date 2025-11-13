@@ -10,6 +10,8 @@
 
 module suilings::strings2 {
     use std::string::{Self, String};
+    use std::option;
+    use std::vector;
     
     public fun substring(s: String, start: u64, end: u64): String {
         // TODO: Extract a substring from start to end (exclusive)
@@ -20,7 +22,7 @@ module suilings::strings2 {
     
     public fun contains(haystack: String, needle: String): bool {
         // TODO: Check if haystack contains needle
-        // Hint: Use string::index_of() which returns an Option
+        // Hint: Use string::index_of() which returns u64
         // Return true if found, false otherwise
         false
     }
@@ -38,7 +40,7 @@ module suilings::strings2 {
     
     public fun count_char(s: String, ch: u8): u64 {
         // TODO: Count occurrences of a character (byte) in string
-        // Hint: Use string::bytes() to get vector<u8>, then iterate
+        // Hint: Use string::as_bytes() to get &vector<u8>, then iterate
         // Example: count_char(utf8(b"hello"), 'l') = 2
         0
     }
