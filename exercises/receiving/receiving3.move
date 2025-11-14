@@ -36,26 +36,18 @@ module suilings::receiving3 {
     public entry fun increment_counter(counter: &mut Counter) {
         // TODO: Increment the counter's value
         // Entry functions can take mutable references to shared objects
-        counter.value = counter.value + 1;
+
     }
     
     public entry fun add_to_counter(counter: &mut Counter, coin: Coin) {
         // TODO: Add coin's value to counter, then destroy the coin
-        counter.value = counter.value + coin.value;
-        let Coin { id: _, value: _ } = coin;
+        
     }
     
     public entry fun transfer_and_update(counter: &mut Counter, coin: Coin, recipient: address, ctx: &mut TxContext) {
         // TODO: Add coin value to counter, then transfer a new coin to recipient
         // Create new coin with same value and transfer it
-        let coin_value = coin.value;
-        counter.value = counter.value + coin_value;
-        let Coin { id: _, value: _ } = coin;
-        let new_coin = Coin {
-            id: object::new(ctx),
-            value: coin_value,
-        };
-        transfer::transfer(new_coin, recipient);
+        
     }
     
     public fun get_counter_value(counter: &Counter): u64 {

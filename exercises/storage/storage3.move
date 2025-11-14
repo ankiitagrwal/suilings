@@ -38,22 +38,18 @@ module suilings::storage3 {
     
     public fun add_field(store: &mut DataStore, key: vector<u8>, value: DataValue) {
         // TODO: Add key and value to respective vectors
-        // Hint: vector::push_back for both keys and values
-        vector::push_back(&mut store.keys, key);
-        vector::push_back(&mut store.values, value);
     }
     
     public fun get_field_count(store: &DataStore): u64 {
         // TODO: Return the number of fields (should be same for keys and values)
-        vector::length(&store.keys)
     }
     
     public fun get_value(data: &DataValue): u64 {
-        data.value
+        // TODO: Return the value from DataValue
     }
     
-    public fun get_label(data: &DataValue): String {
-        data.label
+    public fun get_label(data: &DataValue): vector<u8> {
+       // TODO: Return the label from DataValue
     }
 }
 

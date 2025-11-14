@@ -37,22 +37,12 @@ module suilings::receiving2 {
     
     public entry fun swap_assets(coin: Coin, token: Token, recipient: address) {
         // TODO: Transfer both coin and token to recipient
-        // Hint: transfer::transfer for each object
-        transfer::transfer(coin, recipient);
-        transfer::transfer(token, recipient);
+        
     }
     
     public entry fun combine_assets(coin1: Coin, coin2: Coin, ctx: &mut TxContext) {
         // TODO: Create a new coin with the sum of both values
-        // Then transfer it to the sender
-        let total_value = coin1.value + coin2.value;
-        let Coin { id: _, value: _ } = coin1;
-        let Coin { id: _, value: _ } = coin2;
-        let new_coin = Coin {
-            id: object::new(ctx),
-            value: total_value,
-        };
-        transfer::transfer(new_coin, tx_context::sender(ctx));
+       
     }
     
     public fun get_coin_value(coin: &Coin): u64 {

@@ -18,26 +18,23 @@ module suilings::ownership2 {
     
     public fun read_value(counter: &Counter): u64 {
         // TODO: Return the counter's value using a reference
-        counter.value
+       
     }
     
     public fun increment(counter: &mut Counter) {
         // TODO: Increment the counter's value by 1
         // Use mutable reference to modify
-        counter.value = counter.value + 1;
     }
     
     public fun add_to_counter(counter: &mut Counter, amount: u64) {
         // TODO: Add amount to the counter's value
-        counter.value = counter.value + amount;
+       
     }
     
     public fun get_and_increment(counter: &mut Counter): u64 {
         // TODO: Get the current value, then increment
         // Return the old value
-        let old_value = counter.value;
-        counter.value = counter.value + 1;
-        old_value
+       
     }
 }
 

@@ -14,7 +14,7 @@ module suilings::storage2 {
         items: vector<Item>,
     }
     
-    public struct Item has store {
+    public struct Item has store, drop {
         name: vector<u8>,
         quantity: u64,
     }
@@ -36,26 +36,22 @@ module suilings::storage2 {
     
     public fun add_item(container: &mut Container, item: Item) {
         // TODO: Add item to container's items vector
-        vector::push_back(&mut container.items, item);
     }
     
     public fun remove_item(container: &mut Container, index: u64): Item {
         // TODO: Remove item from container at given index
-        // Hint: vector::remove(&mut container.items, index)
-        vector::remove(&mut container.items, index)
     }
     
     public fun get_item_count(container: &Container): u64 {
         // TODO: Return the number of items
-        vector::length(&container.items)
     }
     
     public fun get_item_quantity(item: &Item): u64 {
-        item.quantity
+        // TODO: Return the quantity of the item
     }
     
     public fun get_item_name(item: &Item): vector<u8> {
-        item.name
+        // TODO: Return the name of the item
     }
 }
 

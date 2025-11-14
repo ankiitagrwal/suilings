@@ -29,24 +29,23 @@ module suilings::ownership4 {
     
     public fun get_balance(account: &Account): u64 {
         // TODO: Return the wallet's balance using a reference
-        account.wallet.balance
+        
     }
     
     public fun deposit(account: &mut Account, amount: u64) {
         // TODO: Add amount to wallet balance
-        account.wallet.balance = account.wallet.balance + amount;
+       
     }
     
     public fun add_transaction(account: &mut Account, amount: u64) {
         // TODO: Add transaction amount to transactions vector
-        vector::push_back(&mut account.transactions, amount);
+        
     }
     
     public fun extract_wallet(account: Account): Wallet {
         // TODO: Extract and return the wallet from account
         // This moves the wallet out of the account
-        let Account { wallet, transactions: _ } = account;
-        wallet
+       
     }
 }
 

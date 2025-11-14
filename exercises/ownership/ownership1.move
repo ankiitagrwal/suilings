@@ -12,25 +12,22 @@ module suilings::ownership1 {
     
     public fun create_box(value: u64): Box {
         // TODO: Create and return a Box
-        Box { value }
+        
     }
     
     public fun get_value(box: Box): u64 {
         // TODO: Extract and return the value from Box
-        // Hint: Destructure the struct
-        let Box { value } = box;
-        value
+       
     }
     
     public fun transfer_box(box: Box): Box {
         // TODO: Simply return the box (ownership is transferred)
-        box
+        
     }
     
     public fun update_value(mut box: Box, new_value: u64): Box {
         // TODO: Update the box's value and return it
-        box.value = new_value;
-        box
+       
     }
 }
 

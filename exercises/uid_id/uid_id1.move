@@ -27,22 +27,20 @@ module suilings::uid_id1 {
     
     public fun get_token_id(token: &Token): ID {
         // TODO: Convert the token's UID to an ID
-        // Hint: object::id(token) or object::uid_to_inner(&token.id)
-        object::id(token)
+       
     }
     
     public fun get_token_symbol(token: &Token): vector<u8> {
-        token.symbol
+        
     }
     
     public fun get_token_supply(token: &Token): u64 {
-        token.supply
+       
     }
     
     public fun compare_ids(id1: ID, id2: ID): bool {
         // TODO: Compare two IDs for equality
-        // Hint: id1 == id2
-        id1 == id2
+       
     }
 }
 

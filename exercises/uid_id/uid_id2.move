@@ -39,27 +39,16 @@ module suilings::uid_id2 {
     
     public fun add_token_id(wallet: &mut Wallet, token: &Token) {
         // TODO: Add the token's ID to the wallet's token_ids vector
-        // Hint: Get token ID with object::id(token), then vector::push_back
-        let token_id = object::id(token);
-        vector::push_back(&mut wallet.token_ids, token_id);
+        
     }
     
     public fun get_token_count(wallet: &Wallet): u64 {
         // TODO: Return the number of token IDs in the wallet
-        vector::length(&wallet.token_ids)
+        
     }
     
     public fun has_token_id(wallet: &Wallet, token_id: ID): bool {
         // TODO: Check if the token_id exists in wallet's token_ids
-        // Hint: Use vector::contains or loop through vector
-        let len = vector::length(&wallet.token_ids);
-        let i = 0;
-        while (i < len) {
-            if (*vector::borrow(&wallet.token_ids, i) == token_id) {
-                return true
-            };
-            i = i + 1;
-        };
         false
     }
     

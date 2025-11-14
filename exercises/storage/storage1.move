@@ -39,21 +39,20 @@ module suilings::storage1 {
     
     public fun add_child(parent: &mut Parent, child: Child) {
         // TODO: Add child to parent's children vector
-        // Hint: vector::push_back(&mut parent.children, child)
-        vector::push_back(&mut parent.children, child);
+        abort 0; // Remove this line after implementing
     }
     
     public fun get_child_count(parent: &Parent): u64 {
         // TODO: Return the number of children
-        vector::length(&parent.children)
+        0
     }
     
     public fun get_parent_name(parent: &Parent): vector<u8> {
-        parent.name
+        // TODO: Return the name of the parent
     }
     
     public fun get_child_value(child: &Child): u64 {
-        child.value
+        // TODO: Return the value of the child
     }
 }
 

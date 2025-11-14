@@ -26,14 +26,13 @@ module suilings::receiving1 {
     
     public entry fun receive_coin(coin: Coin, recipient: address) {
         // TODO: Transfer the coin to the recipient
-        // Hint: transfer::transfer(coin, recipient)
-        transfer::transfer(coin, recipient);
     }
     
     public entry fun burn_coin(coin: Coin) {
         // TODO: Destroy the coin (it will be dropped at end of function)
-        // Just let it go out of scope, or explicitly drop if needed
-        let Coin { id: _, value: _ } = coin;
+        // Note: UID must be explicitly deleted, it doesn't have 'drop'
+       // Hint: object::delete(coinId);
+       
     }
     
     public fun get_coin_value(coin: &Coin): u64 {
