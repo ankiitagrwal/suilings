@@ -2,9 +2,32 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
-import { BookOpen, Info } from "lucide-react";
+import { BookOpen, Info, ExternalLink } from "lucide-react";
+
+// Helper function to convert URLs in text to clickable links
+function renderTextWithLinks(text: string) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  
+  return parts.map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold inline-flex items-center gap-1"
+        >
+          {part}
+          <ExternalLink className="h-3 w-3 inline" />
+        </a>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
 
 export function ExerciseInstructions() {
   const { exercises, currentExerciseIndex } = useExerciseStore();
@@ -32,8 +55,13 @@ export function ExerciseInstructions() {
           <div className="space-y-2">
             <h2 className="text-2xl font-bold flex items-center gap-2">
               <Info className="h-6 w-6 text-primary shrink-0" />
-              <span>{currentExercise.name}</span>
+              <span>{currentExercise.displayName || currentExercise.name}</span>
             </h2>
+            {currentExercise.displayName && (
+              <p className="text-xs text-muted-foreground ml-8">
+                ({currentExercise.name})
+              </p>
+            )}
           </div>
 
           {/* Exercise Description */}
@@ -48,7 +76,7 @@ export function ExerciseInstructions() {
               <CardContent>
                 <div className="prose prose-sm dark:prose-invert max-w-none">
                   <p className="text-base leading-relaxed whitespace-pre-wrap font-medium text-foreground">
-                    {currentExercise.description}
+                    {renderTextWithLinks(currentExercise.description)}
                   </p>
                 </div>
               </CardContent>
@@ -73,4 +101,3 @@ export function ExerciseInstructions() {
     </div>
   );
 }
-

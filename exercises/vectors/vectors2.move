@@ -1,93 +1,87 @@
-// More complex vector manipulations and algorithms.
+// Exercise: Advanced Vector Operations
 //
-// Additional operations:
-// - vector::contains(&v, &item) - check if item exists
-// - vector::index_of(&v, &item) - find position
-// - vector::remove(&mut v, index) - remove at index
-// - vector::swap(&mut v, i, j) - swap elements
+// Practice complex vector manipulations and algorithms.
 //
-// Your task:
-// Implement advanced vector algorithms.
+// Stuck? Check out: https://move-book.com/move-basics/vector.html
 
-module suilings::vectors2 {
-    use std::vector;
-    
-    public fun remove_duplicates(numbers: vector<u64>): vector<u64> {
-        // TODO: Remove duplicate elements, keeping first occurrence
-        // Example: [1, 2, 2, 3, 1, 4] -> [1, 2, 3, 4]
-        vector::empty()
-    }
-    
-    public fun find_max(numbers: vector<u64>): u64 {
-        // TODO: Find the maximum value in the vector
-        // You can assume the vector is not empty
-        0
-    }
-    
-    public fun merge_sorted(a: vector<u64>, b: vector<u64>): vector<u64> {
-        // TODO: Merge two sorted vectors into one sorted vector
-        // Example: [1, 3, 5] + [2, 4, 6] -> [1, 2, 3, 4, 5, 6]
-        vector::empty()
-    }
-    
-    public fun chunk_vector(numbers: vector<u64>, chunk_size: u64): vector<vector<u64>> {
-        // TODO: Split vector into chunks of given size
-        // Example: [1,2,3,4,5,6,7], size 3 -> [[1,2,3], [4,5,6], [7]]
-        vector::empty()
-    }
+module suilings::vectors2;
+
+/// Removes duplicate elements, keeping first occurrence
+public fun remove_duplicates(numbers: vector<u64>): vector<u64> {
+    // TODO: Return vector with duplicates removed
+    // Example: [1, 2, 2, 3, 1, 4] -> [1, 2, 3, 4]
+    vector[]
+}
+
+/// Finds the maximum value in the vector
+public fun find_max(numbers: vector<u64>): u64 {
+    // TODO: Return largest element (assume non-empty)
+    0
+}
+
+/// Merges two sorted vectors into one sorted vector
+public fun merge_sorted(a: vector<u64>, b: vector<u64>): vector<u64> {
+    // TODO: Merge maintaining sorted order
+    // Example: [1, 3, 5] + [2, 4, 6] -> [1, 2, 3, 4, 5, 6]
+    vector[]
+}
+
+/// Splits vector into chunks of given size
+public fun chunk_vector(numbers: vector<u64>, chunk_size: u64): vector<vector<u64>> {
+    // TODO: Create vector of vectors with specified chunk size
+    // Example: [1,2,3,4,5,6,7], size 3 -> [[1,2,3], [4,5,6], [7]]
+    vector[]
 }
 
 #[test_only]
-module suilings::vectors2_tests {
-    use suilings::vectors2;
-    use std::vector;
+module suilings::vectors2_tests;
+
+use suilings::vectors2;
+
+#[test]
+fun remove_duplicates_keeps_first_occurrence() {
+    let nums = vector[1, 2, 2, 3, 1, 4, 3];
+    let unique = vectors2::remove_duplicates(nums);
+    assert!(unique.length() == 4);
+    assert!(unique[0] == 1);
+    assert!(unique[1] == 2);
+    assert!(unique[2] == 3);
+    assert!(unique[3] == 4);
+}
+
+#[test]
+fun find_max_returns_largest() {
+    let nums = vector[3, 7, 2, 9, 1, 5];
+    assert!(vectors2::find_max(nums) == 9);
     
-    #[test]
-    fun test_remove_duplicates() {
-        let nums = vector[1, 2, 2, 3, 1, 4, 3];
-        let unique = vectors2::remove_duplicates(nums);
-        assert!(vector::length(&unique) == 4, 0);
-        assert!(*vector::borrow(&unique, 0) == 1, 1);
-        assert!(*vector::borrow(&unique, 1) == 2, 2);
-        assert!(*vector::borrow(&unique, 2) == 3, 3);
-        assert!(*vector::borrow(&unique, 3) == 4, 4);
-    }
+    let nums2 = vector[42];
+    assert!(vectors2::find_max(nums2) == 42);
+}
+
+#[test]
+fun merge_sorted_combines_in_order() {
+    let a = vector[1, 3, 5, 7];
+    let b = vector[2, 4, 6, 8];
+    let merged = vectors2::merge_sorted(a, b);
     
-    #[test]
-    fun test_find_max() {
-        let nums = vector[3, 7, 2, 9, 1, 5];
-        assert!(vectors2::find_max(nums) == 9, 0);
-        
-        let nums2 = vector[42];
-        assert!(vectors2::find_max(nums2) == 42, 1);
-    }
-    
-    #[test]
-    fun test_merge_sorted() {
-        let a = vector[1, 3, 5, 7];
-        let b = vector[2, 4, 6, 8];
-        let merged = vectors2::merge_sorted(a, b);
-        
-        assert!(vector::length(&merged) == 8, 0);
-        let mut i = 0;
-        while (i < 8) {
-            assert!(*vector::borrow(&merged, i) == i + 1, i);
-            i = i + 1;
-        }
-    }
-    
-    #[test]
-    fun test_chunk_vector() {
-        let nums = vector[1, 2, 3, 4, 5, 6, 7];
-        let chunks = vectors2::chunk_vector(nums, 3);
-        
-        assert!(vector::length(&chunks) == 3, 0);
-        let chunk1 = vector::borrow(&chunks, 0);
-        assert!(vector::length(chunk1) == 3, 1);
-        
-        let chunk3 = vector::borrow(&chunks, 2);
-        assert!(vector::length(chunk3) == 1, 2);
-        assert!(*vector::borrow(chunk3, 0) == 7, 3);
+    assert!(merged.length() == 8);
+    let mut i = 0;
+    while (i < 8) {
+        assert!(merged[i] == i + 1);
+        i = i + 1;
     }
 }
 
+#[test]
+fun chunk_vector_splits_correctly() {
+    let nums = vector[1, 2, 3, 4, 5, 6, 7];
+    let chunks = vectors2::chunk_vector(nums, 3);
+    
+    assert!(chunks.length() == 3);
+    let chunk1 = &chunks[0];
+    assert!(chunk1.length() == 3);
+    
+    let chunk3 = &chunks[2];
+    assert!(chunk3.length() == 1);
+    assert!(chunk3[0] == 7);
+}

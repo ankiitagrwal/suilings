@@ -8,7 +8,8 @@ import { Progress } from "@/components/ui/progress";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { calculateProgress } from "@/lib/exerciseLoader";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, Home } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy } from "lucide-react";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -51,12 +52,6 @@ export const Header = memo(function Header({ onRun, onReset, onShowHint }: Heade
             <div className="h-6 w-px bg-border hidden md:block shrink-0" />
             
             <div className="hidden md:flex items-center gap-1 shrink-0">
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
-                <Link href="/">
-                  <Home className="h-3.5 w-3.5" />
-                  Home
-                </Link>
-              </Button>
               <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
                 <Link href="/dashboard">
                   <LayoutDashboard className="h-3.5 w-3.5" />

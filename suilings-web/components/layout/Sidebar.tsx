@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
-import { groupExercisesByCategory, groupExercisesByDifficulty } from "@/lib/exerciseLoader";
+import { groupExercisesByDifficulty } from "@/lib/exerciseLoader";
 import { CheckCircle2, Circle, Zap, ChevronLeft, Lock, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,8 +17,6 @@ interface SidebarProps {
 export function Sidebar({ onToggle }: SidebarProps) {
   const { exercises, currentExerciseIndex, setCurrentExercise } = useExerciseStore();
   const { basic, advanced } = groupExercisesByDifficulty(exercises);
-  const basicGrouped = groupExercisesByCategory(basic);
-  const advancedGrouped = groupExercisesByCategory(advanced);
   
   const [isBasicExpanded, setIsBasicExpanded] = useState(true);
   const [isAdvancedExpanded, setIsAdvancedExpanded] = useState(false);
@@ -35,10 +33,6 @@ export function Sidebar({ onToggle }: SidebarProps) {
       return <CheckCircle2 className="h-4 w-4 text-green-500" />;
     }
     return <Circle className="h-4 w-4 text-muted-foreground" />;
-  };
-
-  const capitalizeFirst = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   return (
@@ -82,38 +76,24 @@ export function Sidebar({ onToggle }: SidebarProps) {
               </span>
             </button>
             
-            {isBasicExpanded && Object.entries(basicGrouped).map(([category, categoryExercises]) => {
-              const completedCount = categoryExercises.filter((ex) => ex.status === "completed").length;
-              const totalCount = categoryExercises.length;
+            {isBasicExpanded && (
+              <div className="space-y-1">
+                {basic.map((exercise) => {
+                  const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
+                  const isActive = exerciseIndex === currentExerciseIndex;
 
-              return (
-                <div key={`basic-${category}`} className="mb-4">
-                  <div className="w-full px-3 py-2 flex items-center justify-between gap-2">
-                    <h3 className="text-xs font-semibold text-foreground uppercase tracking-wide flex-1 truncate">
-                      {capitalizeFirst(category)}
-                    </h3>
-                    <span className="text-xs text-muted-foreground shrink-0">
-                      {completedCount}/{totalCount}
-                    </span>
-                  </div>
-
-                  <div className="space-y-1 mt-1">
-                    {categoryExercises.map((exercise) => {
-                      const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
-                      const isActive = exerciseIndex === currentExerciseIndex;
-
-                      return (
-                        <button
-                          key={exercise.name}
-                          onClick={() => handleExerciseClick(exerciseIndex)}
-                          className={cn(
-                            "w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
-                            "hover:bg-accent hover:text-accent-foreground",
-                            isActive && "bg-accent text-accent-foreground font-medium"
-                          )}
+                  return (
+                    <button
+                      key={exercise.name}
+                      onClick={() => handleExerciseClick(exerciseIndex)}
+                      className={cn(
+                        "w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
+                        "hover:bg-accent hover:text-accent-foreground",
+                        isActive && "bg-accent text-accent-foreground font-medium"
+                      )}
                         >
                           {getExerciseIcon(exercise.status, isActive)}
-                          <span className="flex-1 text-left truncate">{exercise.name}</span>
+                          <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
                           <span
                             className={cn(
                               "text-xs px-1.5 py-0.5 rounded",
@@ -123,12 +103,10 @@ export function Sidebar({ onToggle }: SidebarProps) {
                             {exercise.mode}
                           </span>
                         </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <Separator className="my-4" />
@@ -149,27 +127,21 @@ export function Sidebar({ onToggle }: SidebarProps) {
               <span className="text-xs text-muted-foreground ml-auto shrink-0">{advanced.length}</span>
             </button>
             
-            {isAdvancedExpanded && Object.entries(advancedGrouped).map(([category, categoryExercises]) => (
-              <div key={`advanced-${category}`} className="mb-4">
-                <div className="space-y-1 mt-1">
-                  {categoryExercises.map((exercise) => {
-                    const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
-
-                    return (
-                      <div
-                        key={exercise.name}
-                        className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm opacity-50 cursor-not-allowed bg-muted/30"
-                        title="This exercise is coming soon!"
+            {isAdvancedExpanded && (
+              <div className="space-y-1">
+                {advanced.map((exercise) => (
+                  <div
+                    key={exercise.name}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm opacity-50 cursor-not-allowed bg-muted/30"
+                    title="This exercise is coming soon!"
                       >
                         <Lock className="h-4 w-4 text-muted-foreground" />
-                        <span className="flex-1 text-left truncate">{exercise.name}</span>
+                        <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
                         <Badge variant="outline" className="text-xs">Soon</Badge>
                       </div>
-                    );
-                  })}
-                </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
       </ScrollArea>

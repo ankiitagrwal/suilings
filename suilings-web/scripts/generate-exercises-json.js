@@ -83,6 +83,7 @@ function generateExercisesJson() {
 
       return {
         name: ex.name,
+        displayName: ex.display_name || null, // Add display name for UI
         path: ex.path,
         mode: ex.mode,
         hint: ex.hint,
@@ -90,6 +91,8 @@ function generateExercisesJson() {
         description: description || `Exercise: ${ex.name}`,
         initialCode: cleanCode,
         status: 'pending',
+        moveBookUrl: ex.move_book_url || null, // Add Move Book URL
+        suiDocsUrl: ex.sui_docs_url || null, // Add Sui Docs URL (optional)
       };
     }).filter(ex => ex !== null); // Remove failed exercises
 

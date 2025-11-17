@@ -1,504 +1,641 @@
-[[exercises]]
-name = "intro1"
-path = "exercises/intro/intro1.move"
-mode = "test"
-hint = """
-No hints this time ;)
-"""
+# ====================================
+# 1. YOUR FIRST MOVE
+# ====================================
 
 [[exercises]]
-name = "variables1"
-path = "exercises/variables/variables.move"
-mode = "build"
+name = "intro1"
+display_name = "Hello World"
+path = "exercises/intro/intro1.move"
+mode = "test"
+move_book_url = "https://move-book.com/your-first-move/hello-world.html"
 hint = """
-No hint this time
+Complete the function to make the module compile successfully.
+Stuck? Check out: https://move-book.com/your-first-move/hello-world.html
 """
+
+# ====================================
+# 2. MOVE BASICS - Modules
+# ====================================
 
 [[exercises]]
 name = "module1"
+display_name = "Visibility Modifiers"
 path = "exercises/modules/module1.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/visibility-modifiers.html"
 hint = """
-Add the `public` keyword before `fun`
+Add the `public` keyword before `fun`.
+Stuck? Check out: https://move-book.com/move-basics/visibility-modifiers.html
 """
 
 [[exercises]]
 name = "module2"
+display_name = "Importing Modules"
 path = "exercises/modules/module2.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/importing-modules.html"
 hint = """
+Import and use functions from other modules:
 use suilings::math::add;
-
-let sum = add(x, y);
-add(sum, z)
+Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
 """
 
 [[exercises]]
 name = "module3"
+display_name = "Standard Library"
 path = "exercises/modules/module3.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/importing-modules.html"
 hint = """
-Import vector with: use std::vector;
-Then use vector::empty(), vector::push_back()
+Import and use the standard library vector module.
+Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
 """
+
+# ====================================
+# 3. MOVE BASICS - Primitives
+# ====================================
 
 [[exercises]]
 name = "primitives1"
+display_name = "Primitive Types"
 path = "exercises/primitives/primitives1.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/primitive-types.html"
 hint = """
-u8 holds 0-255, u64 holds much larger numbers.
-For add_numbers, use: a + b
+Implement the functions using appropriate primitive types.
+Stuck? Check out: https://move-book.com/move-basics/primitive-types.html
 """
 
 [[exercises]]
 name = "primitives2"
+display_name = "Type Operations"
 path = "exercises/primitives/primitives2.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/primitive-types.html"
 hint = """
-Use comparison operators: >=, <=, &&
-Example: age >= 18 && is_citizen
+Use comparison and boolean operators.
+Stuck? Check out: https://move-book.com/move-basics/primitive-types.html
 """
+
+# ====================================
+# 4. MOVE BASICS - Expression
+# ====================================
+
+[[exercises]]
+name = "variables1"
+display_name = "Expressions"
+path = "exercises/variables/variables.move"
+mode = "build"
+move_book_url = "https://move-book.com/move-basics/expression.html"
+hint = """
+Fix the syntax error in the addition expression.
+Stuck? Check out: https://move-book.com/move-basics/expression.html
+"""
+
+# ====================================
+# 5. MOVE BASICS - Structs
+# ====================================
 
 [[exercises]]
 name = "structs1"
+display_name = "Struct Basics"
 path = "exercises/structs/structs1.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/struct.html"
 hint = """
-Add 'has drop' after struct name.
-Create instance: Person { name, age }
-Access field: person.age
-"""
-
-[[exercises]]
-name = "structs2"
-path = "exercises/structs/structs2.move"
-mode = "test"
-hint = """
-Abilities are added after struct name: struct Name has copy, drop { ... }
-- drop: can be destroyed
-- copy: can be copied
-- store: can be stored in other structs
+Define structs with abilities and create instances.
+Stuck? Check out: https://move-book.com/move-basics/struct.html
 """
 
 [[exercises]]
 name = "structs3"
+display_name = "Nested Structs"
 path = "exercises/structs/structs3.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/struct.html"
 hint = """
 Nested field access: dept.manager.name
 Access deeply nested: dept.manager.address.city
-Include nested struct in constructor: Employee { name, address, salary }
+Stuck? Check out: https://move-book.com/move-basics/struct.html
 """
 
-[[exercises]]
-name = "structs4"
-path = "exercises/structs/structs4.move"
-mode = "test"
-hint = """
-Use & for read-only: account.balance
-Use &mut for modification: account.balance = new_value
-Access fields through reference: account.field_name
-"""
+# ====================================
+# 6. MOVE BASICS - Abilities
+# ====================================
 
 [[exercises]]
-name = "structs5"
-path = "exercises/structs/structs5.move"
+name = "structs2"
+display_name = "Abilities"
+path = "exercises/structs/structs2.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/abilities-introduction.html"
 hint = """
-Generic struct: struct Box<T: drop> has drop { value: T }
-Destructure: let Box { value } = box;
-Generic function: fun create<T: drop>(val: T): Box<T>
+Practice using struct abilities: copy, drop, store, key.
+Stuck? Check out: https://move-book.com/move-basics/abilities-introduction.html
 """
+
+# ====================================
+# 7. MOVE BASICS - Functions
+# ====================================
 
 [[exercises]]
 name = "functions1"
+display_name = "Function Basics"
 path = "exercises/functions/functions1.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/function.html"
 hint = """
 multiply: return a * b
 square: return num * num
 max: use if (a > b) a else b
+Stuck? Check out: https://move-book.com/move-basics/function.html
 """
 
 [[exercises]]
 name = "functions2"
+display_name = "Multiple Returns"
 path = "exercises/functions/functions2.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/function.html"
 hint = """
 Multiple returns: fun name(): (Type1, Type2) { (val1, val2) }
 Destructure: let (a, b) = function_call();
-Return tuple: (result1, result2)
+Stuck? Check out: https://move-book.com/move-basics/function.html
+"""
+
+# ====================================
+# 8. MOVE BASICS - References
+# ====================================
+
+[[exercises]]
+name = "structs4"
+display_name = "Struct References"
+path = "exercises/structs/structs4.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/references.html"
+hint = """
+Use & for read-only: account.balance
+Use &mut for modification: account.balance = new_value
+Stuck? Check out: https://move-book.com/move-basics/references.html
 """
 
 [[exercises]]
 name = "functions3"
+display_name = "Mutable References"
 path = "exercises/functions/functions3.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/references.html"
 hint = """
 Modify through &mut: *value = new_value
 Increment: *value = *value + 1
-Swap needs temp: let temp = *a; *a = *b; *b = temp;
-"""
-
-[[exercises]]
-name = "functions4"
-path = "exercises/functions/functions4.move"
-mode = "test"
-hint = """
-Generic function: fun name<T: drop>(value: T): T
-Type constraints: <T: copy + drop>
-Identity: just return value unchanged
-"""
-
-[[exercises]]
-name = "functions5"
-path = "exercises/functions/functions5.move"
-mode = "test"
-hint = """
-Destructure generic struct: let Container { value, count: _ } = container;
-Loop with vector: while (i < vector::length(&v)) { ... }
-Access vector element: *vector::borrow(&vec, i)
-"""
-
-[[exercises]]
-name = "control_flow1"
-path = "exercises/control_flow/control_flow1.move"
-mode = "test"
-hint = """
-abs_diff: if (a > b) { a - b } else { b - a }
-clamp: use nested if expressions
-get_grade: if (score >= 90) b"A" else if (score >= 80) b"B" ...
-"""
-
-[[exercises]]
-name = "control_flow2"
-path = "exercises/control_flow/control_flow2.move"
-mode = "test"
-hint = """
-sum_range: let mut sum = 0; while (i <= end) { sum = sum + i; i = i + 1 }
-count_even: Check if num % 2 == 0
-factorial: let mut result = 1; loop { if (n == 0) break; result = result * n; n = n - 1 }
-"""
-
-[[exercises]]
-name = "vectors1"
-path = "exercises/vectors/vectors1.move"
-mode = "test"
-hint = """
-create_range: Use while loop with vector::push_back
-sum_vector: Use while loop with vector::borrow to access elements
-reverse_vector: Iterate backwards or pop from original and build new
-filter_even: Check num % 2 == 0 before adding to result
-"""
-
-[[exercises]]
-name = "vectors2"
-path = "exercises/vectors/vectors2.move"
-mode = "test"
-hint = """
-remove_duplicates: Use vector::contains to check if already added
-find_max: Track max value while iterating
-merge_sorted: Use two indices, compare elements, add smaller one
-chunk_vector: Use nested loop or calculate positions
-"""
-
-[[exercises]]
-name = "options1"
-path = "exercises/options/options1.move"
-mode = "test"
-hint = """
-divide: if (b != 0) option::some(a / b) else option::none()
-get_or_default: if (option::is_some(&opt)) *option::borrow(&opt) else default
-find_in_vector: Use loop to search, return option::some(index) when found
-max_of_options: Check both with is_some, compare values if both exist
-"""
-
-[[exercises]]
-name = "options2"
-path = "exercises/options/options2.move"
-mode = "test"
-hint = """
-safe_divide: assert!(b != 0, EDIVISION_BY_ZERO);
-get_element: assert!(index < vector::length(vec), EOUT_OF_RANGE);
-calculate_average: assert!(vector::length(&numbers) > 0, EEMPTY_VECTOR);
-withdraw: Use multiple asserts for different conditions
-"""
-
-[[exercises]]
-name = "enums1"
-path = "exercises/enums/enums1.move"
-mode = "test"
-hint = """
-Define enum: public enum Status { Pending, Active, Completed }
-Return variant: Status::Pending
-Compare: status == Status::Pending
-"""
-
-[[exercises]]
-name = "enums2"
-path = "exercises/enums/enums2.move"
-mode = "test"
-hint = """
-Match syntax: match (direction) { Direction::North => b"North", Direction::South => b"South", ... }
-Match must cover all variants
-Return values from match arms
-"""
-
-[[exercises]]
-name = "enums3"
-path = "exercises/enums/enums3.move"
-mode = "test"
-hint = """
-Enum with data: public enum Result<T, E> { Ok(T), Err(E) }
-Create variant: Result::Ok(value)
-Match with destructure: match (result) { Result::Ok(value) => value, Result::Err(e) => abort e }
-"""
-
-[[exercises]]
-name = "enums4"
-path = "exercises/enums/enums4.move"
-mode = "test"
-hint = """
-Match nested data: PaymentMethod::CreditCard(num, name) => ...
-Extract data: match (status) { OrderStatus::Shipped(tracking) => tracking, _ => vector::empty() }
-Handle multiple variants: match (status) { OrderStatus::Pending => true, OrderStatus::Processing => true, _ => false }
-"""
-
-[[exercises]]
-name = "objects1"
-path = "exercises/objects/objects1.move"
-mode = "test"
-hint = """
-Coin struct: struct Coin has key, store { id: UID, value: u64, currency: vector<u8> }
-create_coin: Use object::new(ctx) to create the UID
-Wallet struct: struct Wallet has key { id: UID, owner: address, coins: vector<Coin> }
-"""
-
-[[exercises]]
-name = "objects2"
-path = "exercises/objects/objects2.move"
-mode = "test"
-hint = """
-mint_nft: Create NFT, then use transfer::transfer(nft, sender)
-transfer_nft: Just call transfer::transfer(nft, recipient)
-create_shared_counter: Create Counter, then transfer::share_object(counter)
-increment_counter: counter.value = counter.value + 1
-freeze_card: transfer::freeze_object(card)
-"""
-
-[[exercises]]
-name = "events1"
-path = "exercises/events/events1.move"
-mode = "test"
-hint = """
-Event structs need: has copy, drop abilities
-TransferEvent: struct TransferEvent has copy, drop { from: address, to: address, amount: u64 }
-Emit events: event::emit(TransferEvent { from, to, amount })
-Use object::uid_to_inner(&id) to get ID for events
-"""
-
-
-[[exercises]]
-name = "strings1"
-path = "exercises/strings/strings1.move"
-mode = "test"
-hint = """
-Create string: string::utf8(b"text")
-Greeting: let mut greeting = string::utf8(b"Hello, "); string::append(&mut greeting, name); string::append(&mut greeting, string::utf8(b"!")); greeting
-Length: string::length(&s)
-Empty check: string::is_empty(&s)
-Concatenate: string::append(&mut s1, s2); s1
-Repeat: Use a loop with string::append
-"""
-
-[[exercises]]
-name = "strings2"
-path = "exercises/strings/strings2.move"
-mode = "test"
-hint = """
-Substring: string::sub_string(&s, start, end)
-Contains: option::is_some(&string::index_of(&haystack, &needle))
-Starts with: Check length first, then compare substring(s, 0, prefix_len) == prefix
-Ends with: substring(s, s_len - suffix_len, s_len) == suffix
-Count char: let bytes = string::bytes(&s); loop through vector, count matches
-Uppercase: Loop through bytes, if byte >= 97 && byte <= 122, subtract 32
-"""
-
-[[exercises]]
-name = "storage1"
-path = "exercises/storage/storage1.move"
-mode = "test"
-hint = """
-Store objects: Objects with 'store' ability can be stored in vectors inside other objects
-Add to vector: vector::push_back(&mut parent.children, child)
-Count: vector::length(&parent.children)
-"""
-
-[[exercises]]
-name = "storage2"
-path = "exercises/storage/storage2.move"
-mode = "test"
-hint = """
-Remove from vector: vector::remove(&mut container.items, index) returns the item
-Add to vector: vector::push_back(&mut container.items, item)
-Count: vector::length(&container.items)
-"""
-
-[[exercises]]
-name = "storage3"
-path = "exercises/storage/storage3.move"
-mode = "test"
-hint = """
-Key-value storage: Use parallel vectors for keys and values
-Add: vector::push_back for both keys and values vectors
-Count: vector::length (should be same for both vectors)
-"""
-
-[[exercises]]
-name = "ownership1"
-path = "exercises/ownership/ownership1.move"
-mode = "test"
-hint = """
-Ownership is transferred when passing values
-Destructure: let Box { value } = box;
-Update mutable: box.value = new_value
+Stuck? Check out: https://move-book.com/move-basics/references.html
 """
 
 [[exercises]]
 name = "ownership2"
+display_name = "Borrowing"
 path = "exercises/ownership/ownership2.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/references.html"
 hint = """
-Use & for read-only: fun read(counter: &Counter)
-Use &mut for modification: fun increment(counter: &mut Counter)
-References don't transfer ownership
+Use references to borrow values without taking ownership.
+Stuck? Check out: https://move-book.com/move-basics/references.html
+"""
+
+# ====================================
+# 9. MOVE BASICS - Control Flow
+# ====================================
+
+[[exercises]]
+name = "control_flow1"
+display_name = "If Expressions"
+path = "exercises/control_flow/control_flow1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/control-flow.html"
+hint = """
+abs_diff: if (a > b) { a - b } else { b - a }
+clamp: use nested if expressions
+Stuck? Check out: https://move-book.com/move-basics/control-flow.html
 """
 
 [[exercises]]
-name = "ownership3"
-path = "exercises/ownership/ownership3.move"
+name = "control_flow2"
+display_name = "While Loops"
+path = "exercises/control_flow/control_flow2.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/control-flow.html"
 hint = """
-Copy ability: struct Point has copy, drop { ... } can be copied
-Without copy: values are moved (ownership transferred)
-Copy allows: (point, point) - same value used twice
+sum_range: let mut sum = 0; while (i <= end) { sum = sum + i; i = i + 1 }
+count_even: Check if num % 2 == 0
+Stuck? Check out: https://move-book.com/move-basics/control-flow.html
+"""
+
+# ====================================
+# 10. MOVE BASICS - Vector
+# ====================================
+
+[[exercises]]
+name = "vectors1"
+display_name = "Vector Basics"
+path = "exercises/vectors/vectors1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/vector.html"
+hint = """
+create_range: Use while loop with vector::push_back
+sum_vector: Use while loop with vector::borrow to access elements
+Stuck? Check out: https://move-book.com/move-basics/vector.html
+"""
+
+[[exercises]]
+name = "vectors2"
+display_name = "Vector Operations"
+path = "exercises/vectors/vectors2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/vector.html"
+hint = """
+remove_duplicates: Use vector::contains to check if already added
+find_max: Track max value while iterating
+Stuck? Check out: https://move-book.com/move-basics/vector.html
+"""
+
+# ====================================
+# 11. MOVE BASICS - Option
+# ====================================
+
+[[exercises]]
+name = "options1"
+display_name = "Option Type"
+path = "exercises/options/options1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/option.html"
+hint = """
+divide: if (b != 0) option::some(a / b) else option::none()
+get_or_default: if (option::is_some(&opt)) *option::borrow(&opt) else default
+Stuck? Check out: https://move-book.com/move-basics/option.html
+"""
+
+[[exercises]]
+name = "options2"
+display_name = "Error Handling"
+path = "exercises/options/options2.move"
+mode = "test"
+move_book_url = "https://move-book.com/guides/better-error-handling.html"
+hint = """
+safe_divide: assert!(b != 0, EDIVISION_BY_ZERO);
+get_element: assert!(index < vector::length(vec), EOUT_OF_RANGE);
+Stuck? Check out: https://move-book.com/guides/better-error-handling.html
+"""
+
+# ====================================
+# 12. MOVE BASICS - String
+# ====================================
+
+[[exercises]]
+name = "strings1"
+display_name = "String Basics"
+path = "exercises/strings/strings1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/string.html"
+hint = """
+Create string: string::utf8(b"text")
+Concatenate: string::append(&mut s1, s2); s1
+Stuck? Check out: https://move-book.com/move-basics/string.html
+"""
+
+[[exercises]]
+name = "strings2"
+display_name = "String Operations"
+path = "exercises/strings/strings2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/string.html"
+hint = """
+Substring: string::sub_string(&s, start, end)
+Contains: option::is_some(&string::index_of(&haystack, &needle))
+Stuck? Check out: https://move-book.com/move-basics/string.html
+"""
+
+# ====================================
+# 13. MOVE BASICS - Ownership and Scope
+# ====================================
+
+[[exercises]]
+name = "ownership1"
+display_name = "Ownership Transfer"
+path = "exercises/ownership/ownership1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
+hint = """
+Understand basic ownership transfer in Move. Each value has exactly one owner.
+Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
 """
 
 [[exercises]]
 name = "ownership4"
+display_name = "Complex Ownership"
 path = "exercises/ownership/ownership4.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
 hint = """
-Nested structs: account.wallet.balance
-Extract from nested: let Account { wallet, transactions: _ } = account; wallet
-Modify through reference: account.wallet.balance = new_value
+Handle ownership with complex nested data structures.
+Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
+"""
+
+# ====================================
+# 14. MOVE BASICS - Copy Ability
+# ====================================
+
+[[exercises]]
+name = "ownership3"
+display_name = "Copy Ability"
+path = "exercises/ownership/ownership3.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/copy-ability.html"
+hint = """
+Understand when values are copied vs moved based on abilities.
+Stuck? Check out: https://move-book.com/move-basics/copy-ability.html
+"""
+
+# ====================================
+# 15. MOVE BASICS - Generics
+# ====================================
+
+[[exercises]]
+name = "structs5"
+display_name = "Generic Structs"
+path = "exercises/structs/structs5.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/generics.html"
+hint = """
+Generic struct: struct Box<T: drop> has drop { value: T }
+Destructure: let Box { value } = box;
+Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
-name = "uid_id1"
-path = "exercises/uid_id/uid_id1.move"
+name = "functions4"
+display_name = "Generic Functions"
+path = "exercises/functions/functions4.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
-Get ID from object: object::id(&obj)
-Convert UID to ID: object::uid_to_inner(&uid)
-Compare IDs: id1 == id2
+Generic function: fun name<T: drop>(value: T): T
+Type constraints: <T: copy + drop>
+Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
-name = "uid_id2"
-path = "exercises/uid_id/uid_id2.move"
+name = "functions5"
+display_name = "Generic Containers"
+path = "exercises/functions/functions5.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
-Store IDs: vector::push_back(&mut ids, object::id(&token))
-Check ID: Loop through vector and compare IDs
-Count: vector::length(&ids)
-"""
-
-[[exercises]]
-name = "uid_id3"
-path = "exercises/uid_id/uid_id3.move"
-mode = "test"
-hint = """
-Get ID: object::id(&asset) or object::uid_to_inner(&asset.id)
-Use in events: event::emit(Event { asset_id: object::id(&asset), ... })
-ID is copyable and can be stored in events
-"""
-
-[[exercises]]
-name = "receiving1"
-path = "exercises/receiving/receiving1.move"
-mode = "test"
-hint = """
-Entry function: public entry fun receive(obj: ObjectType, ctx: &mut TxContext)
-Transfer: transfer::transfer(obj, recipient)
-Destroy: Let object go out of scope or destructure it
-"""
-
-[[exercises]]
-name = "receiving2"
-path = "exercises/receiving/receiving2.move"
-mode = "test"
-hint = """
-Multiple objects: public entry fun func(obj1: Type1, obj2: Type2, ctx: &mut TxContext)
-Transfer multiple: transfer::transfer for each object
-Combine values: Extract values, create new object, transfer it
-"""
-
-[[exercises]]
-name = "receiving3"
-path = "exercises/receiving/receiving3.move"
-mode = "test"
-hint = """
-Mutable shared objects: public entry fun func(obj: &mut SharedObject)
-Modify: obj.field = new_value
-Combine operations: Modify object, then transfer or destroy other objects
+Destructure generic struct: let Container { value, count: _ } = container;
+Loop with vector: while (i < vector::length(&v)) { ... }
+Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
 name = "generics1"
+display_name = "Generic Patterns"
 path = "exercises/generics/generics1.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
-Pair: struct Pair<T, U> has drop { first: T, second: U }
-Result: struct Result<T, E> has drop { ok: Option<T>, err: Option<E> }
-swap_pair: let Pair { first, second } = pair; Pair { first: second, second: first }
-ok: Result { ok: option::some(value), err: option::none() }
-is_ok: option::is_some(&result.ok)
+Work with multiple type parameters, constraints, and generic patterns.
+Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
 name = "generics2"
+display_name = "Stack & Queue"
 path = "exercises/generics/generics2.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
-Stack: struct Stack<T: drop> has drop { items: vector<T> }
-Push: vector::push_back(&mut stack.items, item)
-Pop: vector::pop_back(&mut stack.items)
-Peek: vector::borrow(&stack.items, vector::length(&stack.items) - 1)
-Queue: struct Queue<T: drop> has drop { items: vector<T> }
-Enqueue: vector::push_back(&mut queue.items, item)
-Dequeue: vector::remove(&mut queue.items, 0)
+Implement reusable container types using generics (Stack and Queue).
+Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
 name = "generics3"
+display_name = "Phantom Types"
 path = "exercises/generics/generics3.move"
 mode = "test"
+move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
-Box: struct Box<T: store + drop, State> has drop { value: T }
-unlock_box: let Box { value } = box; Box { value }
-Coin: struct Coin<Currency> has drop { value: u64 }
-merge_coins: let Coin { value: v1 } = coin1; let Coin { value: v2 } = coin2; Coin { value: v1 + v2 }
-split_coin: assert!(amount <= coin.value); let Coin { value } = coin; (Coin { value: amount }, Coin { value: value - amount })
-Container: struct Container<T: drop> has drop { inner: Option<T> }
-create_with_value: Container { inner: option::some(value) }
+Implement type-safe wrappers using phantom types for compile-time safety.
+Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
+# ====================================
+# 16. MOVE BASICS - Enum and Match
+# ====================================
 
-# Advanced Exercises - Coming Soon
+[[exercises]]
+name = "enums1"
+display_name = "Enum Basics"
+path = "exercises/enums/enums1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Define enum: public enum Status { Pending, Active, Completed }
+Return variant: Status::Pending
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+[[exercises]]
+name = "enums2"
+display_name = "Match Expressions"
+path = "exercises/enums/enums2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Use match expressions to handle enum variants. Match is exhaustive!
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+[[exercises]]
+name = "enums3"
+display_name = "Enums with Data"
+path = "exercises/enums/enums3.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Work with enums that contain data, like Result<T, E> and Option<T>.
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+[[exercises]]
+name = "enums4"
+display_name = "Complex Enums"
+path = "exercises/enums/enums4.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Implement complex enum operations with nested data structures.
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+# ====================================
+# 17. STORAGE - Store Ability
+# ====================================
+
+[[exercises]]
+name = "objects1"
+display_name = "Store Ability"
+path = "exercises/objects/objects1.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/store-ability.html"
+hint = """
+Create basic Sui objects with UID and proper abilities (key, store).
+Stuck? Check out: https://move-book.com/storage/store-ability.html
+"""
+
+# ====================================
+# 18. STORAGE - Storage Functions
+# ====================================
+
+[[exercises]]
+name = "objects2"
+display_name = "Storage Functions"
+path = "exercises/objects/objects2.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/storage-functions.html"
+hint = """
+Implement object transfers, sharing, and freezing in Sui.
+Stuck? Check out: https://move-book.com/storage/storage-functions.html
+"""
+
+[[exercises]]
+name = "storage1"
+display_name = "Storing Objects"
+path = "exercises/storage/storage1.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/storage-functions.html"
+hint = """
+Learn to store objects inside other objects using the 'store' ability.
+Stuck? Check out: https://move-book.com/storage/storage-functions.html
+"""
+
+[[exercises]]
+name = "storage2"
+display_name = "Storage Operations"
+path = "exercises/storage/storage2.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/storage-functions.html"
+hint = """
+Implement functions to remove children from storage and manage collections.
+Stuck? Check out: https://move-book.com/storage/storage-functions.html
+"""
+
+[[exercises]]
+name = "storage3"
+display_name = "Key-Value Storage"
+path = "exercises/storage/storage3.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/storage-functions.html"
+hint = """
+Work with key-value storage patterns using vectors for flexible data storage.
+Stuck? Check out: https://move-book.com/storage/storage-functions.html
+"""
+
+# ====================================
+# 19. STORAGE - UID and ID
+# ====================================
+
+[[exercises]]
+name = "uid_id1"
+display_name = "UID & ID Basics"
+path = "exercises/uid_id/uid_id1.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/uid-and-id.html"
+hint = """
+Learn to work with UID (Unique Identifier) and ID types in Sui.
+Stuck? Check out: https://move-book.com/storage/uid-and-id.html
+"""
+
+[[exercises]]
+name = "uid_id2"
+display_name = "ID Relationships"
+path = "exercises/uid_id/uid_id2.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/uid-and-id.html"
+hint = """
+Store and retrieve object IDs in relationships between objects.
+Stuck? Check out: https://move-book.com/storage/uid-and-id.html
+"""
+
+[[exercises]]
+name = "uid_id3"
+display_name = "Advanced UID/ID"
+path = "exercises/uid_id/uid_id3.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/uid-and-id.html"
+hint = """
+Use UID and ID in various contexts including events and conversions.
+Stuck? Check out: https://move-book.com/storage/uid-and-id.html
+"""
+
+# ====================================
+# 20. STORAGE - Transfer to Object
+# ====================================
+
+[[exercises]]
+name = "receiving1"
+display_name = "Entry Functions"
+path = "exercises/receiving/receiving1.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/transfer-to-object.html"
+hint = """
+Create entry functions that receive and process objects.
+Stuck? Check out: https://move-book.com/storage/transfer-to-object.html
+"""
+
+[[exercises]]
+name = "receiving2"
+display_name = "Multiple Objects"
+path = "exercises/receiving/receiving2.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/transfer-to-object.html"
+hint = """
+Handle multiple objects in entry functions.
+Stuck? Check out: https://move-book.com/storage/transfer-to-object.html
+"""
+
+[[exercises]]
+name = "receiving3"
+display_name = "Shared Objects"
+path = "exercises/receiving/receiving3.move"
+mode = "test"
+move_book_url = "https://move-book.com/storage/transfer-to-object.html"
+hint = """
+Handle shared objects and mutable operations in entry functions.
+Stuck? Check out: https://move-book.com/storage/transfer-to-object.html
+"""
+
+# ====================================
+# 21. PROGRAMMABILITY - Events
+# ====================================
+
+[[exercises]]
+name = "events1"
+display_name = "Events"
+path = "exercises/events/events1.move"
+mode = "test"
+move_book_url = "https://move-book.com/programmability/events.html"
+hint = """
+Define and emit events for contract actions.
+Stuck? Check out: https://move-book.com/programmability/events.html
+"""
+
+# ====================================
+# ADVANCED EXERCISES - Coming Soon
+# ====================================
+
 [[exercises]]
 name = "nft_basics"
+display_name = "NFT Basics"
 path = "exercises/advanced/nft_basics.move"
 mode = "test"
 difficulty = "advanced"
@@ -508,6 +645,7 @@ Coming soon! Learn how to create NFTs on Sui.
 
 [[exercises]]
 name = "defi_swap"
+display_name = "DeFi Swap"
 path = "exercises/advanced/defi_swap.move"
 mode = "test"
 difficulty = "advanced"
@@ -517,6 +655,7 @@ Coming soon! Build a simple token swap protocol.
 
 [[exercises]]
 name = "multisig_wallet"
+display_name = "Multisig Wallet"
 path = "exercises/advanced/multisig_wallet.move"
 mode = "test"
 difficulty = "advanced"
@@ -526,6 +665,7 @@ Coming soon! Implement a multi-signature wallet.
 
 [[exercises]]
 name = "marketplace"
+display_name = "NFT Marketplace"
 path = "exercises/advanced/marketplace.move"
 mode = "test"
 difficulty = "advanced"

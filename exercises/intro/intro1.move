@@ -1,8 +1,12 @@
-// This exercise introduces a simple Hello World module in Move for the Sui blockchain.
-// Your task is to ensure the module compiles successfully.
+// Exercise: Hello World in Move
+//
+// Complete the function to make it compile.
+//
+// Stuck? Check out: https://move-book.com/your-first-move/hello-world.html
 
-module suilings::intro1 {
-    public fun say_hello(): vector<u8> {
-        b"Hello World"
-}
+module suilings::intro1;
+
+/// Returns a "Hello World" message as a byte vector.
+public fun say_hello(): vector<u8> {
+    b"Hello World"
 }

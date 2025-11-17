@@ -1,116 +1,106 @@
-// This exercise combines multiple concepts: generics, references, and complex logic.
+// Exercise: Advanced Functions with Generics
 //
-// Your task:
-// Implement advanced function patterns
+// Practice combining generics with structs and complex logic.
+//
+// Stuck? Check out: https://move-book.com/move-basics/generics.html
 
-module suilings::advanced_functions {
-    public struct Container<T: drop> has drop {
-        value: T,
-        count: u64,
-    }
-    
-    public fun create_container<T: drop>(value: T): Container<T> {
-        // TODO: Create a container with count initialized to 1
-        Container { value, count: 0 }
-    }
-    
-    public fun get_count<T: drop>(container: &Container<T>): u64 {
-        // TODO: Return the count from the container
-        0
-    }
-    
-    public fun increment_count<T: drop>(container: &mut Container<T>) {
-        // TODO: Increment the container's count by 1
-    }
-    
-    public fun unwrap<T: drop>(container: Container<T>): T {
-        // TODO: Extract and return the value, discarding the count
-        // Hint: let Container { value, count: _ } = container;
-        let Container { value, count: _ } = container;
+module suilings::advanced_functions;
+
+/// A container holding a value and a count
+public struct Container<T: drop> has drop {
+    value: T,
+    count: u64,
+}
+
+/// Creates a new container with count = 1
+public fun create_container<T: drop>(value: T): Container<T> {
+    // TODO: Initialize count to 1
+    Container { value, count: 0 }
+}
+
+/// Returns the count from a container
+public fun count<T: drop>(container: &Container<T>): u64 {
+    // TODO: Return container.count
+    0
+}
+
+/// Increments the container's count
+public fun increment_count<T: drop>(container: &mut Container<T>) {
+    // TODO: Increment count by 1
+}
+
+/// Extracts the value from the container
+public fun unwrap<T: drop>(container: Container<T>): T {
+    // TODO: Destructure and return value
+    let Container { value, .. } = container;
+    value
+}
+
+/// Placeholder for map operation
+public fun map_container<T: drop, U: drop>(
+    container: Container<T>,
+    _transform: bool
+): Container<U> {
+    // Conceptually advanced - would need function parameters
+    abort 0
+}
+
+/// Returns value unchanged if condition is true
+public fun process_if<T: drop>(
+    value: T,
+    condition: bool,
+    _processor: bool
+): T {
+    // TODO: Return value based on condition
+    if (condition) {
+        value
+    } else {
         value
     }
-    
-    public fun map_container<T: drop, U: drop>(
-        container: Container<T>,
-        _transform: bool // Placeholder for transformation logic
-    ): Container<U> {
-        // This is conceptually advanced - in real code, you'd pass a function
-        // For this exercise, we'll abort since we can't actually transform
-        abort 0
-    }
-    
-    public fun process_if<T: drop>(
-        value: T,
-        condition: bool,
-        _processor: bool // Placeholder
-    ): T {
-        // TODO: If condition is true, just return value unchanged
-        // (In real code, you'd apply some processing)
-        if (condition) {
-            value
-        } else {
-            value
-        }
-    }
-    
-    public fun fold_sum(numbers: vector<u64>): u64 {
-        // TODO: Sum all numbers in the vector
-        // Hint: Use a loop
-        // let mut sum = 0;
-        // let mut i = 0;
-        // while (i < vector::length(&numbers)) {
-        //     sum = sum + *vector::borrow(&numbers, i);
-        //     i = i + 1;
-        // };
-        // sum
-        use std::vector;
-        let mut sum = 0;
-        let mut i = 0;
-        while (i < vector::length(&numbers)) {
-            sum = sum + *vector::borrow(&numbers, i);
-            i = i + 1;
-        };
-        sum
-    }
+}
+
+/// Sums all numbers in a vector
+public fun fold_sum(numbers: vector<u64>): u64 {
+    // TODO: Use modern vector syntax with fold or loop
+    let mut sum = 0;
+    let mut i = 0;
+    while (i < numbers.length()) {
+        sum = sum + numbers[i];
+        i = i + 1;
+    };
+    sum
 }
 
 #[test_only]
-module suilings::advanced_functions_tests {
-    use suilings::advanced_functions;
-    use std::vector;
-    
-    #[test]
-    fun test_container() {
-        let container = advanced_functions::create_container<u64>(42);
-        assert!(advanced_functions::get_count(&container) == 1, 0);
-        let value = advanced_functions::unwrap(container);
-        assert!(value == 42, 1);
-    }
-    
-    #[test]
-    fun test_increment_count() {
-        let mut container = advanced_functions::create_container<bool>(true);
-        advanced_functions::increment_count(&mut container);
-        advanced_functions::increment_count(&mut container);
-        assert!(advanced_functions::get_count(&container) == 3, 0);
-    }
-    
-    #[test]
-    fun test_process_if() {
-        let result = advanced_functions::process_if<u64>(10, true, false);
-        assert!(result == 10, 0);
-    }
-    
-    #[test]
-    fun test_fold_sum() {
-        let mut nums = vector::empty<u64>();
-        vector::push_back(&mut nums, 1);
-        vector::push_back(&mut nums, 2);
-        vector::push_back(&mut nums, 3);
-        vector::push_back(&mut nums, 4);
-        
-        let sum = advanced_functions::fold_sum(nums);
-        assert!(sum == 10, 0);
-    }
+module suilings::advanced_functions_tests;
+
+use suilings::advanced_functions;
+
+#[test]
+fun container_creation_and_unwrap() {
+    let container = advanced_functions::create_container<u64>(42);
+    assert!(advanced_functions::count(&container) == 1);
+    let value = advanced_functions::unwrap(container);
+    assert!(value == 42);
 }
 
+#[test]
+fun increment_count_works() {
+    let mut container = advanced_functions::create_container<bool>(true);
+    advanced_functions::increment_count(&mut container);
+    advanced_functions::increment_count(&mut container);
+    assert!(advanced_functions::count(&container) == 3);
+}
+
+#[test]
+fun process_if_returns_value() {
+    let result = advanced_functions::process_if<u64>(10, true, false);
+    assert!(result == 10);
+}
+
+#[test]
+fun fold_sum_calculates_correctly() {
+    let nums = vector[1, 2, 3, 4];
+    let sum = advanced_functions::fold_sum(nums);
+    assert!(sum == 10);
+}

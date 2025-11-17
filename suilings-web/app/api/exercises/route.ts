@@ -4,9 +4,12 @@ import exercisesData from '@/lib/exercises-data.json'
 
 export async function GET() {
   try {
-    // Check if Supabase is configured
+    // Always use local exercises data as the source of truth
+    const exercises = exercisesData.exercises
+
+    // Check if Supabase is configured for progress tracking
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return NextResponse.json({ exercises: exercisesData.exercises })
+      return NextResponse.json({ exercises })
     }
 
     const supabase = await createClient()
@@ -14,35 +17,7 @@ export async function GET() {
     // Get current user (if authenticated)
     const { data: { user } } = await supabase.auth.getUser()
 
-    // Fetch all exercises from Supabase
-    const { data: exercises, error: exercisesError } = await supabase
-      .from('exercises')
-      .select('*')
-      .order('order_index', { ascending: true })
-
-    // If no exercises in Supabase, fallback to local data
-    if (exercisesError || !exercises || exercises.length === 0) {
-      return NextResponse.json({ exercises: exercisesData.exercises })
-    }
-
-    // Map exercises from Supabase to the format expected by frontend
-    const mappedExercises = exercises.map(ex => {
-      // Find matching exercise from local data to get initialCode and description
-      const localEx = exercisesData.exercises.find(e => e.name === ex.name)
-      
-      return {
-        name: ex.name,
-        path: ex.path,
-        mode: ex.mode,
-        hint: ex.hint,
-        difficulty: localEx?.difficulty || 'basic',
-        description: localEx?.description || '',
-        initialCode: localEx?.initialCode || '',
-        status: 'pending' as const,
-      }
-    })
-
-    // If user is authenticated, also fetch their progress
+    // If user is authenticated, fetch their progress and merge with local exercises
     if (user) {
       const { data: progress, error: progressError } = await supabase
         .from('exercise_progress')
@@ -55,7 +30,7 @@ export async function GET() {
           progress?.map(p => [p.exercise_id, p]) || []
         )
 
-        const exercisesWithProgress = mappedExercises.map(exercise => {
+        const exercisesWithProgress = exercises.map(exercise => {
           const prog = progressMap.get(exercise.name)
           return {
             ...exercise,
@@ -69,7 +44,7 @@ export async function GET() {
     }
 
     // Return exercises without progress for unauthenticated users
-    return NextResponse.json({ exercises: mappedExercises })
+    return NextResponse.json({ exercises })
   } catch (error) {
     console.error('Error in exercises API:', error)
     

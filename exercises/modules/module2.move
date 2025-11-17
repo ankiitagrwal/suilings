@@ -1,35 +1,29 @@
-// Move lets you `use` a function from another module.
-// The runner-crate contains a tiny helper module that we can import.
+// Exercise: Importing and Using Modules
 //
-// Your task:
-// 1. Add a `use` statement to import `math::add`.
-// 2. Implement `sum_three` using the imported `add` function.
+// Practice importing functions from other modules.
 //
-// The helper module is automatically available because the
-// runner-crate’s Move.toml publishes it at address `suilings`.
+// Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
 
+module suilings::calculator;
 
-module suilings::calculator {
+// TODO: Add the `use` line here to import math::add
 
-    // <-- add the `use` line here
-    public fun sum_three(x: u64, y: u64, z: u64): u64 {
-        // replace the dummy return with a call to `add`
-        0
-    }
-
-    #[test]
-    fun test_sum_three() {
-        assert!(sum_three(1, 2, 3) == 6, 0);
-        assert!(sum_three(10, 20, 30) == 60, 0);
-    }
+/// Adds three numbers by calling the imported add function
+public fun sum_three(x: u64, y: u64, z: u64): u64 {
+    // TODO: Replace with calls to add()
+    0
 }
 
-// -------------------------------------------------------------------
-// Helper module – defined **in the same file** (no extra .move needed)
-// -------------------------------------------------------------------
-module suilings::math {
-    /// Simple addition – used by the import exercise.
-    public fun add(a: u64, b: u64): u64 {
-        a + b
-    }
+#[test]
+fun sum_three_works() {
+    assert!(sum_three(1, 2) == 6);
+    assert!(sum_three(10, 20) == 60);
+}
+
+// Helper module
+module suilings::math;
+
+/// Simple addition function
+public fun add(a: u64, b: u64): u64 {
+    a + b
 }

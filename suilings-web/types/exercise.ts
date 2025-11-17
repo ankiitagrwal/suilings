@@ -6,13 +6,17 @@ export type ExerciseDifficulty = "basic" | "advanced";
 
 export interface Exercise {
   name: string;
+  displayName?: string; // Clean display name for UI (e.g., "Hello World" instead of "intro1")
   path: string;
   mode: ExerciseMode;
   hint: string;
-  difficulty?: ExerciseDifficulty; // New field
+  difficulty?: ExerciseDifficulty;
   description?: string;
   initialCode?: string;
   status?: ExerciseStatus;
+  moveBookUrl?: string; // Link to Move Book chapter
+  suiDocsUrl?: string;  // Link to Sui documentation
+  moveBookChapter?: string; // Chapter name/title
 }
 
 export interface ExerciseList {

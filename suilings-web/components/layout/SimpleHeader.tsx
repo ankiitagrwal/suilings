@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { LayoutDashboard, BookOpen, Home, Trophy } from "lucide-react";
+import { LayoutDashboard, BookOpen, Trophy } from "lucide-react";
 
 interface SimpleHeaderProps {
   showNavigation?: boolean;
@@ -40,12 +40,6 @@ export const SimpleHeader = memo(function SimpleHeader({ showNavigation = true }
             
             {showNavigation && (
               <nav className="hidden md:flex items-center gap-1 shrink-0">
-                <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
-                  <Link href="/">
-                    <Home className="h-3.5 w-3.5" />
-                    Home
-                  </Link>
-                </Button>
                 <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
                   <Link href="/dashboard">
                     <LayoutDashboard className="h-3.5 w-3.5" />

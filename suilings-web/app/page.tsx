@@ -34,38 +34,37 @@ export default function HomePage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-card/50 backdrop-blur-sm animate-in fade-in slide-in-from-top-4 duration-700">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">The Interactive Way to Learn Move on Sui</span>
+            <span className="text-sm font-medium">Practice Exercises from the Move Book</span>
             <Badge variant="secondary" className="text-xs">FREE</Badge>
           </div>
           
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-tight animate-in fade-in slide-in-from-top-6 duration-700 delay-100">
-            Master Sui Blockchain
+            Practice Move Programming
             <span className="block mt-2 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Development in Hours
+              From the Move Book
             </span>
-            <span className="block mt-2">Not Months</span>
           </h1>
           
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-in fade-in slide-in-from-top-8 duration-700 delay-200">
-            The fastest way to learn Move programming. Build, compile, and deploy smart contracts directly in your browser. 
-            <span className="block mt-2 font-semibold text-foreground">Zero setup. Real skills. Instant results.</span>
+            Interactive exercises based on the Move Book. Learn the concepts, then practice them here. 
+            <span className="block mt-2 font-semibold text-foreground">Read the Move Book → Practice with Suilings → Master Move</span>
           </p>
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-in fade-in slide-in-from-top-10 duration-700 delay-300">
-            <Link href="/exercise" className="w-full sm:w-auto">
-              <Button size="lg" className="gap-2 w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all">
-                <Rocket className="h-5 w-5" />
-                Start Learning Free
+            <Link href="https://move-book.com" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <Button size="lg" variant="default" className="gap-2 w-full sm:w-auto shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/30 transition-all bg-indigo-600 hover:bg-indigo-700">
+                <BookOpen className="h-5 w-5" />
+                Read the Move Book First
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </Link>
-            <Link href="/leaderboard" className="w-full sm:w-auto">
+            <Link href="/exercise" className="w-full sm:w-auto">
               <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto border-2">
-                <Trophy className="h-5 w-5" />
-                View Leaderboard
+                <Rocket className="h-5 w-5" />
+                Start Practicing
               </Button>
             </Link>
           </div>
@@ -74,19 +73,19 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground pt-4 animate-in fade-in duration-700 delay-500">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <span>Based on Move Book</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <span>{TOTAL_EXERCISES} Practice Exercises</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-green-500" />
               <span>100% Free</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-green-500" />
-              <span>{TOTAL_EXERCISES} Interactive Exercises</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
               <span>No Setup Required</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
-              <span>Instant Access</span>
             </div>
           </div>
         </div>
@@ -121,6 +120,44 @@ export default function HomePage() {
 }`}
                 </code>
               </pre>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Move Book Connection Section - NEW */}
+      <section className="container mx-auto px-4 py-16 bg-gradient-to-br from-indigo-500/10 to-purple-500/10">
+        <div className="max-w-5xl mx-auto">
+          <Card className="border-2 border-indigo-500/30 shadow-2xl">
+            <CardContent className="p-12">
+              <div className="text-center space-y-6">
+                <div className="flex items-center justify-center gap-4">
+                  <BookOpen className="h-16 w-16 text-indigo-600" />
+                  <div className="text-4xl font-bold text-muted-foreground">+</div>
+                  <Code className="h-16 w-16 text-purple-600" />
+                </div>
+                <h3 className="text-3xl font-bold">
+                  Suilings ❤️ Move Book
+                </h3>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Every exercise on Suilings is designed to complement the Move Book. We link directly to the relevant chapters, 
+                  so you can learn the theory and practice immediately. No separate content, no deviation—just pure practice.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                  <a href="https://move-book.com" target="_blank" rel="noopener noreferrer">
+                    <Button size="lg" className="gap-2 bg-indigo-600 hover:bg-indigo-700">
+                      <BookOpen className="h-5 w-5" />
+                      Visit Move Book
+                    </Button>
+                  </a>
+                  <a href="https://docs.sui.io" target="_blank" rel="noopener noreferrer">
+                    <Button size="lg" variant="outline" className="gap-2 border-2">
+                      <BookOpen className="h-5 w-5" />
+                      Sui Documentation
+                    </Button>
+                  </a>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -259,9 +296,9 @@ export default function HomePage() {
                   <BookOpen className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <CardTitle className="text-lg mb-2">Structured Curriculum</CardTitle>
+                  <CardTitle className="text-lg mb-2">Move Book Aligned</CardTitle>
                   <CardDescription>
-                    Follow a proven learning path from beginner to advanced
+                    Every exercise links to the Move Book chapter—learn theory, practice immediately
                   </CardDescription>
                 </div>
               </div>
@@ -368,7 +405,8 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-muted-foreground">
-              <p>Suilings © 2025 • Learn Move on Sui</p>
+              <p>Suilings © 2025 • Practice companion to the Move Book</p>
+              <p className="mt-1 text-xs">All exercises based on <a href="https://move-book.com" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">move-book.com</a></p>
             </div>
             <div className="flex items-center gap-6">
               <Link href="https://move-book.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

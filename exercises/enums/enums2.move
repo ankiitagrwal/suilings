@@ -1,63 +1,64 @@
-// Match expressions allow you to pattern match on enum variants.
-// Syntax: match (enum_value) { Variant1 => result1, Variant2 => result2 }
+// Exercise: Match Expressions with Enums
 //
-// Match is exhaustive - you must handle all variants!
+// Use match expressions to handle enum variants. Match is exhaustive!
 //
-// Your task:
-// Use match expressions to handle enum variants.
+// Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
 
-module suilings::enums2 {
-    public enum Direction {
-        North,
-        South,
-        East,
-        West,
-    }
-    
-    public enum Priority {
-        Low,
-        Medium,
-        High,
-    }
-    
-    public fun get_direction_name(direction: Direction): vector<u8> {
-        /// Returns the string name of the direction as bytes
-        // TODO: Use a match expression to return the correct name
-    }
-    
-   
-    public fun get_priority_value(priority: Priority): u8 {
-         /// Returns a numeric value for priority: Low=1, Medium=2, High=3
-         /// TODO: Use a match expression to return the correct value
-        
-    }
+module suilings::enums2;
 
-    public fun is_opposite(dir1: Direction, dir2: Direction): bool {
-        /// Checks if two directions are opposites
-        // TODO: Use match expressions to determine if dir1 and dir2 are opposites
-    }
-    
-    #[test]
-    fun test_direction_name() {
-        assert!(get_direction_name(Direction::North) == b"North", 0);
-        assert!(get_direction_name(Direction::South) == b"South", 1);
-        assert!(get_direction_name(Direction::East)  == b"East",  2);
-        assert!(get_direction_name(Direction::West)  == b"West",  3);
-    }
-
-    #[test]
-    fun test_priority_value() {
-        assert!(get_priority_value(Priority::Low)    == 1, 0);
-        assert!(get_priority_value(Priority::Medium) == 2, 1);
-        assert!(get_priority_value(Priority::High)   == 3, 2);
-    }
-    
-    #[test]
-    fun test_is_opposite() {
-        assert!(is_opposite(Direction::North, Direction::South) == true, 0);
-        assert!(is_opposite(Direction::East,  Direction::West)  == true, 1);
-        assert!(is_opposite(Direction::North, Direction::East)  == false, 2);
-        assert!(is_opposite(Direction::West,  Direction::East)  == true, 3);
-    }
+/// Direction enum with four variants
+public enum Direction {
+    North,
+    South,
+    East,
+    West,
 }
 
+/// Priority enum with three levels
+public enum Priority {
+    Low,
+    Medium,
+    High,
+}
+
+/// Returns the string name of the direction
+public fun direction_name(direction: Direction): vector<u8> {
+    // TODO: Use a match expression to return the correct name
+    b""
+}
+
+/// Returns a numeric value for priority: Low=1, Medium=2, High=3
+public fun priority_value(priority: Priority): u8 {
+    // TODO: Use a match expression to return the correct value
+    0
+}
+
+/// Checks if two directions are opposites
+public fun is_opposite(dir1: Direction, dir2: Direction): bool {
+    // TODO: Use match expressions to determine if dir1 and dir2 are opposites
+    // North-South and East-West are opposites
+    false
+}
+
+#[test]
+fun direction_name_works() {
+    assert!(direction_name(Direction::North) == b"North");
+    assert!(direction_name(Direction::South) == b"South");
+    assert!(direction_name(Direction::East)  == b"East");
+    assert!(direction_name(Direction::West)  == b"West");
+}
+
+#[test]
+fun priority_value_works() {
+    assert!(priority_value(Priority::Low)    == 1);
+    assert!(priority_value(Priority::Medium) == 2);
+    assert!(priority_value(Priority::High)   == 3);
+}
+
+#[test]
+fun is_opposite_works() {
+    assert!(is_opposite(Direction::North, Direction::South) == true);
+    assert!(is_opposite(Direction::East,  Direction::West)  == true);
+    assert!(is_opposite(Direction::North, Direction::East)  == false);
+    assert!(is_opposite(Direction::West,  Direction::East)  == true);
+}

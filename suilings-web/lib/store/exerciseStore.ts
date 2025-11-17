@@ -215,7 +215,7 @@ export const useExerciseStore = create<ExerciseStore>()(
     }),
     {
       name: "suilings-exercise-storage",
-      version: 4, // Increment to clear old cached data with new -1 default
+      version: 5, // Increment to clear old cached data - now with displayName support
       partialize: (state) => ({
         currentExerciseIndex: state.currentExerciseIndex,
         currentCode: state.currentCode, // Also persist current code to prevent loss
