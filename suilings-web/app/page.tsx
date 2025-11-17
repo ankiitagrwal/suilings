@@ -11,14 +11,12 @@ import {
   BookOpen, 
   Code, 
   Trophy,
-  Users,
   CheckCircle2,
   ArrowRight,
   Sparkles,
-  TrendingUp,
-  Clock,
   Award,
-  Globe
+  Globe,
+  BookMarked
 } from "lucide-react";
 
 export default function HomePage() {
@@ -100,23 +98,27 @@ export default function HomePage() {
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
                 </div>
-                <span className="text-sm text-muted-foreground ml-4">hello_world.move</span>
+                <span className="text-sm text-muted-foreground ml-4">coin_balance.move</span>
               </div>
             </CardHeader>
             <CardContent className="p-6">
               <pre className="text-left text-sm md:text-base leading-relaxed">
                 <code className="language-move">
-{`module suilings::hello_world {
-    use std::string::{Self, String};
+{`module suilings::coin_balance;
 
-    public fun say_hello(): String {
-        string::utf8(b"Hello, Sui!")
-    }
+use sui::coin::{Self, Coin};
+use sui::sui::SUI;
 
-    #[test]
-    public fun test_hello() {
-        assert!(say_hello() == string::utf8(b"Hello, Sui!"), 0);
-    }
+/// Returns the balance of a SUI coin
+public fun get_balance(coin: &Coin<SUI>): u64 {
+    coin.value()
+}
+
+#[test]
+fun test_balance() {
+    let coin = coin::mint_for_testing<SUI>(1000);
+    assert!(get_balance(&coin) == 1000);
+    coin::burn_for_testing(coin);
 }`}
                 </code>
               </pre>
@@ -126,7 +128,7 @@ export default function HomePage() {
       </section>
 
       {/* Move Book Connection Section - NEW */}
-      <section className="container mx-auto px-4 py-16 bg-gradient-to-br from-indigo-500/10 to-purple-500/10">
+      <section className="container mx-auto px-4 py-16 bg-linear-to-br from-indigo-500/10 to-purple-500/10">
         <div className="max-w-5xl mx-auto">
           <Card className="border-2 border-indigo-500/30 shadow-2xl">
             <CardContent className="p-12">
@@ -163,40 +165,40 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Real Value Props Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
               <div className="flex justify-center mb-3">
-                <Users className="h-8 w-8 text-primary" />
-              </div>
-              <div className="text-3xl md:text-4xl font-bold mb-1">500+</div>
-              <div className="text-sm text-muted-foreground">Active Learners</div>
-            </Card>
-            
-            <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
-              <div className="flex justify-center mb-3">
                 <BookOpen className="h-8 w-8 text-primary" />
               </div>
               <div className="text-3xl md:text-4xl font-bold mb-1">{TOTAL_EXERCISES}</div>
-              <div className="text-sm text-muted-foreground">Exercises</div>
+              <div className="text-sm text-muted-foreground">Practice Exercises</div>
             </Card>
             
             <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
               <div className="flex justify-center mb-3">
-                <TrendingUp className="h-8 w-8 text-primary" />
+                <CheckCircle2 className="h-8 w-8 text-primary" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold mb-1">92%</div>
-              <div className="text-sm text-muted-foreground">Success Rate</div>
+              <div className="text-3xl md:text-4xl font-bold mb-1">100%</div>
+              <div className="text-sm text-muted-foreground">Free Forever</div>
             </Card>
             
             <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
               <div className="flex justify-center mb-3">
-                <Clock className="h-8 w-8 text-primary" />
+                <Zap className="h-8 w-8 text-primary" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold mb-1">2hrs</div>
-              <div className="text-sm text-muted-foreground">Avg. Completion</div>
+              <div className="text-3xl md:text-4xl font-bold mb-1">0</div>
+              <div className="text-sm text-muted-foreground">Setup Required</div>
+            </Card>
+            
+            <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
+              <div className="flex justify-center mb-3">
+                <BookMarked className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl md:text-4xl font-bold mb-1">Move</div>
+              <div className="text-sm text-muted-foreground">Book Aligned</div>
             </Card>
           </div>
         </div>
@@ -365,7 +367,7 @@ export default function HomePage() {
               </span>
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join hundreds of developers already learning Move on Sui. Start coding in under 60 seconds.
+              Master Move programming through hands-on practice. Start coding in under 60 seconds.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Link href="/exercise" className="w-full sm:w-auto">
@@ -385,15 +387,15 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-500" />
-                <span>Forever Free</span>
+                <span>100% Free Forever</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-500" />
-                <span>500+ Active Users</span>
+                <span>{TOTAL_EXERCISES} Exercises</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-500" />
-                <span>92% Success Rate</span>
+                <span>No Setup Required</span>
               </div>
             </div>
           </CardContent>

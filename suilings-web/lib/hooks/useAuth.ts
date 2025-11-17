@@ -42,7 +42,22 @@ export function useAuth() {
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut()
-    if (error) console.error('Error signing out:', error)
+    if (error) {
+      console.error('Error signing out:', error)
+      return
+    }
+    
+    // Clear all localStorage data (including exerciseStore)
+    try {
+      localStorage.clear()
+    } catch (e) {
+      console.error('Error clearing localStorage:', e)
+    }
+    
+    // Redirect to home page
+    if (typeof window !== 'undefined') {
+      window.location.href = '/'
+    }
   }
 
   return {

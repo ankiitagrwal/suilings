@@ -2,7 +2,7 @@
 //
 // Practice module visibility. Make the greet function public.
 //
-// Stuck? Check out: https://move-book.com/move-basics/visibility-modifiers.html
+// Stuck? Check out: https://move-book.com/move-basics/visibility.html
 
 module suilings::greeter;
 

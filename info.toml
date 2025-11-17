@@ -14,45 +14,17 @@ Stuck? Check out: https://move-book.com/your-first-move/hello-world.html
 """
 
 # ====================================
-# 2. MOVE BASICS - Modules
+# 2. MOVE BASICS
+# Following Move Book Chapter 5 order exactly
 # ====================================
 
-[[exercises]]
-name = "module1"
-display_name = "Visibility Modifiers"
-path = "exercises/modules/module1.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/visibility-modifiers.html"
-hint = """
-Add the `public` keyword before `fun`.
-Stuck? Check out: https://move-book.com/move-basics/visibility-modifiers.html
-"""
-
-[[exercises]]
-name = "module2"
-display_name = "Importing Modules"
-path = "exercises/modules/module2.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/importing-modules.html"
-hint = """
-Import and use functions from other modules:
-use suilings::math::add;
-Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
-"""
-
-[[exercises]]
-name = "module3"
-display_name = "Standard Library"
-path = "exercises/modules/module3.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/importing-modules.html"
-hint = """
-Import and use the standard library vector module.
-Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
-"""
+# ====================================
+# 2.1. Modules (Chapter 5.1)
+# ====================================
+# Note: No dedicated module definition exercise yet
 
 # ====================================
-# 3. MOVE BASICS - Primitives
+# 2.3. Primitive Types (Chapter 5.3)
 # ====================================
 
 [[exercises]]
@@ -78,7 +50,7 @@ Stuck? Check out: https://move-book.com/move-basics/primitive-types.html
 """
 
 # ====================================
-# 4. MOVE BASICS - Expression
+# 2.5. Expressions (Chapter 5.5)
 # ====================================
 
 [[exercises]]
@@ -93,7 +65,7 @@ Stuck? Check out: https://move-book.com/move-basics/expression.html
 """
 
 # ====================================
-# 5. MOVE BASICS - Structs
+# 2.6. Structs (Chapter 5.6)
 # ====================================
 
 [[exercises]]
@@ -120,7 +92,7 @@ Stuck? Check out: https://move-book.com/move-basics/struct.html
 """
 
 # ====================================
-# 6. MOVE BASICS - Abilities
+# 2.7. Abilities Introduction (Chapter 5.7)
 # ====================================
 
 [[exercises]]
@@ -135,7 +107,199 @@ Stuck? Check out: https://move-book.com/move-basics/abilities-introduction.html
 """
 
 # ====================================
-# 7. MOVE BASICS - Functions
+# 2.9. Importing Modules (Chapter 5.9)
+# ====================================
+
+[[exercises]]
+name = "module2"
+display_name = "Importing Modules"
+path = "exercises/modules/module2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/importing-modules.html"
+hint = """
+Import and use functions from other modules:
+use suilings::math::add;
+Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
+"""
+
+# ====================================
+# 2.10. Standard Library (Chapter 5.10)
+# ====================================
+
+[[exercises]]
+name = "module3"
+display_name = "Standard Library"
+path = "exercises/modules/module3.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/importing-modules.html"
+hint = """
+Import and use the standard library vector module.
+Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
+"""
+
+# ====================================
+# 2.11. Vector (Chapter 5.11)
+# ====================================
+
+[[exercises]]
+name = "vectors1"
+display_name = "Vector Basics"
+path = "exercises/vectors/vectors1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/vector.html"
+hint = """
+create_range: Use while loop with vector::push_back
+sum_vector: Use while loop with vector::borrow to access elements
+Stuck? Check out: https://move-book.com/move-basics/vector.html
+"""
+
+[[exercises]]
+name = "vectors2"
+display_name = "Vector Operations"
+path = "exercises/vectors/vectors2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/vector.html"
+hint = """
+remove_duplicates: Use vector::contains to check if already added
+find_max: Track max value while iterating
+Stuck? Check out: https://move-book.com/move-basics/vector.html
+"""
+
+# ====================================
+# 2.12. Option (Chapter 5.12)
+# ====================================
+
+[[exercises]]
+name = "options1"
+display_name = "Option Type"
+path = "exercises/options/options1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/option.html"
+hint = """
+divide: if (b != 0) option::some(a / b) else option::none()
+get_or_default: if (option::is_some(&opt)) *option::borrow(&opt) else default
+Stuck? Check out: https://move-book.com/move-basics/option.html
+"""
+
+[[exercises]]
+name = "options2"
+display_name = "Error Handling"
+path = "exercises/options/options2.move"
+mode = "test"
+move_book_url = "https://move-book.com/guides/better-error-handling.html"
+hint = """
+safe_divide: assert!(b != 0, EDIVISION_BY_ZERO);
+get_element: assert!(index < vector::length(vec), EOUT_OF_RANGE);
+Stuck? Check out: https://move-book.com/guides/better-error-handling.html
+"""
+
+# ====================================
+# 2.13. String (Chapter 5.13)
+# ====================================
+
+[[exercises]]
+name = "strings1"
+display_name = "String Basics"
+path = "exercises/strings/strings1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/string.html"
+hint = """
+Create string: string::utf8(b"text")
+Concatenate: string::append(&mut s1, s2); s1
+Stuck? Check out: https://move-book.com/move-basics/string.html
+"""
+
+[[exercises]]
+name = "strings2"
+display_name = "String Operations"
+path = "exercises/strings/strings2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/string.html"
+hint = """
+Substring: string::sub_string(&s, start, end)
+Contains: option::is_some(&string::index_of(&haystack, &needle))
+Stuck? Check out: https://move-book.com/move-basics/string.html
+"""
+
+# ====================================
+# 2.14. Control Flow (Chapter 5.14)
+# ====================================
+
+[[exercises]]
+name = "control_flow1"
+display_name = "If Expressions"
+path = "exercises/control_flow/control_flow1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/control-flow.html"
+hint = """
+abs_diff: if (a > b) { a - b } else { b - a }
+clamp: use nested if expressions
+Stuck? Check out: https://move-book.com/move-basics/control-flow.html
+"""
+
+[[exercises]]
+name = "control_flow2"
+display_name = "While Loops"
+path = "exercises/control_flow/control_flow2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/control-flow.html"
+hint = """
+sum_range: let mut sum = 0; while (i <= end) { sum = sum + i; i = i + 1 }
+count_even: Check if num % 2 == 0
+Stuck? Check out: https://move-book.com/move-basics/control-flow.html
+"""
+
+# ====================================
+# 2.15. Enum and Match (Chapter 5.15)
+# ====================================
+
+[[exercises]]
+name = "enums1"
+display_name = "Enum Basics"
+path = "exercises/enums/enums1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Define enum: public enum Status { Pending, Active, Completed }
+Return variant: Status::Pending
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+[[exercises]]
+name = "enums2"
+display_name = "Match Expressions"
+path = "exercises/enums/enums2.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Use match expressions to handle enum variants. Match is exhaustive!
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+[[exercises]]
+name = "enums3"
+display_name = "Enums with Data"
+path = "exercises/enums/enums3.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Work with enums that contain data, like Result<T, E> and Option<T>.
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+[[exercises]]
+name = "enums4"
+display_name = "Complex Enums"
+path = "exercises/enums/enums4.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
+hint = """
+Implement complex enum operations with nested data structures.
+Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
+"""
+
+# ====================================
+# 2.18. Functions (Chapter 5.18)
 # ====================================
 
 [[exercises]]
@@ -164,7 +328,63 @@ Stuck? Check out: https://move-book.com/move-basics/function.html
 """
 
 # ====================================
-# 8. MOVE BASICS - References
+# 2.20. Visibility Modifiers (Chapter 5.20)
+# ====================================
+
+[[exercises]]
+name = "module1"
+display_name = "Visibility Modifiers"
+path = "exercises/modules/module1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/visibility.html"
+hint = """
+Add the `public` keyword before `fun`.
+Stuck? Check out: https://move-book.com/move-basics/visibility.html
+"""
+
+# ====================================
+# 2.21. Ownership and Scope (Chapter 5.21)
+# ====================================
+
+[[exercises]]
+name = "ownership1"
+display_name = "Ownership Transfer"
+path = "exercises/ownership/ownership1.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
+hint = """
+Understand basic ownership transfer in Move. Each value has exactly one owner.
+Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
+"""
+
+[[exercises]]
+name = "ownership4"
+display_name = "Complex Ownership"
+path = "exercises/ownership/ownership4.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
+hint = """
+Handle ownership with complex nested data structures.
+Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
+"""
+
+# ====================================
+# 2.22. Copy Ability (Chapter 5.22)
+# ====================================
+
+[[exercises]]
+name = "ownership3"
+display_name = "Copy Ability"
+path = "exercises/ownership/ownership3.move"
+mode = "test"
+move_book_url = "https://move-book.com/move-basics/copy-ability.html"
+hint = """
+Understand when values are copied vs moved based on abilities.
+Stuck? Check out: https://move-book.com/move-basics/copy-ability.html
+"""
+
+# ====================================
+# 2.23. References (Chapter 5.23)
 # ====================================
 
 [[exercises]]
@@ -203,160 +423,7 @@ Stuck? Check out: https://move-book.com/move-basics/references.html
 """
 
 # ====================================
-# 9. MOVE BASICS - Control Flow
-# ====================================
-
-[[exercises]]
-name = "control_flow1"
-display_name = "If Expressions"
-path = "exercises/control_flow/control_flow1.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/control-flow.html"
-hint = """
-abs_diff: if (a > b) { a - b } else { b - a }
-clamp: use nested if expressions
-Stuck? Check out: https://move-book.com/move-basics/control-flow.html
-"""
-
-[[exercises]]
-name = "control_flow2"
-display_name = "While Loops"
-path = "exercises/control_flow/control_flow2.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/control-flow.html"
-hint = """
-sum_range: let mut sum = 0; while (i <= end) { sum = sum + i; i = i + 1 }
-count_even: Check if num % 2 == 0
-Stuck? Check out: https://move-book.com/move-basics/control-flow.html
-"""
-
-# ====================================
-# 10. MOVE BASICS - Vector
-# ====================================
-
-[[exercises]]
-name = "vectors1"
-display_name = "Vector Basics"
-path = "exercises/vectors/vectors1.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/vector.html"
-hint = """
-create_range: Use while loop with vector::push_back
-sum_vector: Use while loop with vector::borrow to access elements
-Stuck? Check out: https://move-book.com/move-basics/vector.html
-"""
-
-[[exercises]]
-name = "vectors2"
-display_name = "Vector Operations"
-path = "exercises/vectors/vectors2.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/vector.html"
-hint = """
-remove_duplicates: Use vector::contains to check if already added
-find_max: Track max value while iterating
-Stuck? Check out: https://move-book.com/move-basics/vector.html
-"""
-
-# ====================================
-# 11. MOVE BASICS - Option
-# ====================================
-
-[[exercises]]
-name = "options1"
-display_name = "Option Type"
-path = "exercises/options/options1.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/option.html"
-hint = """
-divide: if (b != 0) option::some(a / b) else option::none()
-get_or_default: if (option::is_some(&opt)) *option::borrow(&opt) else default
-Stuck? Check out: https://move-book.com/move-basics/option.html
-"""
-
-[[exercises]]
-name = "options2"
-display_name = "Error Handling"
-path = "exercises/options/options2.move"
-mode = "test"
-move_book_url = "https://move-book.com/guides/better-error-handling.html"
-hint = """
-safe_divide: assert!(b != 0, EDIVISION_BY_ZERO);
-get_element: assert!(index < vector::length(vec), EOUT_OF_RANGE);
-Stuck? Check out: https://move-book.com/guides/better-error-handling.html
-"""
-
-# ====================================
-# 12. MOVE BASICS - String
-# ====================================
-
-[[exercises]]
-name = "strings1"
-display_name = "String Basics"
-path = "exercises/strings/strings1.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/string.html"
-hint = """
-Create string: string::utf8(b"text")
-Concatenate: string::append(&mut s1, s2); s1
-Stuck? Check out: https://move-book.com/move-basics/string.html
-"""
-
-[[exercises]]
-name = "strings2"
-display_name = "String Operations"
-path = "exercises/strings/strings2.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/string.html"
-hint = """
-Substring: string::sub_string(&s, start, end)
-Contains: option::is_some(&string::index_of(&haystack, &needle))
-Stuck? Check out: https://move-book.com/move-basics/string.html
-"""
-
-# ====================================
-# 13. MOVE BASICS - Ownership and Scope
-# ====================================
-
-[[exercises]]
-name = "ownership1"
-display_name = "Ownership Transfer"
-path = "exercises/ownership/ownership1.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
-hint = """
-Understand basic ownership transfer in Move. Each value has exactly one owner.
-Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
-"""
-
-[[exercises]]
-name = "ownership4"
-display_name = "Complex Ownership"
-path = "exercises/ownership/ownership4.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
-hint = """
-Handle ownership with complex nested data structures.
-Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
-"""
-
-# ====================================
-# 14. MOVE BASICS - Copy Ability
-# ====================================
-
-[[exercises]]
-name = "ownership3"
-display_name = "Copy Ability"
-path = "exercises/ownership/ownership3.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/copy-ability.html"
-hint = """
-Understand when values are copied vs moved based on abilities.
-Stuck? Check out: https://move-book.com/move-basics/copy-ability.html
-"""
-
-# ====================================
-# 15. MOVE BASICS - Generics
+# 2.24. Generics (Chapter 5.24)
 # ====================================
 
 [[exercises]]
@@ -429,56 +496,11 @@ Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 # ====================================
-# 16. MOVE BASICS - Enum and Match
+# 3. STORAGE (Move Book Chapter 6+)
 # ====================================
 
-[[exercises]]
-name = "enums1"
-display_name = "Enum Basics"
-path = "exercises/enums/enums1.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
-hint = """
-Define enum: public enum Status { Pending, Active, Completed }
-Return variant: Status::Pending
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
-"""
-
-[[exercises]]
-name = "enums2"
-display_name = "Match Expressions"
-path = "exercises/enums/enums2.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
-hint = """
-Use match expressions to handle enum variants. Match is exhaustive!
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
-"""
-
-[[exercises]]
-name = "enums3"
-display_name = "Enums with Data"
-path = "exercises/enums/enums3.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
-hint = """
-Work with enums that contain data, like Result<T, E> and Option<T>.
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
-"""
-
-[[exercises]]
-name = "enums4"
-display_name = "Complex Enums"
-path = "exercises/enums/enums4.move"
-mode = "test"
-move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
-hint = """
-Implement complex enum operations with nested data structures.
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
-"""
-
 # ====================================
-# 17. STORAGE - Store Ability
+# 3.1. Store Ability
 # ====================================
 
 [[exercises]]
@@ -493,7 +515,7 @@ Stuck? Check out: https://move-book.com/storage/store-ability.html
 """
 
 # ====================================
-# 18. STORAGE - Storage Functions
+# 3.2. Storage Functions
 # ====================================
 
 [[exercises]]
@@ -541,7 +563,7 @@ Stuck? Check out: https://move-book.com/storage/storage-functions.html
 """
 
 # ====================================
-# 19. STORAGE - UID and ID
+# 3.3. UID and ID
 # ====================================
 
 [[exercises]]
@@ -578,7 +600,7 @@ Stuck? Check out: https://move-book.com/storage/uid-and-id.html
 """
 
 # ====================================
-# 20. STORAGE - Transfer to Object
+# 3.4. Transfer to Object
 # ====================================
 
 [[exercises]]
@@ -615,7 +637,11 @@ Stuck? Check out: https://move-book.com/storage/transfer-to-object.html
 """
 
 # ====================================
-# 21. PROGRAMMABILITY - Events
+# 4. PROGRAMMABILITY (Move Book Chapter 7+)
+# ====================================
+
+# ====================================
+# 4.1. Events
 # ====================================
 
 [[exercises]]
@@ -630,7 +656,7 @@ Stuck? Check out: https://move-book.com/programmability/events.html
 """
 
 # ====================================
-# ADVANCED EXERCISES - Coming Soon
+# 5. ADVANCED EXERCISES (Coming Soon)
 # ====================================
 
 [[exercises]]

@@ -24,6 +24,7 @@ interface LeaderboardEntry {
   user_id: string;
   username: string;
   email: string;
+  github_username?: string;
   completed_exercises: number;
   total_exercises: number;
   completion_rate: number;
@@ -84,8 +85,15 @@ export default function LeaderboardPage() {
     return "bg-muted";
   };
 
-  const getInitials = (email: string) => {
-    return email.substring(0, 2).toUpperCase();
+  const getInitials = (username: string, githubUsername?: string) => {
+    // For "You", show "YO"
+    if (username === 'You') return 'YO';
+    // For others, use first 2 characters of GitHub username
+    if (githubUsername && githubUsername.length >= 2) {
+      return githubUsername.substring(0, 2).toUpperCase();
+    }
+    // Fallback if no GitHub username
+    return '??';
   };
 
   const formatTime = (seconds: number) => {
@@ -156,13 +164,13 @@ export default function LeaderboardPage() {
                     </div>
                     <Avatar className="h-12 w-12">
                       <AvatarFallback className="bg-primary text-primary-foreground">
-                        {getInitials(userPosition.email)}
+                        {getInitials(userPosition.username, userPosition.github_username)}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <div className="font-semibold">{userPosition.email}</div>
+                      <div className="font-semibold">{userPosition.username || '\u00A0'}</div>
                       <div className="text-sm text-muted-foreground">
-                        Rank #{userPosition.rank}
+                        {userPosition.email ? userPosition.email : `Rank #${userPosition.rank}`}
                       </div>
                     </div>
                   </div>
@@ -245,14 +253,14 @@ export default function LeaderboardPage() {
                         
                         <Avatar className="h-10 w-10">
                           <AvatarFallback className={entry.rank <= 3 ? getRankBadgeColor(entry.rank) : ''}>
-                            {getInitials(entry.email)}
+                            {getInitials(entry.username, entry.github_username)}
                           </AvatarFallback>
                         </Avatar>
                         
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="font-semibold truncate">
-                              {entry.email}
+                            <span className="font-semibold truncate text-muted-foreground">
+                              {entry.username || '\u00A0'}
                             </span>
                             {entry.user_id === user?.id && (
                               <Badge variant="outline" className="text-xs">You</Badge>

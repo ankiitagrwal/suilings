@@ -42,23 +42,27 @@ export async function GET(request: NextRequest) {
       throw progressError;
     }
 
-    // Get ALL users who have ever logged in (via exercise_progress or auth)
-    // First get user IDs from progress
+    // Get users based on filter
+    // For time-filtered views (monthly/weekly), only show users with activity in that period
+    // For all-time view, show all users including those with no progress
     const progressUserIds = [...new Set(progressData?.map((p: any) => p.user_id) || [])];
     
-    // Also get all users from auth to include users with no progress
     let allUserIds = progressUserIds;
-    try {
-      const adminClient = createAdminClient();
-      const { data: { users: allAuthUsers }, error: usersError } = await adminClient.auth.admin.listUsers();
-      
-      // Combine: users with progress + users without progress
-      if (allAuthUsers && !usersError) {
-        allUserIds = [...new Set([...progressUserIds, ...allAuthUsers.map(u => u.id)])];
+    
+    // Only fetch all users for "all-time" filter
+    if (filter === 'all-time') {
+      try {
+        const adminClient = createAdminClient();
+        const { data: { users: allAuthUsers }, error: usersError } = await adminClient.auth.admin.listUsers();
+        
+        // Combine: users with progress + users without progress
+        if (allAuthUsers && !usersError) {
+          allUserIds = [...new Set([...progressUserIds, ...allAuthUsers.map(u => u.id)])];
+        }
+      } catch (error) {
+        // If admin access fails, fall back to showing only users with progress
+        console.warn('Could not fetch all users, showing only users with progress');
       }
-    } catch (error) {
-      // If admin access fails, fall back to showing only users with progress
-      console.warn('Could not fetch all users, showing only users with progress');
     }
     
     if (allUserIds.length === 0) {
@@ -73,7 +77,22 @@ export async function GET(request: NextRequest) {
       .from('exercises')
       .select('*', { count: 'exact', head: true });
 
-    const totalExercises = totalExercisesCount || 31;
+    const totalExercises = totalExercisesCount || 52;
+
+    // Fetch user metadata (for GitHub usernames) from auth
+    const adminClient = createAdminClient();
+    let userMetadataMap: Map<string, any> = new Map();
+    
+    try {
+      const { data: { users: allAuthUsers }, error: usersError } = await adminClient.auth.admin.listUsers();
+      if (allAuthUsers && !usersError) {
+        allAuthUsers.forEach(u => {
+          userMetadataMap.set(u.id, u.user_metadata || {});
+        });
+      }
+    } catch (error) {
+      console.warn('Could not fetch user metadata for leaderboard');
+    }
 
     const userStats = allUserIds.map(userId => {
       const userProgress = progressData?.filter((p: any) => p.user_id === userId) || [];
@@ -93,12 +112,16 @@ export async function GET(request: NextRequest) {
 
       const completionRate = totalExercises > 0 ? (completed / totalExercises) * 100 : 0;
       const isCurrentUser = userId === currentUserId;
-      const username = isCurrentUser ? 'You' : `User ${userId.substring(0, 8)}`;
+      
+      // Get GitHub username from metadata (if available)
+      const metadata = userMetadataMap.get(userId) || {};
+      const githubUsername = metadata.user_name || metadata.preferred_username || '';
 
       return {
         user_id: userId,
-        username: username,
-        email: isCurrentUser ? currentUser?.email || '' : '',
+        username: isCurrentUser ? 'You' : '', // Empty for privacy
+        email: isCurrentUser ? currentUser?.email || '' : '', // Only show current user's email
+        github_username: githubUsername, // For avatar initials
         completed_exercises: completed,
         total_exercises: totalExercises,
         completion_rate: completionRate,
@@ -115,6 +138,7 @@ export async function GET(request: NextRequest) {
       return b.completion_rate - a.completion_rate;
     });
 
+    // Assign ranks (keep usernames empty for privacy)
     const leaderboard = userStats.map((entry, index) => ({
       ...entry,
       rank: index + 1,
