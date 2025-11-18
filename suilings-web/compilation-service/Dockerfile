@@ -50,10 +50,10 @@ COPY suilings-web/compilation-service/runner-crate ./runner-crate
 
 # Pre-fetch Sui dependencies during build (as root, before switching user)
 # This prevents memory issues during runtime compilation
-# Using locked dependency versions from Move.lock (framework/devnet)
+# Using locked dependency versions from Move.lock (mainnet via testnet resolution)
 RUN cd /app/runner-crate && \
     rm -rf build && \
-    sui move build --skip-fetch-latest-git-deps
+    sui move build
 
 # Change ownership to non-root user
 RUN chown -R appuser:appuser /app
