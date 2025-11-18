@@ -7,4 +7,4 @@ edition = "2024.beta"
 suilings = "0x0"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet" }
+# Sui framework dependencies are automatically added by Move 2024
