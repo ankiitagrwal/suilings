@@ -125,6 +125,16 @@ app.post('/api/compile', async (req, res) => {
 
     console.log(`[${new Date().toISOString()}] Compilation request - Mode: ${mode}, Code length: ${code.length}`);
 
+    // Clean build cache to prevent stale dependency issues
+    const buildPath = path.join(RUNNER_CRATE_PATH, 'build');
+    const lockPath = path.join(RUNNER_CRATE_PATH, 'Move.lock');
+    try {
+      await fs.rm(buildPath, { recursive: true, force: true });
+      await fs.rm(lockPath, { force: true });
+    } catch (cleanupError) {
+      // Ignore cleanup errors - files might not exist
+    }
+
     // Write user's code to runner-crate/sources/main.move
     await fs.writeFile(MAIN_MOVE_PATH, code, 'utf-8');
 

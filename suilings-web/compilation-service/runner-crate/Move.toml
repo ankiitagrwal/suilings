@@ -7,5 +7,4 @@ edition = "2024.beta"
 suilings = "0x0"
 
 [dependencies]
-# Sui dependency is automatically injected by Move 2024 edition
-# Removing explicit dependency to allow automatic framework injection
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet" }
