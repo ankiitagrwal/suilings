@@ -4,24 +4,25 @@
 //
 // Stuck? Check out: https://move-book.com/move-basics/visibility.html
 
-module suilings::greeter;
+module suilings::greeter {
 
 /// Greets a person by name, returning "Hello, <name>"
-fun greet(name: vector<u8>): vector<u8> {
-    // TODO: Make this function public
-    let hello = b"Hello, ";
-    let mut result = hello;
-    result.append(name);
-    result
+    fun greet(name: vector<u8>): vector<u8> {
+// TODO: Make this function public
+        let hello = b"Hello, ";
+        let mut result = hello;
+        result.append(name);
+        result
 }
 
 #[test_only]
 
-use suilings::greeter;
+    use suilings::greeter;
 
-#[test]
-fun greet() {
-    let name = b"Alice";
-    let greeting = greeter::greet(name);
-    assert!(greeting == b"Hello, Alice");
+    #[test]
+    fun greet() {
+        let name = b"Alice";
+        let greeting = greeter::greet(name);
+        assert!(greeting == b"Hello, Alice");
+}
 }

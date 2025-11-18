@@ -8,6 +8,6 @@
 // Stay tuned! 🚀
 
 module suilings::nft_basics {
-    // Coming soon!
+// Coming soon!
 }
 

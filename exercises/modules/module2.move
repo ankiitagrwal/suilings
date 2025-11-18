@@ -4,7 +4,7 @@
 //
 // Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
 
-module suilings::calculator;
+module suilings::calculator {
 
 // TODO: Add the `use` line here to import math::add
 
@@ -15,15 +15,17 @@ public fun sum_three(x: u64, y: u64, z: u64): u64 {
 }
 
 #[test]
-fun sum_three_works() {
-    assert!(sum_three(1, 2) == 6);
-    assert!(sum_three(10, 20) == 60);
+    fun sum_three_works() {
+        assert!(sum_three(1, 2) == 6);
+        assert!(sum_three(10, 20) == 60);
 }
 
 // Helper module
-module suilings::math;
+}
+module suilings::math {
 
 /// Simple addition function
 public fun add(a: u64, b: u64): u64 {
     a + b
+}
 }

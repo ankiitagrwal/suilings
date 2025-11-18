@@ -4,7 +4,7 @@
 //
 // Stuck? Check out: https://move-book.com/move-basics/primitive-types.html
 
-module suilings::boolean_ops;
+module suilings::boolean_ops {
 
 /// Returns true if age is 18 or older
 public fun is_adult(age: u8): bool {
@@ -24,29 +24,32 @@ public fun is_teenager(age: u8): bool {
     false
 }
 
+}
+
 #[test_only]
-module suilings::boolean_ops_tests;
+module suilings::boolean_ops_tests {
 
 use suilings::boolean_ops;
 
 #[test]
-fun is_adult_returns_correct_result() {
-    assert!(boolean_ops::is_adult(18) == true);
-    assert!(boolean_ops::is_adult(17) == false);
-    assert!(boolean_ops::is_adult(25) == true);
+    fun is_adult_returns_correct_result() {
+        assert!(boolean_ops::is_adult(18) == true);
+        assert!(boolean_ops::is_adult(17) == false);
+        assert!(boolean_ops::is_adult(25) == true);
 }
 
-#[test]
-fun can_vote_checks_both_conditions() {
-    assert!(boolean_ops::can_vote(18, true) == true);
-    assert!(boolean_ops::can_vote(18, false) == false);
-    assert!(boolean_ops::can_vote(17, true) == false);
+    #[test]
+    fun can_vote_checks_both_conditions() {
+        assert!(boolean_ops::can_vote(18, true) == true);
+        assert!(boolean_ops::can_vote(18, false) == false);
+        assert!(boolean_ops::can_vote(17, true) == false);
 }
 
-#[test]
-fun is_teenager_checks_age_range() {
-    assert!(boolean_ops::is_teenager(13) == true);
-    assert!(boolean_ops::is_teenager(19) == true);
-    assert!(boolean_ops::is_teenager(12) == false);
-    assert!(boolean_ops::is_teenager(20) == false);
+    #[test]
+    fun is_teenager_checks_age_range() {
+        assert!(boolean_ops::is_teenager(13) == true);
+        assert!(boolean_ops::is_teenager(19) == true);
+        assert!(boolean_ops::is_teenager(12) == false);
+        assert!(boolean_ops::is_teenager(20) == false);
+}
 }

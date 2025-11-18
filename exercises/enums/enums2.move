@@ -4,7 +4,7 @@
 //
 // Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
 
-module suilings::enums2;
+module suilings::enums2 {
 
 /// Direction enum with four variants
 public enum Direction {
@@ -41,24 +41,26 @@ public fun is_opposite(dir1: Direction, dir2: Direction): bool {
 }
 
 #[test]
-fun direction_name_works() {
-    assert!(direction_name(Direction::North) == b"North");
-    assert!(direction_name(Direction::South) == b"South");
-    assert!(direction_name(Direction::East)  == b"East");
-    assert!(direction_name(Direction::West)  == b"West");
+    fun direction_name_works() {
+        assert!(direction_name(Direction::North) == b"North");
+        assert!(direction_name(Direction::South) == b"South");
+        assert!(direction_name(Direction::East)  == b"East");
+        assert!(direction_name(Direction::West)  == b"West");
 }
 
-#[test]
-fun priority_value_works() {
-    assert!(priority_value(Priority::Low)    == 1);
-    assert!(priority_value(Priority::Medium) == 2);
-    assert!(priority_value(Priority::High)   == 3);
+    #[test]
+    fun priority_value_works() {
+        assert!(priority_value(Priority::Low)    == 1);
+        assert!(priority_value(Priority::Medium) == 2);
+        assert!(priority_value(Priority::High)   == 3);
 }
 
-#[test]
-fun is_opposite_works() {
-    assert!(is_opposite(Direction::North, Direction::South) == true);
-    assert!(is_opposite(Direction::East,  Direction::West)  == true);
-    assert!(is_opposite(Direction::North, Direction::East)  == false);
-    assert!(is_opposite(Direction::West,  Direction::East)  == true);
+    #[test]
+    fun is_opposite_works() {
+        assert!(is_opposite(Direction::North, Direction::South) == true);
+        assert!(is_opposite(Direction::East,  Direction::West)  == true);
+        assert!(is_opposite(Direction::North, Direction::East)  == false);
+        assert!(is_opposite(Direction::West,  Direction::East)  == true);
+}
+
 }

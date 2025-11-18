@@ -4,7 +4,7 @@
 //
 // Stuck? Check out: https://move-book.com/move-basics/generics.html
 
-module suilings::generic_structs;
+module suilings::generic_structs {
 
 // TODO: Make this struct generic over type T with 'drop' constraint
 /// A box that can hold any droppable value
@@ -50,38 +50,39 @@ public fun first<K: copy + drop, V: drop>(pair: &Pair<K, V>): K {
 public fun swap<K: copy + drop, V: copy + drop>(pair: Pair<K, V>): Pair<V, K> {
     // TODO: Return new Pair with swapped values
     Pair { first: 0, second: 0 }
-}
+    }}
 
 #[test_only]
-module suilings::generic_structs_tests;
+module suilings::generic_structs_tests {
 
-use suilings::generic_structs;
+    use suilings::generic_structs;
 
-#[test]
-fun box_works_with_u64() {
+    #[test]
+    fun box_works_with_u64() {
     let box = generic_structs::create_box<u64>(42);
     let value = generic_structs::unbox(box);
     assert!(value == 42);
 }
 
 #[test]
-fun box_works_with_bool() {
-    let box = generic_structs::create_box<bool>(true);
-    let value = generic_structs::unbox(box);
-    assert!(value == true);
+    fun box_works_with_bool() {
+        let box = generic_structs::create_box<bool>(true);
+        let value = generic_structs::unbox(box);
+        assert!(value == true);
 }
 
-#[test]
-fun pair_stores_different_types() {
-    let pair = generic_structs::create_pair<u64, bool>(10, true);
-    let first_val = generic_structs::first(&pair);
-    assert!(first_val == 10);
+    #[test]
+    fun pair_stores_different_types() {
+        let pair = generic_structs::create_pair<u64, bool>(10, true);
+        let first_val = generic_structs::first(&pair);
+        assert!(first_val == 10);
 }
 
-#[test]
-fun swap_exchanges_pair_elements() {
-    let pair = generic_structs::create_pair<u8, u64>(5, 100);
-    let swapped = generic_structs::swap(pair);
-    let first_val = generic_structs::first(&swapped);
-    assert!(first_val == 100);
+    #[test]
+    fun swap_exchanges_pair_elements() {
+        let pair = generic_structs::create_pair<u8, u64>(5, 100);
+        let swapped = generic_structs::swap(pair);
+        let first_val = generic_structs::first(&swapped);
+        assert!(first_val == 100);
+}
 }

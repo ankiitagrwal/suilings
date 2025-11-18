@@ -4,7 +4,7 @@
 //
 // Stuck? Check out: https://move-book.com/guides/better-error-handling.html
 
-module suilings::options2;
+module suilings::options2 {
 
 // Error constants use EPascalCase naming
 const EDivisionByZero: u64 = 0;
@@ -36,64 +36,65 @@ public fun withdraw(balance: u64, amount: u64): u64 {
     // TODO: Assert amount > 0 with EInvalidAmount
     // TODO: Assert amount <= balance with EInsufficientBalance
     0
-}
+    }}
 
 #[test_only]
-module suilings::options2_tests;
+module suilings::options2_tests {
 
-use suilings::options2;
+    use suilings::options2;
 
-#[test]
-fun safe_divide_works() {
+    #[test]
+    fun safe_divide_works() {
     assert!(options2::safe_divide(10) == 5);
     assert!(options2::safe_divide(100) == 25);
 }
 
 #[test, expected_failure(abort_code = 0)]
-fun divide_by_zero_aborts() {
-    options2::safe_divide(10, 0);
+    fun divide_by_zero_aborts() {
+        options2::safe_divide(10, 0);
 }
 
-#[test]
-fun element_returns_correct_value() {
-    let vec = vector[10, 20, 30, 40];
-    assert!(options2::element(&vec) == 10);
-    assert!(options2::element(&vec) == 30);
+    #[test]
+    fun element_returns_correct_value() {
+        let vec = vector[10, 20, 30, 40];
+        assert!(options2::element(&vec) == 10);
+        assert!(options2::element(&vec) == 30);
 }
 
-#[test, expected_failure(abort_code = 1)]
-fun element_out_of_range_aborts() {
-    let vec = vector[10, 20];
-    options2::element(&vec, 5);
+    #[test, expected_failure(abort_code = 1)]
+    fun element_out_of_range_aborts() {
+        let vec = vector[10, 20];
+        options2::element(&vec, 5);
 }
 
-#[test]
-fun calculate_average_works() {
-    let nums = vector[10, 20, 30, 40];
-    assert!(options2::calculate_average(nums) == 25);
-    
-    let nums2 = vector[100, 200];
-    assert!(options2::calculate_average(nums2) == 150);
+    #[test]
+    fun calculate_average_works() {
+        let nums = vector[10, 20, 30, 40];
+        assert!(options2::calculate_average(nums) == 25);
+
+        let nums2 = vector[100, 200];
+        assert!(options2::calculate_average(nums2) == 150);
 }
 
-#[test, expected_failure(abort_code = 2)]
-fun average_empty_vector_aborts() {
-    let empty = vector[];
-    options2::calculate_average(empty);
+    #[test, expected_failure(abort_code = 2)]
+    fun average_empty_vector_aborts() {
+        let empty = vector[];
+        options2::calculate_average(empty);
 }
 
-#[test]
-fun withdraw_calculates_new_balance() {
-    assert!(options2::withdraw(100) == 70);
-    assert!(options2::withdraw(50) == 0);
+    #[test]
+    fun withdraw_calculates_new_balance() {
+        assert!(options2::withdraw(100) == 70);
+        assert!(options2::withdraw(50) == 0);
 }
 
-#[test, expected_failure(abort_code = 3)]
-fun withdraw_zero_aborts() {
-    options2::withdraw(100, 0);
+    #[test, expected_failure(abort_code = 3)]
+    fun withdraw_zero_aborts() {
+        options2::withdraw(100, 0);
 }
 
-#[test, expected_failure(abort_code = 4)]
-fun withdraw_too_much_aborts() {
-    options2::withdraw(50, 100);
+    #[test, expected_failure(abort_code = 4)]
+    fun withdraw_too_much_aborts() {
+        options2::withdraw(50, 100);
+}
 }

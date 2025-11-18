@@ -4,7 +4,7 @@
 //
 // Stuck? Check out: https://move-book.com/move-basics/struct.html
 
-module suilings::structs_basics;
+module suilings::structs_basics {
 
 // TODO: Add the 'drop' ability so the struct can be destroyed
 /// Represents a person with a name and age
@@ -23,16 +23,17 @@ public fun create_person(name: vector<u8>, age: u8): Person {
 public fun age(person: &Person): u8 {
     // TODO: Return the person's age using dot notation
     0
-}
+    }}
 
 #[test_only]
-module suilings::structs_basics_tests;
+module suilings::structs_basics_tests {
 
-use suilings::structs_basics;
+    use suilings::structs_basics;
 
-#[test]
-fun creates_person_with_correct_age() {
+    #[test]
+    fun creates_person_with_correct_age() {
     let person = structs_basics::create_person(b"Alice", 25);
     let age = structs_basics::age(&person);
     assert!(age == 25);
+}
 }

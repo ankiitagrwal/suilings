@@ -4,7 +4,7 @@
 //
 // Stuck? Check out: https://move-book.com/move-basics/generics.html
 
-module suilings::generic_functions;
+module suilings::generic_functions {
 
 /// Returns the value unchanged (identity function)
 public fun identity<T>(value: T): T {
@@ -41,44 +41,45 @@ public fun duplicate<T: copy + drop>(value: T): (T, T) {
 public fun is_equal<T: drop>(a: T, b: T): bool {
     // Note: Move doesn't have generic equality
     false
-}
+    }}
 
 #[test_only]
-module suilings::generic_functions_tests;
+module suilings::generic_functions_tests {
 
-use suilings::generic_functions;
+    use suilings::generic_functions;
 
-#[test]
-fun identity_works_with_u64() {
+    #[test]
+    fun identity_works_with_u64() {
     let result = generic_functions::identity<u64>(42);
     assert!(result == 42);
 }
 
 #[test]
-fun identity_works_with_bool() {
-    let result = generic_functions::identity<bool>(true);
-    assert!(result == true);
+    fun identity_works_with_bool() {
+        let result = generic_functions::identity<bool>(true);
+        assert!(result == true);
 }
 
-#[test]
-fun create_pair_works() {
-    let (first, second) = generic_functions::create_pair<u64, bool>(10, true);
-    assert!(first == 10);
-    assert!(second == true);
+    #[test]
+    fun create_pair_works() {
+        let (first, second) = generic_functions::create_pair<u64, bool>(10, true);
+        assert!(first == 10);
+        assert!(second == true);
 }
 
-#[test]
-fun compare_and_return_selects_correctly() {
-    let result = generic_functions::compare_and_return_first<u64>(10, 20, true);
-    assert!(result == 10);
-    
-    let result2 = generic_functions::compare_and_return_first<u64>(10, 20, false);
-    assert!(result2 == 20);
+    #[test]
+    fun compare_and_return_selects_correctly() {
+        let result = generic_functions::compare_and_return_first<u64>(10, 20, true);
+        assert!(result == 10);
+
+        let result2 = generic_functions::compare_and_return_first<u64>(10, 20, false);
+        assert!(result2 == 20);
 }
 
-#[test]
-fun duplicate_creates_two_copies() {
-    let (a, b) = generic_functions::duplicate<u8>(5);
-    assert!(a == 5);
-    assert!(b == 5);
+    #[test]
+    fun duplicate_creates_two_copies() {
+        let (a, b) = generic_functions::duplicate<u8>(5);
+        assert!(a == 5);
+        assert!(b == 5);
+}
 }
