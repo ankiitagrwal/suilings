@@ -48,8 +48,12 @@ COPY suilings-web/compilation-service/server.js ./
 # Copy runner-crate from compilation-service directory
 COPY suilings-web/compilation-service/runner-crate ./runner-crate
 
+# Clean any cached builds to ensure fresh compilation with new Move.toml
+RUN cd /app/runner-crate && rm -rf build Move.lock
+
 # Pre-fetch Sui dependencies during build (as root, before switching user)
 # This prevents memory issues during runtime compilation
+# Using Move 2024 automatic dependency injection (no explicit Sui in Move.toml)
 RUN cd /app/runner-crate && sui move build --skip-fetch-latest-git-deps || true
 
 # Change ownership to non-root user
