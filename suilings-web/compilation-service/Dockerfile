@@ -1,15 +1,13 @@
-# Dockerfile using official suiup installer
-# Fast and reliable - installs latest stable Sui
+# Dockerfile using Node.js base image with Sui CLI
+# Fast and reliable - Node.js pre-installed
 
-FROM ubuntu:24.04
+FROM node:22-slim
 
-# Install Node.js 22 and runtime dependencies
+# Install runtime dependencies
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
     git \
-    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Install suiup (the Sui installer)
