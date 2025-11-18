@@ -1,6 +1,3 @@
-# Dockerfile using Node.js base image with Sui CLI
-# Fast and reliable - Node.js pre-installed
-# Updated: Using official Node.js image to avoid npm installation issues
 
 FROM node:22-slim
 
