@@ -8,4 +8,4 @@ std = "0x1"
 suilings = "0x0"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/devnet" }
+Sui = { git = "https://github.com/MystenLabs/sui", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet" }
