@@ -10,12 +10,11 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Sui using suiup (interactive prompts answered automatically)
+# Install Sui using suiup (set as default automatically)
 RUN curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh && \
     export PATH="/root/.local/bin:${PATH}" && \
-    echo "n" | suiup install sui && \
-    SUI_PATH=$(find /root/.local/share/suiup/binaries -type f -name sui | head -1) && \
-    cp $SUI_PATH /usr/local/bin/sui && \
+    echo "y" | suiup install sui && \
+    cp /root/.local/bin/sui /usr/local/bin/sui && \
     chmod 755 /usr/local/bin/sui && \
     sui --version
 
