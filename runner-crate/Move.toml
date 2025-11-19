@@ -7,4 +7,5 @@ edition = "2024.beta"
 suilings = "0x0"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui", subdir = "crates/sui-framework/packages/sui-framework", rev = "mainnet" }
+Sui = { git = "https://github.com/MystenLabs/sui", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet" }
+MoveStdlib = { git = "https://github.com/MystenLabs/sui", subdir = "crates/sui-framework/packages/move-stdlib", rev = "testnet" }

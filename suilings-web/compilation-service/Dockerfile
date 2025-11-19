@@ -1,3 +1,5 @@
+# Dockerfile using Node.js base image with Sui CLI
+# Fast and reliable - Node.js and npm pre-installed
 
 FROM node:22-slim
 
@@ -8,22 +10,14 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install suiup (the Sui installer)
-RUN curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
-
-# Add suiup to PATH
-ENV PATH="/root/.local/bin:${PATH}"
-
-# Install Sui CLI
-RUN suiup install sui
-
-# Find and copy sui binary to global location (accessible by all users)
-RUN SUI_PATH=$(find /root/.local/share/suiup/binaries -type f | head -1) && \
+# Install Sui using suiup (interactive prompts answered automatically)
+RUN curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh && \
+    export PATH="/root/.local/bin:${PATH}" && \
+    echo "n" | suiup install sui && \
+    SUI_PATH=$(find /root/.local/share/suiup/binaries -type f -name sui | head -1) && \
     cp $SUI_PATH /usr/local/bin/sui && \
-    chmod 755 /usr/local/bin/sui
-
-# Verify Sui installation
-RUN sui --version
+    chmod 755 /usr/local/bin/sui && \
+    sui --version
 
 # Create app directory
 WORKDIR /app
@@ -46,7 +40,7 @@ COPY suilings-web/compilation-service/runner-crate ./runner-crate
 
 # Pre-fetch Sui dependencies during build (as root, before switching user)
 # This prevents memory issues during runtime compilation
-# Using locked dependency versions from Move.lock (mainnet via testnet resolution)
+# Using locked dependency versions from Move.lock (testnet)
 RUN cd /app/runner-crate && \
     rm -rf build && \
     sui move build
