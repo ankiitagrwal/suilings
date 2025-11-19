@@ -44,8 +44,13 @@ RUN cd /app/runner-crate && \
     rm -rf build && \
     sui move build
 
+# Copy Move dependency cache to appuser's home directory
+# This prevents re-downloading dependencies at runtime
+RUN mkdir -p /home/appuser/.move && \
+    cp -r /root/.move/* /home/appuser/.move/ 2>/dev/null || true
+
 # Change ownership to non-root user
-RUN chown -R appuser:appuser /app
+RUN chown -R appuser:appuser /app /home/appuser/.move
 
 # Switch to non-root user
 USER appuser

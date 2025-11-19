@@ -12,6 +12,9 @@ const execAsync = promisify(exec);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Trust proxy - required for Railway and other reverse proxies
+app.set('trust proxy', true);
+
 // Configuration
 const RUNNER_CRATE_PATH = process.env.RUNNER_CRATE_PATH || path.join(__dirname, 'runner-crate');
 const MAIN_MOVE_PATH = path.join(RUNNER_CRATE_PATH, 'sources', 'main.move');
