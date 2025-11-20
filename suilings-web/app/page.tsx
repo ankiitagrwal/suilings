@@ -420,6 +420,9 @@ fun test_balance() {
               <Link href="https://github.com/MystenLabs/sui" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Sui GitHub
               </Link>
+              <Link href="/feedback" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Feedback
+              </Link>
               <Link href="/exercise" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Start Learning
               </Link>

@@ -9,7 +9,7 @@ import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { calculateProgress } from "@/lib/exerciseLoader";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, MessageSquare } from "lucide-react";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -62,6 +62,12 @@ export const Header = memo(function Header({ onRun, onReset, onShowHint }: Heade
                 <Link href="/leaderboard">
                   <Trophy className="h-3.5 w-3.5" />
                   Leaderboard
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                <Link href="/feedback">
+                  <MessageSquare className="h-3.5 w-3.5" />
+                  Feedback
                 </Link>
               </Button>
             </div>
