@@ -7,7 +7,7 @@ Backend service for compiling Sui Move code. This service runs the Sui CLI to co
 - **Express.js** - REST API server
 - **Sui CLI** - Move language compiler
 - **Docker** - Containerized deployment
-- **Railway/Fly.io** - Hosting platform
+- **AWS EC2** - Hosting platform
 
 ## Local Development
 
@@ -68,88 +68,51 @@ docker run -p 3001:3001 suilings-backend
 curl http://localhost:3001/health
 ```
 
-## Railway Deployment
+## AWS EC2 Deployment
 
-### Option A: Using Railway CLI
+### Quick Deploy
 
-```bash
-# Install Railway CLI
-npm install -g @railway/cli
-
-# Login
-railway login
-
-# Link project
-railway link
-
-# Deploy
-cd compilation-service
-railway up
-```
-
-### Option B: Using GitHub Integration
-
-1. **Connect Repository**
-   - Go to Railway dashboard
-   - Create new project
-   - Connect GitHub repo
-
-2. **Configure Service**
-   - Root Directory: `` (empty - use repository root)
-   - Dockerfile Path: `suilings-web/compilation-service/Dockerfile`
-   - Watch Paths: `suilings-web/compilation-service/**`, `runner-crate/**`
-
-3. **Environment Variables** (Optional)
-   ```
-   PORT=3001
-   NODE_ENV=production
-   ALLOWED_ORIGINS=https://suilings.vercel.app,https://your-domain.com
-   ```
-
-4. **Deploy**
-   - Railway auto-deploys on push to main branch
-   - Get deployment URL: `https://your-service.up.railway.app`
-
-### Railway Configuration File
-
-The `railway.toml` file is located at the repository root (`suilings/railway.toml`), not in this directory.
-
-Content (already created at repository root):
-
-```toml
-[build]
-builder = "DOCKERFILE"
-dockerfilePath = "suilings-web/compilation-service/Dockerfile"
-watchPatterns = ["suilings-web/compilation-service/**", "runner-crate/**"]
-
-[deploy]
-startCommand = "npm start"
-healthcheckPath = "/health"
-healthcheckTimeout = 30
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 5
-```
-
-This configuration tells Railway to:
-- Build from repository root
-- Use the Dockerfile in compilation-service
-- Watch for changes in both backend code and runner-crate
-
-## Fly.io Deployment
-
-### Setup
+From the repository root:
 
 ```bash
-# Install flyctl
-curl -L https://fly.io/install.sh | sh
-
-# Login
-fly auth login
-
-# Initialize (from compilation-service directory)
-cd compilation-service
-fly launch
+./deploy.sh
 ```
+
+This will:
+1. Build Docker image for EC2 (AMD64)
+2. Push to Docker Hub
+3. Deploy to EC2 instance
+4. Verify health
+
+### Manual Deployment
+
+```bash
+# Build for EC2
+docker build --platform linux/amd64 \
+  -f suilings-web/compilation-service/Dockerfile \
+  -t ankiitagrwal/suilings:latest .
+
+# Push to Docker Hub
+docker push ankiitagrwal/suilings:latest
+
+# SSH to EC2 and pull
+ssh -i MyEC2KeyPair.pem ubuntu@3.213.0.115 << 'EOF'
+  docker pull ankiitagrwal/suilings:latest
+  docker stop suilings-backend || true
+  docker rm suilings-backend || true
+  docker run -d --name suilings-backend -p 3006:3001 ankiitagrwal/suilings:latest
+EOF
+
+# Verify
+curl http://3.213.0.115:3006/health
+```
+
+### EC2 Configuration
+
+- **Instance:** AWS EC2 (Ubuntu)
+- **IP:** 3.213.0.115
+- **Port:** 3006 (external) → 3001 (container)
+- **URL:** http://3.213.0.115:3006
 
 ## API Endpoints
 
@@ -210,21 +173,20 @@ Compile Sui Move code.
 
 ### Logs
 
-**Railway:**
+**Local Docker:**
 ```bash
-railway logs
+docker logs suilings-backend
 ```
 
-**Docker:**
+**EC2 Docker:**
 ```bash
-docker logs <container-id>
+ssh -i MyEC2KeyPair.pem ubuntu@3.213.0.115 "docker logs suilings-backend"
 ```
 
-### Metrics
+### Health Check
 
-Check health endpoint regularly:
 ```bash
-curl https://your-backend.railway.app/health
+curl http://3.213.0.115:3006/health
 ```
 
 ## Troubleshooting
@@ -252,9 +214,8 @@ docker build -t suilings-backend -f compilation-service/Dockerfile . --progress=
 
 ## Cost Estimates
 
-- **Railway Hobby:** $5/month
-- **Fly.io Free Tier:** 3 VMs (256MB each) - FREE
-- **Railway Pro:** $20/month (if needed)
+- **AWS EC2:** ~$10-20/month (t3.medium or similar)
+- **Data Transfer:** Minimal for compilation service
 
 ## Environment Variables
 
