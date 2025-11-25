@@ -1,7 +1,19 @@
-# Dockerfile using Node.js base image with Sui CLI
-# Fast and reliable - Node.js and npm pre-installed
+# Dockerfile using Ubuntu 24.04 with Node.js and Sui CLI
+# Ubuntu 24.04 provides GLIBC 2.39 required by Sui
+#
+# NETWORK CONFIGURATION - PROVEN WORKING IN PRODUCTION:
+# - Sui CLI: testnet v1.61.1 (from suiup install sui)
+# - Move Framework: mainnet (Move.toml rev = "mainnet")
+# This hybrid setup is stable and tested - DO NOT CHANGE
 
-FROM node:22-slim
+FROM ubuntu:24.04
+
+# Install Node.js 22 and npm
+RUN apt-get update && apt-get install -y \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
+    && node --version && npm --version
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y \
@@ -10,7 +22,8 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Sui using suiup (set as default automatically)
+# Install Sui CLI using suiup (installs testnet v1.61.1 by default)
+# CLI version doesn't need to match framework - proven working!
 RUN curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh && \
     export PATH="/root/.local/bin:${PATH}" && \
     echo "y" | suiup install sui && \
@@ -39,7 +52,7 @@ COPY suilings-web/compilation-service/runner-crate ./runner-crate
 
 # Pre-fetch Sui dependencies during build (as root, before switching user)
 # This prevents memory issues during runtime compilation
-# Using locked dependency versions from Move.lock (testnet)
+# Using mainnet framework (Move.toml) with testnet CLI - working config!
 RUN cd /app/runner-crate && \
     rm -rf build && \
     sui move build

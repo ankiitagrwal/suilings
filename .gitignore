@@ -2,3 +2,7 @@
 *.move.toml  # Generated test configs
 Cargo.lock  # Optional, commit for reproducibility
 /runner-crate/build
+# SSH Keys and Private Files
+MyEC2KeyPair.pem
+private.md
+*.pem
