@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { groupExercisesByDifficulty } from "@/lib/exerciseLoader";
-import { CheckCircle2, Circle, Zap, ChevronLeft, Lock, ChevronDown, ChevronRight } from "lucide-react";
+import { CheckCircle2, Circle, Zap, ChevronLeft, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -122,24 +122,41 @@ export function Sidebar({ onToggle }: SidebarProps) {
               ) : (
                 <ChevronRight className="h-4 w-4 shrink-0" />
               )}
-              <h2 className="text-sm font-bold text-foreground">Advanced Exercises</h2>
-              <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
-              <span className="text-xs text-muted-foreground ml-auto shrink-0">{advanced.length}</span>
+              <h2 className="text-sm font-bold text-foreground flex-1">🚀 Advanced Exercises</h2>
+              <span className="text-xs text-muted-foreground shrink-0">
+                {advanced.filter(ex => ex.status === 'completed').length}/{advanced.length}
+              </span>
             </button>
             
             {isAdvancedExpanded && (
               <div className="space-y-1">
-                {advanced.map((exercise) => (
-                  <div
-                    key={exercise.name}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm opacity-50 cursor-not-allowed bg-muted/30"
-                    title="This exercise is coming soon!"
+                {advanced.map((exercise) => {
+                  const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
+                  const isActive = exerciseIndex === currentExerciseIndex;
+
+                  return (
+                    <button
+                      key={exercise.name}
+                      onClick={() => handleExerciseClick(exerciseIndex)}
+                      className={cn(
+                        "w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
+                        "hover:bg-accent hover:text-accent-foreground",
+                        isActive && "bg-accent text-accent-foreground font-medium"
+                      )}
+                    >
+                      {getExerciseIcon(exercise.status, isActive)}
+                      <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
+                      <span
+                        className={cn(
+                          "text-xs px-1.5 py-0.5 rounded",
+                          exercise.mode === "test" ? "bg-blue-500/10 text-blue-500" : "bg-green-500/10 text-green-500"
+                        )}
                       >
-                        <Lock className="h-4 w-4 text-muted-foreground" />
-                        <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
-                        <Badge variant="outline" className="text-xs">Soon</Badge>
-                      </div>
-                ))}
+                        {exercise.mode}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>

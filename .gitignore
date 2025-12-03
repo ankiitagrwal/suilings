@@ -6,3 +6,5 @@ Cargo.lock  # Optional, commit for reproducibility
 MyEC2KeyPair.pem
 private.md
 *.pem
+# Ignore solution files - for testing only
+solutions/

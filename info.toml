@@ -656,45 +656,155 @@ Stuck? Check out: https://move-book.com/programmability/events.html
 """
 
 # ====================================
-# 5. ADVANCED EXERCISES (Coming Soon)
+# 5. ADVANCED EXERCISES
+# ====================================
+
+# ====================================
+# 8.2. Transaction Context (Chapter 8.2)
 # ====================================
 
 [[exercises]]
-name = "nft_basics"
-display_name = "NFT Basics"
-path = "exercises/advanced/nft_basics.move"
+name = "tx_context1"
+display_name = "Multi-Sig Timestamps"
+path = "exercises/transaction_context/tx_context1.move"
 mode = "test"
 difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/transaction-context.html"
 hint = """
-Coming soon! Learn how to create NFTs on Sui.
+create_proposal: Set deadline_epoch = tx_context::epoch(ctx) + duration_epochs
+sign_proposal: Use vector::contains to check duplicates, vector::push_back to add signers
+execute_proposal: Check if vector::length(&signers) >= required_signatures
+verify_signature_time_window: Loop through signature_epochs to find min/max
+Stuck? Check out: https://move-book.com/programmability/transaction-context.html
 """
 
 [[exercises]]
-name = "defi_swap"
-display_name = "DeFi Swap"
-path = "exercises/advanced/defi_swap.move"
+name = "tx_context2"
+display_name = "Dynamic NFT Evolution"
+path = "exercises/transaction_context/tx_context2.move"
 mode = "test"
 difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/transaction-context.html"
 hint = """
-Coming soon! Build a simple token swap protocol.
+mint_nft: Use tx_context::epoch() and tx_context::epoch_timestamp_ms() to track creation
+transfer_nft: Update current_owner and increment transfer_count
+evolve_nft: Calculate age = current_epoch - created_epoch. Stages: 0-4→0, 5-9→1, 10-19→2, 20+→3
+power_up: Only allow if last_transfer_epoch < current_epoch (once per epoch)
+Stuck? Check out: https://move-book.com/programmability/transaction-context.html
 """
 
 [[exercises]]
-name = "multisig_wallet"
-display_name = "Multisig Wallet"
-path = "exercises/advanced/multisig_wallet.move"
+name = "tx_context3"
+display_name = "Time-Locked Escrow"
+path = "exercises/transaction_context/tx_context3.move"
 mode = "test"
 difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/transaction-context.html"
 hint = """
-Coming soon! Implement a multi-signature wallet.
+create_escrow: Use tx_context::fresh_object_address(ctx) for unique escrow_address
+release_funds: Check if current_epoch >= locked_until_epoch AND approved (if required)
+cancel_escrow: Only allow if current_epoch < locked_until_epoch - 1 (at least 1 epoch before unlock)
+approve_release: Only approver can call, check if not already approved
+Stuck? Check out: https://move-book.com/programmability/transaction-context.html
+"""
+
+# ====================================
+# 8.3. Module Initializer (Chapter 8.3)
+# ====================================
+
+[[exercises]]
+name = "init1"
+display_name = "Registry System"
+path = "exercises/module_init/init1.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/module-initializer.html"
+hint = """
+fun init(ctx: &mut TxContext): Create Registry and share it with transfer::share_object
+register: Use vector::contains to check duplicates, vector::push_back to add user
+Create RegistrationBadge with current total_registrations as registration_number
+Remember: init runs ONCE when module is published, creates shared objects
+Stuck? Check out: https://move-book.com/programmability/module-initializer.html
 """
 
 [[exercises]]
-name = "marketplace"
-display_name = "NFT Marketplace"
-path = "exercises/advanced/marketplace.move"
+name = "init2"
+display_name = "Token System"
+path = "exercises/module_init/init2.move"
 mode = "test"
 difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/module-initializer.html"
 hint = """
-Coming soon! Create an NFT marketplace with listings and purchases.
+fun init(witness: INIT2, ctx: &mut TxContext): The witness proves this is the init call
+mint: Check cap.remaining_mints > 0 AND amount <= (total_supply - circulating_supply)
+Decrement remaining_mints, increment circulating_supply, create Token and transfer
+burn: Decrement circulating_supply, destroy token with let Token { id, value: _ } = token
+Stuck? Check out: https://move-book.com/programmability/module-initializer.html
+"""
+
+[[exercises]]
+name = "init3"
+display_name = "Game World Setup"
+path = "exercises/module_init/init3.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/module-initializer.html"
+hint = """
+fun init: Create GameWorld, ZoneDirectory, and 3 starter zones - share all of them
+join_zone: Check if not full (vector::length < max_players) and not duplicate (vector::contains)
+leave_zone: Find player index with loop, then use vector::remove to delete
+Use object::uid_to_address or object::uid_to_inner to get zone IDs for directory
+Stuck? Check out: https://move-book.com/programmability/module-initializer.html
+"""
+
+# ====================================
+# 8.4. Pattern: Capability (Chapter 8.4)
+# ====================================
+
+[[exercises]]
+name = "capability1"
+display_name = "Admin System"
+path = "exercises/capability/capability1.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/capability.html"
+hint = """
+create_system: Create System + AdminCap, share System, transfer cap to owner
+grant_admin/grant_moderator: Check !system.is_locked, create capability, increment counters
+ban_user_with_moderator: Check moderator_cap.can_ban before setting is_banned
+lock_system: Set system.is_locked = true to prevent new capability grants
+The _cap: &Cap parameter proves the caller has the capability!
+Stuck? Check out: https://move-book.com/programmability/capability.html
+"""
+
+[[exercises]]
+name = "capability2"
+display_name = "Treasury Management"
+path = "exercises/capability/capability2.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/capability.html"
+hint = """
+create_treasury: Create Treasury + MasterKey, share treasury, transfer key to owner
+withdraw_with_master: Check balance >= amount, no withdrawal limit!
+withdraw_with_manager: Check amount <= withdrawal_limit AND balance >= amount
+grant_manager/grant_clerk: Requires MasterKey to create and transfer capabilities
+Create WithdrawalReceipt with tx_context::epoch() for audit trail
+Stuck? Check out: https://move-book.com/programmability/capability.html
+"""
+
+[[exercises]]
+name = "capability3"
+display_name = "Governance System"
+path = "exercises/capability/capability3.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/capability.html"
+hint = """
+create_dao: Use object::uid_to_inner(&dao.id) to get dao_id for capabilities
+vote_with_*: Check status == 0 (Active), check not duplicate (vector::contains)
+Add voter to voters vector, add voting_power to yes_votes or no_votes
+finalize_proposal: If yes_votes >= voting_threshold → status = 1 (Passed), else 2 (Rejected)
+delegate_vote: Create DelegateCap with accumulated voting_power from members
+Stuck? Check out: https://move-book.com/programmability/capability.html
 """
