@@ -91,18 +91,10 @@ export function Sidebar({ onToggle }: SidebarProps) {
                         "hover:bg-accent hover:text-accent-foreground",
                         isActive && "bg-accent text-accent-foreground font-medium"
                       )}
-                        >
-                          {getExerciseIcon(exercise.status, isActive)}
-                          <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
-                          <span
-                            className={cn(
-                              "text-xs px-1.5 py-0.5 rounded",
-                              exercise.mode === "test" ? "bg-blue-500/10 text-blue-500" : "bg-green-500/10 text-green-500"
-                            )}
-                          >
-                            {exercise.mode}
-                          </span>
-                        </button>
+                    >
+                      {getExerciseIcon(exercise.status, isActive)}
+                      <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
+                    </button>
                   );
                 })}
               </div>
@@ -146,14 +138,6 @@ export function Sidebar({ onToggle }: SidebarProps) {
                     >
                       {getExerciseIcon(exercise.status, isActive)}
                       <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
-                      <span
-                        className={cn(
-                          "text-xs px-1.5 py-0.5 rounded",
-                          exercise.mode === "test" ? "bg-blue-500/10 text-blue-500" : "bg-green-500/10 text-green-500"
-                        )}
-                      >
-                        {exercise.mode}
-                      </span>
                     </button>
                   );
                 })}
