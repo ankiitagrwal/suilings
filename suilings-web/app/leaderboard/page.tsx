@@ -17,6 +17,7 @@ import {
   User
 } from "lucide-react";
 import { SimpleHeader } from "@/components/layout/SimpleHeader";
+import { Footer } from "@/components/layout/Footer";
 import { useAuth } from "@/lib/hooks/useAuth";
 
 interface LeaderboardEntry {
@@ -359,27 +360,7 @@ export default function LeaderboardPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-background">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-muted-foreground">
-              <p>Suilings © 2025 • Learn Move on Sui</p>
-            </div>
-            <div className="flex items-center gap-6">
-              <Link href="https://move-book.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Move Book
-              </Link>
-              <Link href="https://docs.sui.io" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Sui Docs
-              </Link>
-              <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Home
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
