@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -16,11 +16,15 @@ import { toast } from "sonner";
 import { Sparkles, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { AchievementModal } from "@/components/AchievementModal";
+import { useAchievementDetection } from "@/lib/hooks/useAchievementDetection";
 
 export default function ExercisePage() {
   const [isHintOpen, setIsHintOpen] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [streakDays, setStreakDays] = useState(0);
+  const [rank, setRank] = useState<number | null>(null);
   const { user } = useAuth();
   const {
     exercises,
@@ -39,34 +43,71 @@ export default function ExercisePage() {
     saveProgress,
   } = useExerciseStore();
 
-  // Load exercises on mount - only run once
+
+  const completedCount = useMemo(() => {
+    return exercises.filter(e => e.status === 'completed').length;
+  }, [exercises]);
+
+
+  const { currentAchievement, closeAchievement } = useAchievementDetection({
+    completedCount,
+    streakDays,
+    rank,
+  });
+
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const statsResponse = await fetch('/api/stats');
+        if (statsResponse.ok) {
+          const data = await statsResponse.json();
+          setStreakDays(data.stats?.streakDays || 0);
+        }
+
+        const leaderboardResponse = await fetch('/api/leaderboard?period=all-time');
+        if (leaderboardResponse.ok) {
+          const data = await leaderboardResponse.json();
+          setRank(data.userPosition);
+        }
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
+    };
+    
+    if (user && exercises.length > 0) {
+      fetchStats();
+    }
+  }, [user, exercises.length]);
+
+
   useEffect(() => {
     let mounted = true;
     
     const init = async () => {
       if (!mounted) return;
       
-      // Only load exercises if not already loaded
+
       if (exercises.length === 0) {
         const loadedExercises = await loadExercises();
         if (!mounted) return;
         
         setExercises(loadedExercises);
         
-        // Only set to first exercise if no exercise is currently selected
+
         if (loadedExercises.length > 0 && currentExerciseIndex === -1) {
           setCurrentExercise(0);
         }
       }
       
-      // Fetch user progress if authenticated (always refresh this)
+
       if (user && mounted) {
         await fetchProgress();
       }
     };
     init();
     
-    // Pre-warm the compilation service on page load
+
     const warmupCompiler = async () => {
       try {
         await fetch('/api/compile/warmup', {
@@ -78,7 +119,7 @@ export default function ExercisePage() {
       }
     };
     
-    // Warm up after a short delay to not block initial page load
+
     const warmupTimer = setTimeout(warmupCompiler, 2000);
     
     return () => {
@@ -88,17 +129,16 @@ export default function ExercisePage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount, ignore other deps to prevent resets
 
-  // Load saved code when exercise changes
   useEffect(() => {
     const currentExercise = getCurrentExercise();
     if (currentExercise && user) {
-      // Small delay to ensure progress is fetched
+
       setTimeout(() => {
         loadExerciseProgress(currentExercise.name);
       }, 100);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentExerciseIndex, user]); // Only depend on index and user, not functions
+  }, [currentExerciseIndex, user]); 
 
   const handleRun = async () => {
     const currentExercise = getCurrentExercise();
@@ -108,7 +148,7 @@ export default function ExercisePage() {
     setCompilationResult(null);
 
     try {
-      // Call the real compilation API
+
       const response = await fetch("/api/compile", {
         method: "POST",
         headers: {
@@ -127,7 +167,7 @@ export default function ExercisePage() {
       if (result.success) {
         updateExerciseStatus(currentExercise.name, "completed");
         
-        // Save to backend if user is authenticated
+
         if (user) {
           await markExerciseComplete(currentExercise.name);
           toast.success("Great job! Your code works perfectly! 🎉");
@@ -141,10 +181,9 @@ export default function ExercisePage() {
           });
         }
       } else {
-        // Save progress even on failure (for authenticated users)
         if (user) {
           await saveProgress(currentExercise.name, {
-            status: 'in_progress',
+            status: 'in-progress',
             last_code: currentCode,
           });
         }
@@ -191,6 +230,11 @@ export default function ExercisePage() {
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <Header onRun={handleRun} onReset={handleReset} onShowHint={handleShowHint} />
+
+      <AchievementModal 
+        achievement={currentAchievement} 
+        onClose={closeAchievement}
+      />
       
       <div className="flex-1 flex overflow-hidden relative">
         {(!isSidebarOpen || isAIChatOpen) && (
@@ -226,14 +270,12 @@ export default function ExercisePage() {
           (!isSidebarOpen && !isAIChatOpen) && "pl-0"
         )}>
           <PanelGroup direction="horizontal">
-            {/* Left Panel - Exercise Instructions */}
             <Panel defaultSize={35} minSize={25} maxSize={50}>
               <ExerciseInstructions />
             </Panel>
             
             <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
             
-            {/* Middle Panel - Code Editor + Output Console */}
             <Panel defaultSize={40} minSize={30}>
               <PanelGroup direction="vertical">
                 {/* Code Editor */}
@@ -243,14 +285,12 @@ export default function ExercisePage() {
                 
                 <PanelResizeHandle className="h-1 bg-border hover:bg-primary transition-colors" />
                 
-                {/* Output Console */}
                 <Panel defaultSize={40} minSize={20}>
                   <OutputConsole />
                 </Panel>
               </PanelGroup>
             </Panel>
 
-            {/* Right Panel - AI Chat (Conditional) */}
             {isAIChatOpen && (
               <>
                 <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
@@ -263,7 +303,6 @@ export default function ExercisePage() {
         </main>
       </div>
 
-      {/* Floating AI Button (when chat is closed) */}
       {!isAIChatOpen && (
         <Button
           onClick={() => setIsAIChatOpen(true)}

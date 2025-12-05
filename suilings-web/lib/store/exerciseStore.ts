@@ -6,7 +6,7 @@ interface UserProgress {
   id: string;
   user_id: string;
   exercise_id: string;
-  status: 'not_started' | 'in_progress' | 'completed';
+  status: 'not_started' | 'in-progress' | 'completed';
   last_code: string | null;
   attempts_count: number;
   completed_at: string | null;
@@ -23,7 +23,6 @@ interface ExerciseStore {
   isSyncing: boolean;
   userProgress: Map<string, UserProgress>;
   
-  // Actions
   setExercises: (exercises: Exercise[]) => void;
   setCurrentExercise: (index: number) => void;
   setCurrentCode: (code: string) => void;
@@ -35,7 +34,6 @@ interface ExerciseStore {
   getCurrentExercise: () => Exercise | null;
   resetExercise: () => void;
   
-  // Backend sync actions
   fetchProgress: () => Promise<void>;
   saveProgress: (exerciseId: string, data: { status?: string; last_code?: string; completed?: boolean }) => Promise<void>;
   loadExerciseProgress: (exerciseId: string) => Promise<void>;
@@ -46,7 +44,7 @@ export const useExerciseStore = create<ExerciseStore>()(
   persist(
     (set, get) => ({
       exercises: [],
-      currentExerciseIndex: -1, // -1 means no exercise selected yet
+      currentExerciseIndex: -1, 
       currentCode: "",
       compilationResult: null,
       isCompiling: false,
@@ -60,11 +58,9 @@ export const useExerciseStore = create<ExerciseStore>()(
         if (index >= 0 && index < exercises.length) {
           const exercise = exercises[index];
           
-          // Save to localStorage immediately to persist selection
           try {
             localStorage.setItem('suilings-current-exercise', index.toString());
           } catch {
-            // Ignore localStorage errors in SSR or when disabled
           }
           
           set({
@@ -72,7 +68,6 @@ export const useExerciseStore = create<ExerciseStore>()(
             compilationResult: null,
           });
           
-          // Load saved code after setting the exercise
           const savedProgress = get().userProgress.get(exercise.name);
           if (savedProgress?.last_code) {
             set({ currentCode: savedProgress.last_code });
@@ -121,7 +116,6 @@ export const useExerciseStore = create<ExerciseStore>()(
         }
       },
 
-      // Backend sync methods
       fetchProgress: async () => {
         try {
           set({ isSyncing: true });
@@ -140,7 +134,7 @@ export const useExerciseStore = create<ExerciseStore>()(
             // Update exercise statuses based on progress
             const exercises = get().exercises;
             const updatedExercises = exercises.map(ex => {
-              const progress = progressMap.get(ex.name); // Assuming exercise.name matches exercise_id
+              const progress = progressMap.get(ex.name);
               if (progress) {
                 return {
                   ...ex,
@@ -199,7 +193,6 @@ export const useExerciseStore = create<ExerciseStore>()(
         try {
           const currentCode = get().currentCode;
           
-          // Update local state immediately
           get().updateExerciseStatus(exerciseName, 'completed');
           
           // Save to backend
@@ -215,11 +208,10 @@ export const useExerciseStore = create<ExerciseStore>()(
     }),
     {
       name: "suilings-exercise-storage",
-      version: 5, // Increment to clear old cached data - now with displayName support
+      version: 5,
       partialize: (state) => ({
         currentExerciseIndex: state.currentExerciseIndex,
-        currentCode: state.currentCode, // Also persist current code to prevent loss
-        // Don't persist exercises or progress - always load fresh from API
+        currentCode: state.currentCode, 
       }),
     }
   )

@@ -222,24 +222,56 @@ async function startup() {
     await fs.access(path.join(RUNNER_CRATE_PATH, 'sources'));
     console.log('✅ Runner crate verified');
     
-    // Pre-warm the compiler with a simple test
-    console.log('🔥 Pre-warming Sui compiler...');
+    // Pre-fetch dependencies and warm the compiler
+    console.log('🔥 Fetching Sui dependencies and pre-warming compiler...');
     const warmupCode = `module suilings::warmup {
-    public fun hello(): u64 {
-        42
+    use sui::object::{Self, UID};
+    use sui::tx_context::TxContext;
+    use sui::transfer;
+    
+    public struct TestObject has key {
+        id: UID,
+        value: u64
+    }
+    
+    public fun create_test(ctx: &mut TxContext) {
+        let obj = TestObject {
+            id: object::new(ctx),
+            value: 42
+        };
+        transfer::transfer(obj, tx_context::sender(ctx))
+    }
+    
+    #[test]
+    fun test_create() {
+        use sui::test_scenario;
+        let mut scenario = test_scenario::begin(@0xA);
+        {
+            create_test(test_scenario::ctx(&mut scenario));
+        };
+        test_scenario::end(scenario);
     }
 }`;
     
     await fs.writeFile(MAIN_MOVE_PATH, warmupCode, 'utf-8');
     
     try {
-      const { stdout } = await execAsync(`sui move build --path ${RUNNER_CRATE_PATH}`, {
+      // Run test to fetch all dependencies (more complete than just build)
+      console.log('📦 Fetching dependencies (this may take 30-60s on first run)...');
+      const { stdout, stderr } = await execAsync(`sui move test --path ${RUNNER_CRATE_PATH}`, {
         cwd: RUNNER_CRATE_PATH,
-        timeout: 60000, // 60 second timeout for warmup
+        timeout: 120000, // 120 second timeout for first-time dependency fetch
       });
-      console.log('✅ Compiler pre-warmed successfully');
+      console.log('✅ Dependencies fetched and compiler pre-warmed successfully');
+      if (stderr) {
+        console.log('Warmup output:', stderr.substring(0, 200));
+      }
     } catch (error) {
-      console.warn('⚠️ Compiler pre-warm failed (non-critical):', error.message);
+      // Even if test fails, dependencies should be fetched
+      console.log('⚠️ Compiler pre-warm completed with warnings (non-critical)');
+      if (error.stderr) {
+        console.log('Warmup output:', error.stderr.substring(0, 200));
+      }
     }
   } catch (error) {
     console.error('❌ Runner crate not found:', RUNNER_CRATE_PATH);

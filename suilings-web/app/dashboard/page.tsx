@@ -21,6 +21,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { SimpleHeader } from "@/components/layout/SimpleHeader";
+import { AchievementModal } from "@/components/AchievementModal";
+import { useAchievementDetection } from "@/lib/hooks/useAchievementDetection";
+import { getNextAchievement } from "@/lib/achievements";
 
 interface CategoryStats {
   name: string;
@@ -34,8 +37,8 @@ export default function DashboardPage() {
   const router = useRouter();
   const { exercises, setCurrentExercise, fetchProgress } = useExerciseStore();
   const [streakDays, setStreakDays] = useState(0);
+  const [rank, setRank] = useState<number | null>(null);
 
-  // Calculate stats using useMemo to avoid cascading renders
   const stats = useMemo(() => {
     if (exercises.length === 0) {
       return {
@@ -60,7 +63,6 @@ export default function DashboardPage() {
     };
   }, [exercises]);
 
-  // Calculate category stats using useMemo
   const categoryStats = useMemo(() => {
     if (exercises.length === 0) return [];
     
@@ -91,7 +93,6 @@ export default function DashboardPage() {
     return Array.from(categories.values());
   }, [exercises]);
 
-  // Calculate recent exercises using useMemo
   const recentExercises = useMemo(() => {
     if (exercises.length === 0) return [];
     
@@ -107,27 +108,41 @@ export default function DashboardPage() {
       .reverse();
   }, [exercises]);
 
+  const { currentAchievement, closeAchievement } = useAchievementDetection({
+    completedCount: stats.completed,
+    streakDays,
+    rank,
+  });
+
+  const nextAchievement = useMemo(() => getNextAchievement(stats.completed), [stats.completed]);
+
   useEffect(() => {
-    // Fetch progress from backend
     fetchProgress();
   }, [fetchProgress]);
 
-  // Fetch streak from backend
   useEffect(() => {
-    const fetchStreak = async () => {
+    const fetchStats = async () => {
       try {
-        const response = await fetch('/api/stats');
-        if (response.ok) {
-          const data = await response.json();
+        const statsResponse = await fetch('/api/stats');
+        if (statsResponse.ok) {
+          const data = await statsResponse.json();
           setStreakDays(data.stats?.streakDays || 0);
         }
-      } catch {
+
+        const leaderboardResponse = await fetch('/api/leaderboard?period=all-time');
+        if (leaderboardResponse.ok) {
+          const data = await leaderboardResponse.json();
+          setRank(data.userPosition);
+        }
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
         setStreakDays(0);
+        setRank(null);
       }
     };
     
     if (exercises.length > 0) {
-      fetchStreak();
+      fetchStats();
     }
   }, [exercises]);
 
@@ -135,9 +150,13 @@ export default function DashboardPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <SimpleHeader />
       
+      <AchievementModal 
+        achievement={currentAchievement} 
+        onClose={closeAchievement}
+      />
+      
       <main className="flex-1 overflow-y-auto">
         <div className="container mx-auto p-6 space-y-6 pb-16">
-          {/* Header */}
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -153,7 +172,6 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          {/* Stats Overview */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -225,9 +243,34 @@ export default function DashboardPage() {
             </Card>
           </div>
 
-          {/* Main Content Grid */}
+          {nextAchievement && (
+            <Card className="border-dashed border-2">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-3xl">{nextAchievement.badge}</span>
+                    <div>
+                      <h3 className="font-semibold">{nextAchievement.title}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {stats.total - stats.completed} more exercise{stats.total - stats.completed === 1 ? '' : 's'} remaining
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg font-bold">
+                      {stats.completed}/{stats.total}
+                    </div>
+                  </div>
+                </div>
+                <Progress 
+                  value={(stats.completed / stats.total) * 100} 
+                  className="h-3"
+                />
+              </CardContent>
+            </Card>
+          )}
+
           <div className="grid gap-6 lg:grid-cols-2">
-            {/* Category Progress */}
             <Card className="lg:col-span-1">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -281,7 +324,6 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Recent Activity */}
             <Card className="lg:col-span-1">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -404,7 +446,6 @@ export default function DashboardPage() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-border bg-background">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">

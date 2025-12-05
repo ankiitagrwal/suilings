@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
-// Helper function to calculate user streak
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function calculateStreak(userProgress: any[]): number {
   if (!userProgress || userProgress.length === 0) return 0;
@@ -79,7 +78,7 @@ export async function GET() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const completedExercises = progress?.filter((p: any) => p.status === 'completed').length || 0;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const inProgressExercises = progress?.filter((p: any) => p.status === 'in_progress').length || 0;
+    const inProgressExercises = progress?.filter((p: any) => p.status === 'in-progress').length || 0;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalTimeSpent = progress?.reduce((sum: number, p: any) => sum + (p.time_spent || 0), 0) || 0;
     const streakDays = calculateStreak(progress || []);

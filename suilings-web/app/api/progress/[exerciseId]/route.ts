@@ -9,7 +9,6 @@ export async function POST(
     const { exerciseId } = await params
     const supabase = await createClient()
 
-    // Get current user
     const { data: { user }, error: userError } = await supabase.auth.getUser()
 
     if (userError || !user) {
@@ -22,11 +21,10 @@ export async function POST(
     const body = await request.json()
     const { status, last_code, completed } = body
 
-    // Prepare update data
     const updateData: any = {
       user_id: user.id,
       exercise_id: exerciseId,
-      status: status || 'in_progress',
+      status: status || 'in-progress',
       updated_at: new Date().toISOString(),
     }
 
@@ -39,7 +37,6 @@ export async function POST(
       updateData.completed_at = new Date().toISOString()
     }
 
-    // Increment attempts count
     const { data: existingProgress } = await supabase
       .from('exercise_progress')
       .select('attempts_count')
@@ -49,7 +46,6 @@ export async function POST(
 
     updateData.attempts_count = (existingProgress?.attempts_count || 0) + 1
 
-    // Upsert progress
     const { data, error } = await supabase
       .from('exercise_progress')
       .upsert(updateData, {
@@ -84,7 +80,6 @@ export async function GET(
     const { exerciseId } = await params
     const supabase = await createClient()
 
-    // Get current user
     const { data: { user }, error: userError } = await supabase.auth.getUser()
 
     if (userError || !user) {
@@ -102,7 +97,7 @@ export async function GET(
       .eq('exercise_id', exerciseId)
       .single()
 
-    if (error && error.code !== 'PGRST116') { // PGRST116 is "not found" error
+    if (error && error.code !== 'PGRST116') {
       return NextResponse.json(
         { error: 'Failed to fetch progress' },
         { status: 500 }
