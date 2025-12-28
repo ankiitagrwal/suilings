@@ -808,3 +808,164 @@ finalize_proposal: If yes_votes >= voting_threshold → status = 1 (Passed), els
 delegate_vote: Create DelegateCap with accumulated voting_power from members
 Stuck? Check out: https://move-book.com/programmability/capability.html
 """
+
+# ====================================
+# 8.5. Epoch and Time (Chapter 8.5)
+# ====================================
+
+[[exercises]]
+name = "time_lock"
+display_name = "Time-Locked Vault"
+path = "exercises/epoch_time/time_lock.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/epoch-and-time.html"
+hint = """
+create_time_lock: Get current time with clock::timestamp_ms(), calculate unlock_time
+Store coin value as u64, convert using coin::value() and coin::into_balance()
+withdraw: Check current_time >= unlock_time, check !is_withdrawn
+Create new coin using balance::create_for_testing() + coin::from_balance()
+The Clock object provides trustless on-chain timestamps!
+Stuck? Check out: https://move-book.com/programmability/epoch-and-time.html
+"""
+
+[[exercises]]
+name = "vesting"
+display_name = "Token Vesting"
+path = "exercises/epoch_time/vesting.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/epoch-and-time.html"
+hint = """
+create_vesting: Convert Coin to Balance using coin::into_balance() for proper storage
+calculate_vested_amount: Linear formula: total * (elapsed / duration)
+Handle edge cases: before start (0), after end (100%)
+claim_vested: Calculate claimable = vested - claimed, use balance::split()
+Vesting enables gradual token unlocks for employees, investors, founders!
+Stuck? Check out: https://move-book.com/programmability/epoch-and-time.html
+"""
+
+[[exercises]]
+name = "auction"
+display_name = "Dutch Auction"
+path = "exercises/epoch_time/auction.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/epoch-and-time.html"
+hint = """
+calculate_current_price: Linear decrease from starting_price to reserve_price
+Formula: starting_price - (price_drop * elapsed / duration)
+buy: Check auction started, not ended, not sold. Handle overpayment with refund
+Use coin::split() to take exact payment, balance::join() to add to proceeds
+Dutch auctions start high and decrease - ensures fair market price discovery!
+Stuck? Check out: https://move-book.com/programmability/epoch-and-time.html
+"""
+
+[[exercises]]
+name = "table_basics"
+display_name = "Table - User Registry"
+path = "exercises/collections/table_basics.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/collections.html"
+hint = """
+create_registry: Use table::new() to create empty table, share_object() for public access
+register_user: Check !table::contains() for duplicates, table::add() to insert
+update_user: Use table::borrow_mut() to get mutable reference, modify fields directly
+remove_user: Only owner can remove, use table::remove() to delete entry
+Table is perfect for key-value storage with copy/drop types like String!
+Stuck? Check out: https://move-book.com/programmability/collections.html
+"""
+
+[[exercises]]
+name = "bag_basics"
+display_name = "Bag - Multi-Asset Wallet"
+path = "exercises/collections/bag_basics.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/collections.html"
+hint = """
+create_wallet: Use bag::new() to create empty bag, transfer to owner
+deposit: Check !bag::contains() for duplicates, bag::add() stores heterogeneous types
+withdraw: Use bag::borrow_mut() to access coin, coin::split() for partial withdrawal
+remove_asset: bag::remove() returns the entire asset, transfer to owner
+Bag allows different value types (Coin<SUI>, Coin<USD>) with same key type!
+Stuck? Check out: https://move-book.com/programmability/collections.html
+"""
+
+[[exercises]]
+name = "object_table"
+display_name = "ObjectTable - NFT Collection"
+path = "exercises/collections/object_table.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/collections.html"
+hint = """
+create_collection: Use object_table::new(), set next_token_id to 1
+mint_nft: Check max_supply if set, create NFT with new UID, object_table::add()
+transfer_nft: object_table::remove() takes ownership, transfer::public_transfer()
+burn_nft: Remove NFT, unpack struct, object::delete() the UID
+ObjectTable stores objects as values, maintaining their UIDs - perfect for NFTs!
+Stuck? Check out: https://move-book.com/programmability/collections.html
+"""
+
+[[exercises]]
+name = "object_bag"
+display_name = "ObjectBag - Mixed Asset Vault"
+path = "exercises/collections/object_bag.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/collections.html"
+hint = """
+create_vault: Use object_bag::new(), set is_locked to false
+deposit: Wrap data in Asset<T> struct with new UID, object_bag::add()
+withdraw: Check !is_locked, object_bag::remove(), unpack Asset, object::delete() UID
+lock/unlock: Simple boolean flag toggle, only owner can control
+ObjectBag = Bag + ObjectTable = heterogeneous object storage with UIDs!
+Stuck? Check out: https://move-book.com/programmability/collections.html
+"""
+
+[[exercises]]
+name = "wrapper_basics"
+display_name = "Wrapper - Gift Box System"
+path = "exercises/wrapper_type/wrapper_basics.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/wrapper-pattern.html"
+hint = """
+wrap_gift: Create GiftBox<T> wrapper with inner object, recipient, message
+unwrap_gift: Check sender == recipient, unpack wrapper, object::delete() UID, return inner
+peek_message: Read-only access without unwrapping, check recipient permission
+Wrappers provide object-level access control - only recipient can unwrap!
+Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
+"""
+
+[[exercises]]
+name = "authorization_wrapper"
+display_name = "Wrapper - Document Authorization"
+path = "exercises/wrapper_type/authorization_wrapper.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/wrapper-pattern.html"
+hint = """
+wrap_document: Create AuthWrapper with authorized_approvers list, empty approvals vector
+approve_document: Check sender in authorized_approvers, not in approvals, push to approvals
+finalize_document: Check approvals >= required, unpack wrapper, return document
+Multi-sig approval workflow enforced by wrapper! Shared object allows multiple approvers.
+Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
+"""
+
+[[exercises]]
+name = "hot_potato"
+display_name = "Hot Potato - Flash Loan System"
+path = "exercises/wrapper_type/hot_potato.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/hot-potato-pattern.html"
+hint = """
+borrow_flash_loan: Split balance, create Coin, return FlashLoan receipt (NO abilities!)
+repay_flash_loan: Check repayment >= amount + fee, join to pool, destroy FlashLoan
+Hot Potato has NO abilities - cannot drop/store/copy, MUST be consumed by repay!
+This enforces same-transaction repayment for uncollateralized flash loans.
+Stuck? Check out: https://move-book.com/programmability/hot-potato-pattern.html
+"""
