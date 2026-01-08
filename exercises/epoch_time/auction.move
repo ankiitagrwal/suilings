@@ -5,7 +5,6 @@
 //
 // Stuck? Check out: https://move-book.com/programmability/epoch-and-time.html
 
-#[allow(duplicate_alias)]
 module suilings::auction {
     use sui::object::{Self, UID};
     use sui::tx_context::{Self, TxContext};

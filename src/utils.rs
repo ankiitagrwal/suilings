@@ -84,7 +84,13 @@ pub fn build_exercise(exercise: &Exercise) -> Result<String, ()> {
 
     let crate_path = prepare_crate_for_exercise(exercise);
     let output = Command::new("sui")
-        .args(&["move", "build", "--path", crate_path.to_str().unwrap()])
+        .args(&[
+            "move",
+            "build",
+            "--path",
+            crate_path.to_str().unwrap(),
+            "--skip-fetch-latest-git-deps",
+        ])
         .output()
         .map_err(|e| {
             eprintln!("Failed to run `sui move build`: {}", e);
@@ -92,13 +98,32 @@ pub fn build_exercise(exercise: &Exercise) -> Result<String, ()> {
         })?;
 
     if output.status.success() {
-        Ok(String::from_utf8_lossy(&output.stdout).to_string())
+        let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+        // Filter out [note] messages - they're informational, not errors
+        let filtered_output = filter_note_messages(&stdout);
+        Ok(filtered_output)
     } else {
         let err = String::from_utf8_lossy(&output.stderr);
-        eprintln!("\n=== BUILD ERROR ===\n{err}\n");
+        // Filter out [note] messages before displaying errors
+        let filtered_err = filter_note_messages(&err);
+        
+        // Only show error if there's actual content after filtering
+        if !filtered_err.trim().is_empty() {
+            eprintln!("\n=== BUILD ERROR ===\n{filtered_err}\n");
+        }
         warn!("Build failed for {}! Fix the errors above.", exercise);
         Err(())
     }
+}
+
+// Helper function to filter out [note] messages
+fn filter_note_messages(text: &str) -> String {
+    text.lines()
+        .filter(|line| !line.trim().starts_with("[note]"))
+        .collect::<Vec<_>>()
+        .join("\n")
+        .trim()
+        .to_string()
 }
 
 pub fn test_exercise(exercise: &Exercise) -> Result<String, ()> {
@@ -106,7 +131,13 @@ pub fn test_exercise(exercise: &Exercise) -> Result<String, ()> {
 
     let crate_path = prepare_crate_for_exercise(exercise);
     let output = Command::new("sui")
-        .args(&["move", "test", "--path", crate_path.to_str().unwrap()])
+        .args(&[
+            "move",
+            "test",
+            "--path",
+            crate_path.to_str().unwrap(),
+            "--skip-fetch-latest-git-deps",
+        ])
         .output()
         .map_err(|e| {
             eprintln!("Failed to run `sui move test`: {}", e);
@@ -114,10 +145,30 @@ pub fn test_exercise(exercise: &Exercise) -> Result<String, ()> {
         })?;
 
     if output.status.success() {
-        Ok(String::from_utf8_lossy(&output.stdout).to_string())
+        let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+        // Filter out [note] messages - they're informational, not errors
+        let filtered_output = filter_note_messages(&stdout);
+        Ok(filtered_output)
     } else {
-        let err = String::from_utf8_lossy(&output.stderr);
-        eprintln!("\n=== TEST FAILED ===\n{err}\n");
+        // Test output can be in both stdout and stderr
+        let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+        let stderr = String::from_utf8_lossy(&output.stderr).to_string();
+        
+        // Combine and filter out [note] messages
+        let combined = if !stdout.is_empty() && !stderr.is_empty() {
+            format!("{}\n{}", stdout, stderr)
+        } else if !stdout.is_empty() {
+            stdout
+        } else {
+            stderr
+        };
+        
+        let filtered_output = filter_note_messages(&combined);
+        
+        // Display error output if there's content after filtering
+        if !filtered_output.trim().is_empty() {
+            eprintln!("\n=== TEST FAILED ===\n{filtered_output}\n");
+        }
         warn!("Tests failed for {}! Check the output above.", exercise);
         Err(())
     }

@@ -133,8 +133,8 @@ app.post('/api/compile', async (req, res) => {
 
     // Build command
     const command = mode === 'test'
-      ? `sui move test --path ${RUNNER_CRATE_PATH}`
-      : `sui move build --path ${RUNNER_CRATE_PATH}`;
+      ? `sui move test --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`
+      : `sui move build --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`;
 
     try {
       // Execute compilation
@@ -145,13 +145,21 @@ app.post('/api/compile', async (req, res) => {
       });
 
       const duration = Date.now() - startTime;
+      const combinedOutput = stdout || stderr || 'Compilation successful!';
+      
+      // Filter out [note] messages - they're informational, not errors
+      const filteredOutput = combinedOutput
+        .split('\n')
+        .filter(line => !line.trim().startsWith('[note]'))
+        .join('\n')
+        .trim();
 
       console.log(`[${new Date().toISOString()}] Compilation successful - Duration: ${duration}ms`);
 
       // Success response
       return res.json({
         success: true,
-        output: stdout || stderr || 'Compilation successful!',
+        output: filteredOutput || 'Compilation successful!',
         errors: [],
         duration,
       });
@@ -159,14 +167,26 @@ app.post('/api/compile', async (req, res) => {
     } catch (error) {
       // Compilation failed (expected for incorrect code)
       const duration = Date.now() - startTime;
-      const errorOutput = error.stderr || error.stdout || error.message;
+      
+      // Combine stdout and stderr (test failures are in stdout, notes in stderr)
+      const stderr = error.stderr || '';
+      const stdout = error.stdout || '';
+      const combined = stdout + '\n' + stderr;
+      const errorOutput = combined.trim() || error.message;
+      
+      // Filter out [note] messages from errors
+      const filteredErrors = errorOutput
+        .split('\n')
+        .filter(line => !line.trim().startsWith('[note]'))
+        .join('\n')
+        .trim();
 
       console.log(`[${new Date().toISOString()}] Compilation failed - Duration: ${duration}ms`);
 
       return res.json({
         success: false,
         output: '',
-        errors: [errorOutput],
+        errors: filteredErrors ? [filteredErrors] : ['Compilation failed. Please check your code.'],
         duration,
       });
     }

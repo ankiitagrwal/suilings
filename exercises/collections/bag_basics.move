@@ -5,7 +5,6 @@
 //
 // Stuck? Check out: https://move-book.com/programmability/collections.html
 
-#[allow(duplicate_alias)]
 module suilings::multi_wallet {
 use sui::object::{Self, UID};
 use sui::tx_context::{Self, TxContext};

@@ -3,6 +3,7 @@ import { promises as fs, accessSync } from "fs";
 import path from "path";
 import { exec } from "child_process";
 import { promisify } from "util";
+import os from "os";
 
 const execAsync = promisify(exec);
 
@@ -10,6 +11,20 @@ const execAsync = promisify(exec);
 const SUILINGS_ROOT = path.join(process.cwd(), "..");
 const RUNNER_CRATE_PATH = path.join(SUILINGS_ROOT, "runner-crate");
 const MAIN_MOVE_PATH = path.join(RUNNER_CRATE_PATH, "sources", "main.move");
+
+// Find sui binary path
+async function findSuiPath(): Promise<string> {
+  const homeDir = os.homedir();
+  const localBinPath = path.join(homeDir, ".local", "bin", "sui");
+  
+  try {
+    await fs.access(localBinPath);
+    return localBinPath;
+  } catch {
+    // Fall back to "sui" and let it use PATH
+    return "sui";
+  }
+}
 
 // Check if we're in production (no sui CLI available or read-only filesystem)
 function isProductionMode() {
@@ -117,24 +132,43 @@ export async function POST(request: Request) {
     // Step 1: Write user's code to runner-crate/sources/main.move
     await fs.writeFile(MAIN_MOVE_PATH, code, "utf-8");
 
-    // Step 2: Run sui move build or test
+    // Step 2: Find sui binary and run sui move build or test
+    const suiPath = await findSuiPath();
+    const homeDir = os.homedir();
+    const localBinPath = path.join(homeDir, ".local", "bin");
+    
+    // Set PATH to include ~/.local/bin if it exists
+    const env = { ...process.env };
+    if (localBinPath && !env.PATH?.includes(localBinPath)) {
+      env.PATH = `${localBinPath}:${env.PATH || ""}`;
+    }
+    
     const command =
       mode === "test"
-        ? `sui move test --path ${RUNNER_CRATE_PATH}`
-        : `sui move build --path ${RUNNER_CRATE_PATH}`;
+        ? `${suiPath} move test --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`
+        : `${suiPath} move build --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`;
 
     try {
       const { stdout, stderr } = await execAsync(command, {
         cwd: RUNNER_CRATE_PATH,
+        env,
         timeout: 30000, // 30 second timeout
       });
 
       const duration = Date.now() - startTime;
+      const combinedOutput = stdout || stderr || "Compilation successful!";
+      
+      // Filter out [note] messages - they're informational, not errors
+      const filteredOutput = combinedOutput
+        .split('\n')
+        .filter(line => !line.trim().startsWith('[note]'))
+        .join('\n')
+        .trim();
 
       // Success case
       return NextResponse.json({
         success: true,
-        output: stdout || stderr || "Compilation successful!",
+        output: filteredOutput || "Compilation successful!",
         errors: [],
         duration,
       });
@@ -142,12 +176,24 @@ export async function POST(request: Request) {
       // Compilation failed
       const duration = Date.now() - startTime;
       const err = error as { stderr?: string; stdout?: string; message: string };
-      const errorOutput = err.stderr || err.stdout || err.message;
+      
+      // Combine stdout and stderr (test failures are in stdout, notes in stderr)
+      const stderr = err.stderr || "";
+      const stdout = err.stdout || "";
+      const combined = stdout + "\n" + stderr;
+      const errorOutput = combined.trim() || err.message;
+      
+      // Filter out [note] messages from errors
+      const filteredErrors = errorOutput
+        .split('\n')
+        .filter(line => !line.trim().startsWith('[note]'))
+        .join('\n')
+        .trim();
 
       return NextResponse.json({
         success: false,
         output: "",
-        errors: [errorOutput],
+        errors: filteredErrors ? [filteredErrors] : ["Compilation failed. Please check your code."],
         duration,
       });
     }

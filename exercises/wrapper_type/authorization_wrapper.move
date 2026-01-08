@@ -3,9 +3,8 @@
 // Build a document approval system using wrappers for authorization.
 // Wrappers can enforce multi-step approval workflows.
 //
-// Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
+// Stuck? Check out: https://move-book.com/programmability/wrapper-type-pattern.html
 
-#[allow(duplicate_alias)]
 module suilings::document_auth {
 use sui::object::{Self, UID};
 use sui::tx_context::{Self, TxContext};

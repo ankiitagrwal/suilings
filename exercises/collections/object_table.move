@@ -5,7 +5,6 @@
 //
 // Stuck? Check out: https://move-book.com/programmability/collections.html
 
-#[allow(duplicate_alias)]
 module suilings::nft_collection {
 use sui::object::{Self, UID, ID};
 use sui::tx_context::{Self, TxContext};

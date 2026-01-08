@@ -927,7 +927,7 @@ Stuck? Check out: https://move-book.com/programmability/collections.html
 
 [[exercises]]
 name = "wrapper_basics"
-display_name = "Wrapper - Gift Box System"
+display_name = "Gift Box System"
 path = "exercises/wrapper_type/wrapper_basics.move"
 mode = "test"
 difficulty = "advanced"
@@ -942,7 +942,7 @@ Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
 
 [[exercises]]
 name = "authorization_wrapper"
-display_name = "Wrapper - Document Authorization"
+display_name = "Document Authorization"
 path = "exercises/wrapper_type/authorization_wrapper.move"
 mode = "test"
 difficulty = "advanced"
@@ -955,17 +955,281 @@ Multi-sig approval workflow enforced by wrapper! Shared object allows multiple a
 Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
 """
 
+# ====================================
+# 8.8. Dynamic Fields (Chapter 8.8)
+# ====================================
+
 [[exercises]]
-name = "hot_potato"
-display_name = "Hot Potato - Flash Loan System"
-path = "exercises/wrapper_type/hot_potato.move"
+name = "dynamic_fields1"
+display_name = "Metadata System"
+path = "exercises/dynamic_fields/dynamic_fields1.move"
 mode = "test"
 difficulty = "advanced"
-move_book_url = "https://move-book.com/programmability/hot-potato-pattern.html"
+move_book_url = "https://move-book.com/programmability/dynamic-fields.html"
 hint = """
-borrow_flash_loan: Split balance, create Coin, return FlashLoan receipt (NO abilities!)
-repay_flash_loan: Check repayment >= amount + fee, join to pool, destroy FlashLoan
-Hot Potato has NO abilities - cannot drop/store/copy, MUST be consumed by repay!
-This enforces same-transaction repayment for uncollateralized flash loans.
-Stuck? Check out: https://move-book.com/programmability/hot-potato-pattern.html
+add_metadata: Check !dynamic_field::exists(), create MetadataValue, dynamic_field::add()
+get_metadata: Verify exists, dynamic_field::borrow(), return value field
+update_metadata: Verify exists, dynamic_field::borrow_mut(), update value
+remove_metadata: Verify exists, dynamic_field::remove(), returns MetadataValue
+Dynamic fields allow adding key-value pairs at runtime without modifying structs!
+Stuck? Check out: https://move-book.com/programmability/dynamic-fields.html
+"""
+
+[[exercises]]
+name = "dynamic_fields2"
+display_name = "Attribute System"
+path = "exercises/dynamic_fields/dynamic_fields2.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/dynamic-fields.html"
+hint = """
+add_stat: Check !exists, verify value <= max_value, dynamic_field::add() with StatAttribute
+increase_stat: Borrow mutable, update value (keep <= max_value)
+decrease_stat: Borrow mutable, decrease value (keep >= 0)
+add_counter: Create CounterAttribute with count=0, dynamic_field::add()
+increment_counter: Borrow mutable, increment count
+Dynamic fields store copy/drop types - perfect for stats and counters!
+Stuck? Check out: https://move-book.com/programmability/dynamic-fields.html
+"""
+
+# ====================================
+# 8.9. Dynamic Object Fields (Chapter 8.9)
+# ====================================
+
+[[exercises]]
+name = "dynamic_object_fields1"
+display_name = "Attachment System"
+path = "exercises/dynamic_object_fields/dynamic_object_fields1.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/dynamic-object-fields.html"
+hint = """
+attach: Check !dof::exists(), verify owner, dof::add() with Attachment object
+detach: Verify exists and owner, dof::remove() returns Attachment (with UID intact!)
+get_attachment: dof::borrow() returns immutable reference
+get_attachment_mut: dof::borrow_mut() allows modifying attached object
+Dynamic object fields store objects as values, maintaining their UIDs!
+Stuck? Check out: https://move-book.com/programmability/dynamic-object-fields.html
+"""
+
+[[exercises]]
+name = "dynamic_object_fields2"
+display_name = "Component System"
+path = "exercises/dynamic_object_fields/dynamic_object_fields2.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/dynamic-object-fields.html"
+hint = """
+attach_component: Check !exists, verify owner and level>0, dof::add(), increment count
+detach_component: Verify exists and owner, dof::remove(), decrement count
+upgrade_component: Borrow mutable, update level (keep <= 10)
+total_component_power: Check exists for common keys, sum (level * 10)
+Dynamic object fields enable flexible object hierarchies with child objects!
+Stuck? Check out: https://move-book.com/programmability/dynamic-object-fields.html
+"""
+
+# ====================================
+# 8.10. Dynamic Collections (Chapter 8.10)
+# ====================================
+
+[[exercises]]
+name = "dynamic_collections1"
+display_name = "User Profiles with Metadata"
+path = "exercises/dynamic_collections/dynamic_collections1.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/dynamic-collections.html"
+hint = """
+create_registry: Use table::new() to create Table<address, UserProfile>
+register_user: Check !table::contains(), create UserProfile, table::add()
+add_custom_field: Borrow profile with table::borrow_mut(), df::add() for custom metadata
+get_custom_field: Borrow profile with table::borrow(), df::borrow() to read metadata
+Dynamic Collections = Table/Bag for main storage + Dynamic Fields for flexibility!
+Stuck? Check out: https://move-book.com/programmability/dynamic-collections.html
+"""
+
+[[exercises]]
+name = "dynamic_collections2"
+display_name = "Game Character System"
+path = "exercises/dynamic_collections/dynamic_collections2.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/dynamic-collections.html"
+hint = """
+create_game: Use object_table::new() for ObjectTable<u64, Character>
+create_character: Create Character with UID, object_table::add()
+attach_equipment: Use dof::add() to attach Equipment objects to character's UID
+detach_equipment: Use dof::remove() to remove and return Equipment
+ObjectTable stores objects while Dynamic Object Fields enable equipment system!
+Stuck? Check out: https://move-book.com/programmability/dynamic-collections.html
+"""
+
+[[exercises]]
+name = "dynamic_collections3"
+display_name = "Multi-Asset Portfolio"
+path = "exercises/dynamic_collections/dynamic_collections3.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/dynamic-collections.html"
+hint = """
+create_portfolio: Use bag::new() for heterogeneous asset storage
+add_asset: bag::add() with different types (Coin<SUI>, Coin<USDC>)
+tag_asset: Use df::add() on portfolio UID for categorization tags
+get_assets_by_tag: Query dynamic fields to filter assets by category
+Bag allows mixed types + Dynamic Fields enable flexible categorization!
+Stuck? Check out: https://move-book.com/programmability/dynamic-collections.html
+"""
+
+# ====================================
+# 8.11. Pattern: Witness (Generic) (Chapter 8.11)
+# ====================================
+
+[[exercises]]
+name = "generic_witness1"
+display_name = "Type-Safe Container Factory"
+path = "exercises/generic_witness/generic_witness1.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/witness-pattern.html"
+hint = """
+Generic witness pattern: fun create<W>(witness: W): Container<W>
+The witness parameter proves module ownership of type W
+Each module creates its own witness: struct MyWitness has drop {}
+Container<W> is type-specific - only module with W can create Container<W>
+This enables type-safe plugin systems and generic authorization!
+Stuck? Check out: https://move-book.com/programmability/witness-pattern.html
+"""
+
+[[exercises]]
+name = "generic_witness2"
+display_name = "Delegatable Authorization"
+path = "exercises/generic_witness/generic_witness2.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/witness-pattern.html"
+hint = """
+Transferable witness: struct AdminWitness has key, store (can transfer!)
+Generic witness can be reused (vs OTW which is one-time)
+grant_admin: Create AdminWitness, transfer to recipient
+revoke_admin: Transfer AdminWitness back to revoke
+Witness-based auth allows delegation and revocation!
+Stuck? Check out: https://move-book.com/programmability/witness-pattern.html
+"""
+
+[[exercises]]
+name = "generic_witness3"
+display_name = "Supply Chain Verification"
+path = "exercises/generic_witness/generic_witness3.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/witness-pattern.html"
+hint = """
+Witness as proof/receipt: Each step produces a witness for next step
+manufacture() -> ManufactureProof, ship(proof) -> ShipmentProof, deliver(proof) -> done
+Witness must be consumed at end - enforces workflow completion
+Multi-step authorization: Each function requires previous step's proof
+Chained witnesses enable complex workflow verification!
+Stuck? Check out: https://move-book.com/programmability/witness-pattern.html
+"""
+
+# ====================================
+# 8.12. One-Time Witness (Chapter 8.12)
+# ====================================
+
+[[exercises]]
+name = "witness1"
+display_name = "Token System"
+path = "exercises/witness/witness1.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/one-time-witness.html"
+hint = """
+init_treasury: Create Treasury, convert Coin to Balance, set is_initialized=true, share_object()
+mint: Verify is_initialized, check balance >= amount, split balance, create Token
+OTW ensures init_treasury can only be called once - WITNESS1 is auto-created during module init!
+The witness parameter proves this is the initialization call.
+Stuck? Check out: https://move-book.com/programmability/one-time-witness.html
+"""
+
+[[exercises]]
+name = "witness2"
+display_name = "Registry System"
+path = "exercises/witness/witness2.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/one-time-witness.html"
+hint = """
+init_registry: Create GlobalRegistry, empty vector, admin=sender, is_initialized=true, share_object()
+register: Verify !contains(), add to vector, increment count, create RegistrationBadge
+remove_registration: Verify admin, find index, vector::remove(), decrement count
+OTW pattern: WITNESS2 struct name matches module name, auto-created during init!
+Stuck? Check out: https://move-book.com/programmability/one-time-witness.html
+"""
+
+[[exercises]]
+name = "witness3"
+display_name = "Capability System"
+path = "exercises/witness/witness3.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/one-time-witness.html"
+hint = """
+init_system: Create CapabilitySystem, admin=sender, is_initialized=true, share_object()
+grant_admin_cap: Verify admin, !is_locked, !contains(), add to vector, create AdminCap, transfer
+revoke_admin_cap: Verify admin, contains(), remove from vector
+lock_system: Verify admin, set is_locked=true
+OTW ensures single initialization - WITNESS3 proves this is the first call!
+Stuck? Check out: https://move-book.com/programmability/one-time-witness.html
+"""
+
+# ====================================
+# 8.13. Publisher Pattern (Chapter 8.13)
+# ====================================
+
+[[exercises]]
+name = "publisher1"
+display_name = "NFT Collection with Display"
+path = "exercises/publisher/publisher1.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/publisher.html"
+hint = """
+init_collection: Claim Publisher with package::claim(), create Display<ArtNFT>
+Set display fields: "name", "description", "image_url", "creator", "edition"
+Use display::new(), display::add() for each field, display::update_version()
+mint_nft: Increment collection.minted, create ArtNFT with edition=minted, transfer to recipient
+Publisher proves package ownership and enables Display metadata for wallets!
+Stuck? Check out: https://move-book.com/programmability/publisher.html
+"""
+
+[[exercises]]
+name = "publisher2"
+display_name = "Game Assets with Display"
+path = "exercises/publisher/publisher2.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/publisher.html"
+hint = """
+init_game: Claim Publisher, create Display<GameWeapon> with rich metadata
+Set display fields: "name", "description" (use multiple fields!), "type", "rarity", "attack_power", "level"
+forge_weapon: Validate rarity (1-4), create GameWeapon with level=1, increment counters
+level_up_weapon: Verify owner, increment level, increase attack_power by 10%
+Display templates can combine fields: "Level {level} {weapon_type} with {attack_power} attack"
+Stuck? Check out: https://move-book.com/programmability/publisher.html
+"""
+
+[[exercises]]
+name = "publisher3"
+display_name = "Package Verification & Transfer Policies"
+path = "exercises/publisher/publisher3.move"
+mode = "test"
+difficulty = "advanced"
+move_book_url = "https://move-book.com/programmability/publisher.html"
+hint = """
+init_verification_system: Claim Publisher, create Display<VerifiedItem> AND Display<VerificationCertificate>
+issue_certificate: Requires &Publisher to prove ownership, create VerificationCertificate, increment registry
+create_verified_item: Attach certificate to item using option::some(), transfer to owner
+is_verified: Check option::is_some(&item.certificate)
+Publisher enables transfer policies, package verification, and authenticity proofs!
+Stuck? Check out: https://move-book.com/programmability/publisher.html"
 """

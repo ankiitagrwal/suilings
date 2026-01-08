@@ -28,7 +28,7 @@ export const ACHIEVEMENT_MILESTONES: Record<string, Achievement> = {
     title: '💪 Getting Started!',
     description: 'Completed 5 exercises - You\'re on fire!',
     badge: '💪',
-    shareText: '💪 Just hit 5 exercises on @Suiilings!\n\nLearning #Move development on @SuiNetwork\n\nProgress: 5/57 ✅\n\nsuilings.xyz',
+    shareText: '💪 Just hit 5 exercises on @Suiilings!\n\nLearning #Move development on @SuiNetwork\n\nProgress: 5/82 ✅\n\nsuilings.xyz',
     color: 'blue',
     type: 'progress'
   },
@@ -39,7 +39,7 @@ export const ACHIEVEMENT_MILESTONES: Record<string, Achievement> = {
     title: '🚀 Double Digits!',
     description: '10 exercises completed - You\'re crushing it!',
     badge: '🚀',
-    shareText: '🚀 Reached 10 exercises on @Suiilings!\n\nDiving deep into #Move programming\n\nProgress: 10/57 🔥\n\nsuilings.xyz',
+    shareText: '🚀 Reached 10 exercises on @Suiilings!\n\nDiving deep into #Move programming\n\nProgress: 10/82 🔥\n\nsuilings.xyz',
     color: 'purple',
     type: 'progress'
   },
@@ -56,34 +56,34 @@ export const ACHIEVEMENT_MILESTONES: Record<string, Achievement> = {
   },
   
   HALFWAY: {
-    id: 'halfway_30',
-    threshold: 30,
+    id: 'halfway_41',
+    threshold: 41,
     title: '⚡ Halfway There!',
     description: 'More than halfway to mastery!',
     badge: '⚡',
-    shareText: '⚡ Halfway through @Suiilings!\n\n30/57 exercises complete\n\nBecoming a #Move developer on @SuiNetwork 🎯\n\nsuilings.xyz',
+    shareText: '⚡ Halfway through @Suiilings!\n\n41/82 exercises complete\n\nBecoming a #Move developer on @SuiNetwork 🎯\n\nsuilings.xyz',
     color: 'orange',
     type: 'progress'
   },
   
   ALMOST_THERE: {
-    id: 'almost_50',
-    threshold: 50,
+    id: 'almost_60',
+    threshold: 60,
     title: '🔥 Almost There!',
-    description: 'Just 7 more to go!',
+    description: 'Just 22 more to go!',
     badge: '🔥',
-    shareText: '🔥 50/57 exercises complete on @Suiilings!\n\nSo close to mastering #Move development!\n\nBuilding on @SuiNetwork 🚀\n\nsuilings.xyz',
+    shareText: '🔥 60/82 exercises complete on @Suiilings!\n\nSo close to mastering #Move development!\n\nBuilding on @SuiNetwork 🚀\n\nsuilings.xyz',
     color: 'red',
     type: 'progress'
   },
   
   MASTER: {
     id: 'master_all',
-    threshold: 57,
+    threshold: 82,
     title: '🎓 Move Master!',
     description: 'All exercises complete - You\'re a Move developer!',
     badge: '🎓',
-    shareText: '🎓 COMPLETED all 57 exercises on @Suiilings!\n\nOfficially a #Move developer ready to build on @SuiNetwork 🚀\n\nWhat project should I build first? 👀\n\nsuilings.xyz',
+    shareText: '🎓 COMPLETED all 82 exercises on @Suiilings!\n\nOfficially a #Move developer ready to build on @SuiNetwork 🚀\n\nWhat project should I build first? 👀\n\nsuilings.xyz',
     color: 'rainbow',
     type: 'progress'
   },
@@ -134,7 +134,7 @@ export const ACHIEVEMENT_MILESTONES: Record<string, Achievement> = {
 };
 
 export function getNextAchievement(completedCount: number): Achievement | null {
-  const progressThresholds = [1, 5, 10, 20, 30, 50, 57];
+  const progressThresholds = [1, 5, 10, 20, 41, 60, 82];
   const nextThreshold = progressThresholds.find(t => t > completedCount);
   
   if (!nextThreshold) return null;
@@ -151,7 +151,7 @@ export function checkNewAchievement(
   unlockedAchievements: string[]
 ): Achievement | null {
 
-  const progressMilestones = [1, 5, 10, 20, 30, 50, 57];
+  const progressMilestones = [1, 5, 10, 20, 41, 60, 82];
   for (const threshold of progressMilestones) {
     if (completedCount === threshold) {
       const achievement = Object.values(ACHIEVEMENT_MILESTONES).find(
@@ -203,7 +203,7 @@ export function getEligibleAchievements(
 ): Achievement[] {
   const eligible: Achievement[] = [];
   
-  const progressMilestones = [1, 5, 10, 20, 30, 50, 57];
+  const progressMilestones = [1, 5, 10, 20, 41, 60, 82];
   for (const threshold of progressMilestones) {
     if (completedCount >= threshold) {
       const achievement = Object.values(ACHIEVEMENT_MILESTONES).find(

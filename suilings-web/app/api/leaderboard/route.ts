@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
       .from('exercises')
       .select('*', { count: 'exact', head: true });
 
-    const totalExercises = totalExercisesCount || 57;
+    const totalExercises = totalExercisesCount || 82;
 
     // Fetch user metadata (for GitHub usernames) from auth
     const adminClient = createAdminClient();

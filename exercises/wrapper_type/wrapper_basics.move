@@ -3,9 +3,8 @@
 // Build a gift wrapping system using wrapper types for object protection.
 // Wrappers control access and add functionality to wrapped objects.
 //
-// Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
+// Stuck? Check out: https://move-book.com/programmability/wrapper-type-pattern.html
 
-#[allow(duplicate_alias)]
 module suilings::gift_box {
 use sui::object::{Self, UID};
 use sui::tx_context::{Self, TxContext};

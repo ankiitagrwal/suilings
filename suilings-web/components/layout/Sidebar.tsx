@@ -37,115 +37,117 @@ export function Sidebar({ onToggle }: SidebarProps) {
 
   return (
     <aside className="w-64 border-r border-border bg-muted/10 flex flex-col overflow-hidden h-full">
-      <div className="p-4 border-b border-border shrink-0 flex items-center justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <h2 className="text-sm font-semibold text-foreground">All Exercises</h2>
-          <p className="text-xs text-muted-foreground mt-1">
-            {exercises.length} exercises available
-          </p>
-        </div>
-        {onToggle && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 shrink-0"
-            onClick={onToggle}
-            title="Hide sidebar"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-        )}
-      </div>
-
-      <ScrollArea className="flex-1 overflow-y-auto">
-        <div className="p-2 pb-8">
-          {/* Basic Exercises */}
-          <div className="mb-6">
-            <button
-              onClick={() => setIsBasicExpanded(!isBasicExpanded)}
-              className="w-full px-3 py-2 mb-2 flex items-center gap-2 hover:bg-accent rounded-md transition-colors"
-            >
-              {isBasicExpanded ? (
-                <ChevronDown className="h-4 w-4 shrink-0" />
-              ) : (
-                <ChevronRight className="h-4 w-4 shrink-0" />
-              )}
-              <h2 className="text-sm font-bold text-foreground flex-1">Basic Exercises</h2>
-              <span className="text-xs text-muted-foreground shrink-0">
-                {basic.filter(ex => ex.status === 'completed').length}/{basic.length}
-              </span>
-            </button>
-            
-            {isBasicExpanded && (
-              <div className="space-y-1">
-                {basic.map((exercise) => {
-                  const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
-                  const isActive = exerciseIndex === currentExerciseIndex;
-
-                  return (
-                    <button
-                      key={exercise.name}
-                      onClick={() => handleExerciseClick(exerciseIndex)}
-                      className={cn(
-                        "w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
-                        "hover:bg-accent hover:text-accent-foreground",
-                        isActive && "bg-accent text-accent-foreground font-medium"
-                      )}
-                    >
-                      {getExerciseIcon(exercise.status, isActive)}
-                      <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
+        <div className="p-4 border-b border-border shrink-0 flex items-center justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <h2 className="text-sm font-semibold text-foreground">All Exercises</h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              {exercises.length} exercises available
+            </p>
           </div>
-
-          <Separator className="my-4" />
-
-          {/* Advanced Exercises */}
-          <div className="mb-6">
-            <button
-              onClick={() => setIsAdvancedExpanded(!isAdvancedExpanded)}
-              className="w-full px-3 py-2 mb-2 flex items-center gap-2 hover:bg-accent rounded-md transition-colors"
+          {onToggle && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 shrink-0"
+              onClick={onToggle}
+              title="Hide sidebar"
             >
-              {isAdvancedExpanded ? (
-                <ChevronDown className="h-4 w-4 shrink-0" />
-              ) : (
-                <ChevronRight className="h-4 w-4 shrink-0" />
-              )}
-              <h2 className="text-sm font-bold text-foreground flex-1">🚀 Advanced Exercises</h2>
-              <span className="text-xs text-muted-foreground shrink-0">
-                {advanced.filter(ex => ex.status === 'completed').length}/{advanced.length}
-              </span>
-            </button>
-            
-            {isAdvancedExpanded && (
-              <div className="space-y-1">
-                {advanced.map((exercise) => {
-                  const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
-                  const isActive = exerciseIndex === currentExerciseIndex;
-
-                  return (
-                    <button
-                      key={exercise.name}
-                      onClick={() => handleExerciseClick(exerciseIndex)}
-                      className={cn(
-                        "w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
-                        "hover:bg-accent hover:text-accent-foreground",
-                        isActive && "bg-accent text-accent-foreground font-medium"
-                      )}
-                    >
-                      {getExerciseIcon(exercise.status, isActive)}
-                      <span className="flex-1 text-left truncate">{exercise.displayName || exercise.name}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+          )}
         </div>
-      </ScrollArea>
+
+        <ScrollArea className="flex-1 overflow-y-auto">
+          <div className="p-2 pb-8">
+            {/* Basic Exercises */}
+            <div className="mb-6">
+              <button
+                onClick={() => setIsBasicExpanded(!isBasicExpanded)}
+                className="w-full px-3 py-2 mb-2 flex items-center gap-2 hover:bg-accent rounded-md transition-colors text-left"
+              >
+                {isBasicExpanded ? (
+                  <ChevronDown className="h-4 w-4 shrink-0" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 shrink-0" />
+                )}
+                <h2 className="text-sm font-semibold text-foreground flex-1">Basic Exercises</h2>
+                <span className="text-xs text-muted-foreground shrink-0 font-medium">
+                  {basic.filter(ex => ex.status === 'completed').length}/{basic.length}
+                </span>
+              </button>
+              
+              {isBasicExpanded && (
+                <div className="space-y-1">
+                  {basic.map((exercise) => {
+                    const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
+                    const isActive = exerciseIndex === currentExerciseIndex;
+                    const displayText = exercise.displayName || exercise.name;
+
+                    return (
+                      <button
+                        key={exercise.name}
+                        onClick={() => handleExerciseClick(exerciseIndex)}
+                        className={cn(
+                          "w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
+                          "hover:bg-accent hover:text-accent-foreground",
+                          isActive && "bg-accent text-accent-foreground font-medium"
+                        )}
+                      >
+                        {getExerciseIcon(exercise.status, isActive)}
+                        <span className="flex-1 text-left truncate min-w-0">{displayText}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <Separator className="my-4" />
+
+            {/* Advanced Exercises */}
+            <div className="mb-6">
+              <button
+                onClick={() => setIsAdvancedExpanded(!isAdvancedExpanded)}
+                className="w-full px-3 py-2 mb-2 flex items-center gap-2 hover:bg-accent rounded-md transition-colors text-left"
+              >
+                {isAdvancedExpanded ? (
+                  <ChevronDown className="h-4 w-4 shrink-0" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 shrink-0" />
+                )}
+                <h2 className="text-sm font-semibold text-foreground flex-1">🚀 Advanced Exercises</h2>
+                <span className="text-xs text-muted-foreground shrink-0 font-medium">
+                  {advanced.filter(ex => ex.status === 'completed').length}/{advanced.length}
+                </span>
+              </button>
+              
+              {isAdvancedExpanded && (
+                <div className="space-y-1">
+                  {advanced.map((exercise) => {
+                    const exerciseIndex = exercises.findIndex((ex) => ex.name === exercise.name);
+                    const isActive = exerciseIndex === currentExerciseIndex;
+                    const displayText = exercise.displayName || exercise.name;
+
+                    return (
+                      <button
+                        key={exercise.name}
+                        onClick={() => handleExerciseClick(exerciseIndex)}
+                        className={cn(
+                          "w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
+                          "hover:bg-accent hover:text-accent-foreground",
+                          isActive && "bg-accent text-accent-foreground font-medium"
+                        )}
+                      >
+                        {getExerciseIcon(exercise.status, isActive)}
+                        <span className="flex-1 text-left truncate min-w-0">{displayText}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </ScrollArea>
     </aside>
   );
 }
