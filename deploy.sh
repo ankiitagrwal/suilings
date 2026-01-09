@@ -49,17 +49,8 @@ docker push ${IMAGE_NAME}:${IMAGE_TAG} || {
 echo -e "${GREEN}✅ Pushed${NC}"
 echo ""
 
-# Step 3: Clean EC2 Docker cache
-echo -e "${YELLOW}[3/4] Cleaning EC2 Docker cache...${NC}"
-ssh -i "$SSH_KEY" ${EC2_USER}@${EC2_HOST} << 'ENDSSH'
-    echo "Cleaning old Docker images..."
-    docker system prune -a -f
-ENDSSH
-echo -e "${GREEN}✅ Cleaned${NC}"
-echo ""
-
-# Step 4: Deploy to EC2
-echo -e "${YELLOW}[4/4] Deploying to EC2...${NC}"
+# Step 3: Deploy to EC2
+echo -e "${YELLOW}[3/3] Deploying to EC2...${NC}"
 ssh -i "$SSH_KEY" ${EC2_USER}@${EC2_HOST} << ENDSSH
     echo "Pulling latest image..."
     docker pull ${IMAGE_NAME}:${IMAGE_TAG}

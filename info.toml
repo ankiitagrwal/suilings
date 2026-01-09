@@ -10,7 +10,6 @@ mode = "test"
 move_book_url = "https://move-book.com/your-first-move/hello-world.html"
 hint = """
 Complete the function to make the module compile successfully.
-Stuck? Check out: https://move-book.com/your-first-move/hello-world.html
 """
 
 # ====================================
@@ -35,7 +34,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/primitive-types.html"
 hint = """
 Implement the functions using appropriate primitive types.
-Stuck? Check out: https://move-book.com/move-basics/primitive-types.html
 """
 
 [[exercises]]
@@ -46,7 +44,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/primitive-types.html"
 hint = """
 Use comparison and boolean operators.
-Stuck? Check out: https://move-book.com/move-basics/primitive-types.html
 """
 
 # ====================================
@@ -61,7 +58,6 @@ mode = "build"
 move_book_url = "https://move-book.com/move-basics/expression.html"
 hint = """
 Fix the syntax error in the addition expression.
-Stuck? Check out: https://move-book.com/move-basics/expression.html
 """
 
 # ====================================
@@ -76,7 +72,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/struct.html"
 hint = """
 Define structs with abilities and create instances.
-Stuck? Check out: https://move-book.com/move-basics/struct.html
 """
 
 [[exercises]]
@@ -88,7 +83,6 @@ move_book_url = "https://move-book.com/move-basics/struct.html"
 hint = """
 Nested field access: dept.manager.name
 Access deeply nested: dept.manager.address.city
-Stuck? Check out: https://move-book.com/move-basics/struct.html
 """
 
 # ====================================
@@ -103,7 +97,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/abilities-introduction.html"
 hint = """
 Practice using struct abilities: copy, drop, store, key.
-Stuck? Check out: https://move-book.com/move-basics/abilities-introduction.html
 """
 
 # ====================================
@@ -119,7 +112,6 @@ move_book_url = "https://move-book.com/move-basics/importing-modules.html"
 hint = """
 Import and use functions from other modules:
 use suilings::math::add;
-Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
 """
 
 # ====================================
@@ -134,7 +126,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/importing-modules.html"
 hint = """
 Import and use the standard library vector module.
-Stuck? Check out: https://move-book.com/move-basics/importing-modules.html
 """
 
 # ====================================
@@ -150,7 +141,6 @@ move_book_url = "https://move-book.com/move-basics/vector.html"
 hint = """
 create_range: Use while loop with vector::push_back
 sum_vector: Use while loop with vector::borrow to access elements
-Stuck? Check out: https://move-book.com/move-basics/vector.html
 """
 
 [[exercises]]
@@ -162,7 +152,6 @@ move_book_url = "https://move-book.com/move-basics/vector.html"
 hint = """
 remove_duplicates: Use vector::contains to check if already added
 find_max: Track max value while iterating
-Stuck? Check out: https://move-book.com/move-basics/vector.html
 """
 
 # ====================================
@@ -178,7 +167,6 @@ move_book_url = "https://move-book.com/move-basics/option.html"
 hint = """
 divide: if (b != 0) option::some(a / b) else option::none()
 get_or_default: if (option::is_some(&opt)) *option::borrow(&opt) else default
-Stuck? Check out: https://move-book.com/move-basics/option.html
 """
 
 [[exercises]]
@@ -190,7 +178,6 @@ move_book_url = "https://move-book.com/guides/better-error-handling.html"
 hint = """
 safe_divide: assert!(b != 0, EDIVISION_BY_ZERO);
 get_element: assert!(index < vector::length(vec), EOUT_OF_RANGE);
-Stuck? Check out: https://move-book.com/guides/better-error-handling.html
 """
 
 # ====================================
@@ -206,7 +193,6 @@ move_book_url = "https://move-book.com/move-basics/string.html"
 hint = """
 Create string: string::utf8(b"text")
 Concatenate: string::append(&mut s1, s2); s1
-Stuck? Check out: https://move-book.com/move-basics/string.html
 """
 
 [[exercises]]
@@ -218,7 +204,6 @@ move_book_url = "https://move-book.com/move-basics/string.html"
 hint = """
 Substring: string::sub_string(&s, start, end)
 Contains: option::is_some(&string::index_of(&haystack, &needle))
-Stuck? Check out: https://move-book.com/move-basics/string.html
 """
 
 # ====================================
@@ -234,7 +219,6 @@ move_book_url = "https://move-book.com/move-basics/control-flow.html"
 hint = """
 abs_diff: if (a > b) { a - b } else { b - a }
 clamp: use nested if expressions
-Stuck? Check out: https://move-book.com/move-basics/control-flow.html
 """
 
 [[exercises]]
@@ -246,7 +230,6 @@ move_book_url = "https://move-book.com/move-basics/control-flow.html"
 hint = """
 sum_range: let mut sum = 0; while (i <= end) { sum = sum + i; i = i + 1 }
 count_even: Check if num % 2 == 0
-Stuck? Check out: https://move-book.com/move-basics/control-flow.html
 """
 
 # ====================================
@@ -262,7 +245,6 @@ move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
 hint = """
 Define enum: public enum Status { Pending, Active, Completed }
 Return variant: Status::Pending
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
 """
 
 [[exercises]]
@@ -273,7 +255,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
 hint = """
 Use match expressions to handle enum variants. Match is exhaustive!
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
 """
 
 [[exercises]]
@@ -284,7 +265,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
 hint = """
 Work with enums that contain data, like Result<T, E> and Option<T>.
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
 """
 
 [[exercises]]
@@ -295,7 +275,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/enum-and-match.html"
 hint = """
 Implement complex enum operations with nested data structures.
-Stuck? Check out: https://move-book.com/move-basics/enum-and-match.html
 """
 
 # ====================================
@@ -312,7 +291,6 @@ hint = """
 multiply: return a * b
 square: return num * num
 max: use if (a > b) a else b
-Stuck? Check out: https://move-book.com/move-basics/function.html
 """
 
 [[exercises]]
@@ -324,7 +302,6 @@ move_book_url = "https://move-book.com/move-basics/function.html"
 hint = """
 Multiple returns: fun name(): (Type1, Type2) { (val1, val2) }
 Destructure: let (a, b) = function_call();
-Stuck? Check out: https://move-book.com/move-basics/function.html
 """
 
 # ====================================
@@ -339,7 +316,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/visibility.html"
 hint = """
 Add the `public` keyword before `fun`.
-Stuck? Check out: https://move-book.com/move-basics/visibility.html
 """
 
 # ====================================
@@ -354,7 +330,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
 hint = """
 Understand basic ownership transfer in Move. Each value has exactly one owner.
-Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
 """
 
 [[exercises]]
@@ -365,7 +340,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/ownership-and-scope.html"
 hint = """
 Handle ownership with complex nested data structures.
-Stuck? Check out: https://move-book.com/move-basics/ownership-and-scope.html
 """
 
 # ====================================
@@ -380,7 +354,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/copy-ability.html"
 hint = """
 Understand when values are copied vs moved based on abilities.
-Stuck? Check out: https://move-book.com/move-basics/copy-ability.html
 """
 
 # ====================================
@@ -396,7 +369,6 @@ move_book_url = "https://move-book.com/move-basics/references.html"
 hint = """
 Use & for read-only: account.balance
 Use &mut for modification: account.balance = new_value
-Stuck? Check out: https://move-book.com/move-basics/references.html
 """
 
 [[exercises]]
@@ -408,7 +380,6 @@ move_book_url = "https://move-book.com/move-basics/references.html"
 hint = """
 Modify through &mut: *value = new_value
 Increment: *value = *value + 1
-Stuck? Check out: https://move-book.com/move-basics/references.html
 """
 
 [[exercises]]
@@ -419,7 +390,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/references.html"
 hint = """
 Use references to borrow values without taking ownership.
-Stuck? Check out: https://move-book.com/move-basics/references.html
 """
 
 # ====================================
@@ -435,7 +405,6 @@ move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
 Generic struct: struct Box<T: drop> has drop { value: T }
 Destructure: let Box { value } = box;
-Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
@@ -447,7 +416,6 @@ move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
 Generic function: fun name<T: drop>(value: T): T
 Type constraints: <T: copy + drop>
-Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
@@ -459,7 +427,6 @@ move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
 Destructure generic struct: let Container { value, count: _ } = container;
 Loop with vector: while (i < vector::length(&v)) { ... }
-Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
@@ -470,7 +437,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
 Work with multiple type parameters, constraints, and generic patterns.
-Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
@@ -481,7 +447,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
 Implement reusable container types using generics (Stack and Queue).
-Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 [[exercises]]
@@ -492,7 +457,6 @@ mode = "test"
 move_book_url = "https://move-book.com/move-basics/generics.html"
 hint = """
 Implement type-safe wrappers using phantom types for compile-time safety.
-Stuck? Check out: https://move-book.com/move-basics/generics.html
 """
 
 # ====================================
@@ -511,7 +475,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/store-ability.html"
 hint = """
 Create basic Sui objects with UID and proper abilities (key, store).
-Stuck? Check out: https://move-book.com/storage/store-ability.html
 """
 
 # ====================================
@@ -526,7 +489,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/storage-functions.html"
 hint = """
 Implement object transfers, sharing, and freezing in Sui.
-Stuck? Check out: https://move-book.com/storage/storage-functions.html
 """
 
 [[exercises]]
@@ -537,7 +499,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/storage-functions.html"
 hint = """
 Learn to store objects inside other objects using the 'store' ability.
-Stuck? Check out: https://move-book.com/storage/storage-functions.html
 """
 
 [[exercises]]
@@ -548,7 +509,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/storage-functions.html"
 hint = """
 Implement functions to remove children from storage and manage collections.
-Stuck? Check out: https://move-book.com/storage/storage-functions.html
 """
 
 [[exercises]]
@@ -559,7 +519,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/storage-functions.html"
 hint = """
 Work with key-value storage patterns using vectors for flexible data storage.
-Stuck? Check out: https://move-book.com/storage/storage-functions.html
 """
 
 # ====================================
@@ -574,7 +533,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/uid-and-id.html"
 hint = """
 Learn to work with UID (Unique Identifier) and ID types in Sui.
-Stuck? Check out: https://move-book.com/storage/uid-and-id.html
 """
 
 [[exercises]]
@@ -585,7 +543,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/uid-and-id.html"
 hint = """
 Store and retrieve object IDs in relationships between objects.
-Stuck? Check out: https://move-book.com/storage/uid-and-id.html
 """
 
 [[exercises]]
@@ -596,7 +553,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/uid-and-id.html"
 hint = """
 Use UID and ID in various contexts including events and conversions.
-Stuck? Check out: https://move-book.com/storage/uid-and-id.html
 """
 
 # ====================================
@@ -611,7 +567,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/transfer-to-object.html"
 hint = """
 Create entry functions that receive and process objects.
-Stuck? Check out: https://move-book.com/storage/transfer-to-object.html
 """
 
 [[exercises]]
@@ -622,7 +577,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/transfer-to-object.html"
 hint = """
 Handle multiple objects in entry functions.
-Stuck? Check out: https://move-book.com/storage/transfer-to-object.html
 """
 
 [[exercises]]
@@ -633,7 +587,6 @@ mode = "test"
 move_book_url = "https://move-book.com/storage/transfer-to-object.html"
 hint = """
 Handle shared objects and mutable operations in entry functions.
-Stuck? Check out: https://move-book.com/storage/transfer-to-object.html
 """
 
 # ====================================
@@ -652,7 +605,6 @@ mode = "test"
 move_book_url = "https://move-book.com/programmability/events.html"
 hint = """
 Define and emit events for contract actions.
-Stuck? Check out: https://move-book.com/programmability/events.html
 """
 
 # ====================================
@@ -671,11 +623,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/transaction-context.html"
 hint = """
-create_proposal: Set deadline_epoch = tx_context::epoch(ctx) + duration_epochs
-sign_proposal: Use vector::contains to check duplicates, vector::push_back to add signers
-execute_proposal: Check if vector::length(&signers) >= required_signatures
-verify_signature_time_window: Loop through signature_epochs to find min/max
-Stuck? Check out: https://move-book.com/programmability/transaction-context.html
+Quick Start:
+1. create_proposal: Set deadline = tx_context::epoch(ctx) + duration, store proposal
+2. sign_proposal: vector::contains() checks duplicates, vector::push_back() adds signer + epoch
+3. execute_proposal: Check vector::length(&signers) >= required AND current_epoch <= deadline
+4. verify_time_window: Loop signature_epochs, track min/max, return max - min
+
+Key Pattern: tx_context provides epoch for time-based logic & sender for auth
+
+Real Use: DAO proposals with expiration dates & signature tracking
+
 """
 
 [[exercises]]
@@ -686,11 +643,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/transaction-context.html"
 hint = """
-mint_nft: Use tx_context::epoch() and tx_context::epoch_timestamp_ms() to track creation
-transfer_nft: Update current_owner and increment transfer_count
-evolve_nft: Calculate age = current_epoch - created_epoch. Stages: 0-4→0, 5-9→1, 10-19→2, 20+→3
-power_up: Only allow if last_transfer_epoch < current_epoch (once per epoch)
-Stuck? Check out: https://move-book.com/programmability/transaction-context.html
+Quick Start:
+1. mint_nft: Store created_epoch = tx_context::epoch(), birth_time = epoch_timestamp_ms()
+2. transfer_nft: Update current_owner, transfer_count++, last_transfer_epoch = current
+3. evolve_nft: Age = current - created_epoch. Stages: 0-4→0, 5-9→1, 10-19→2, 20+→3
+4. power_up: Check last_transfer_epoch < current (prevent spam), update power
+
+Key Pattern: Epoch tracking enables dynamic NFT evolution over time
+
+Real Use: Tamagotchi-style NFTs that grow with age & user interaction
+
 """
 
 [[exercises]]
@@ -701,11 +663,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/transaction-context.html"
 hint = """
-create_escrow: Use tx_context::fresh_object_address(ctx) for unique escrow_address
-release_funds: Check if current_epoch >= locked_until_epoch AND approved (if required)
-cancel_escrow: Only allow if current_epoch < locked_until_epoch - 1 (at least 1 epoch before unlock)
-approve_release: Only approver can call, check if not already approved
-Stuck? Check out: https://move-book.com/programmability/transaction-context.html
+Quick Start:
+1. create_escrow: Store locked_until_epoch, use tx_context::fresh_object_address() for unique ID
+2. release_funds: Check current_epoch >= locked_until AND is_approved, transfer funds
+3. cancel_escrow: Only if current_epoch < locked_until - 1 (early cancellation window)
+4. approve_release: Verify sender == approver, set is_approved = true
+
+Key Pattern: fresh_object_address() generates unique IDs using tx context
+
+Real Use: Freelancer payments - funds locked until milestone approval + time
+
 """
 
 # ====================================
@@ -720,11 +687,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/module-initializer.html"
 hint = """
-fun init(ctx: &mut TxContext): Create Registry and share it with transfer::share_object
-register: Use vector::contains to check duplicates, vector::push_back to add user
-Create RegistrationBadge with current total_registrations as registration_number
-Remember: init runs ONCE when module is published, creates shared objects
-Stuck? Check out: https://move-book.com/programmability/module-initializer.html
+Quick Start:
+1. fun init(ctx: &mut TxContext): Create Registry, share_object() makes it public
+2. register: vector::contains() checks duplicates, vector::push_back() adds user
+3. Create RegistrationBadge with registration_number = total_registrations++
+
+Key Pattern: init() runs ONCE during publish - perfect for shared state setup
+
+Real Use: Global name registries (ENS, Sui NS) that need single initialization
+
 """
 
 [[exercises]]
@@ -735,11 +706,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/module-initializer.html"
 hint = """
-fun init(witness: INIT2, ctx: &mut TxContext): The witness proves this is the init call
-mint: Check cap.remaining_mints > 0 AND amount <= (total_supply - circulating_supply)
-Decrement remaining_mints, increment circulating_supply, create Token and transfer
-burn: Decrement circulating_supply, destroy token with let Token { id, value: _ } = token
-Stuck? Check out: https://move-book.com/programmability/module-initializer.html
+Quick Start:
+1. fun init(witness: INIT2, ctx): Witness auto-provided, create Treasury + MintCap
+2. mint: Check remaining_mints > 0, amount <= (total - circulating), decrement/increment
+3. burn: Unpack token, decrement circulating_supply, object::delete(id)
+
+Key Pattern: init witness + MintCap = controlled token supply
+
+Real Use: Fixed-supply tokens (21M Bitcoin) with limited minting capability
+
 """
 
 [[exercises]]
@@ -750,11 +725,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/module-initializer.html"
 hint = """
-fun init: Create GameWorld, ZoneDirectory, and 3 starter zones - share all of them
-join_zone: Check if not full (vector::length < max_players) and not duplicate (vector::contains)
-leave_zone: Find player index with loop, then use vector::remove to delete
-Use object::uid_to_address or object::uid_to_inner to get zone IDs for directory
-Stuck? Check out: https://move-book.com/programmability/module-initializer.html
+Quick Start:
+1. fun init: Create GameWorld + ZoneDirectory + 3 starter zones, share_object() all
+2. join_zone: Check vector::length() < max_players, !vector::contains(player), push_back
+3. leave_zone: Loop to find index, vector::remove() deletes player
+4. Store zone IDs: object::uid_to_address(&zone.id) or uid_to_inner()
+
+Key Pattern: Complex initialization - multiple shared objects, starter data
+
+Real Use: MMO game worlds with pre-configured zones at launch
+
 """
 
 # ====================================
@@ -769,12 +749,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/capability.html"
 hint = """
-create_system: Create System + AdminCap, share System, transfer cap to owner
-grant_admin/grant_moderator: Check !system.is_locked, create capability, increment counters
-ban_user_with_moderator: Check moderator_cap.can_ban before setting is_banned
-lock_system: Set system.is_locked = true to prevent new capability grants
-The _cap: &Cap parameter proves the caller has the capability!
-Stuck? Check out: https://move-book.com/programmability/capability.html
+Quick Start:
+1. create_system: Create System + AdminCap, share_object(system), transfer cap to owner
+2. grant_admin/moderator: Check !is_locked, create cap, increment count, transfer to recipient
+3. ban_user_with_moderator: Require _cap: &ModeratorCap parameter (proves auth!)
+4. lock_system: Set is_locked = true (no more capability grants)
+
+Key Pattern: Capability object = permission token. No cap? Can't call function!
+
+Real Use: Discord-style role system - admins grant moderator caps to trusted users
+
 """
 
 [[exercises]]
@@ -785,12 +769,17 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/capability.html"
 hint = """
-create_treasury: Create Treasury + MasterKey, share treasury, transfer key to owner
-withdraw_with_master: Check balance >= amount, no withdrawal limit!
-withdraw_with_manager: Check amount <= withdrawal_limit AND balance >= amount
-grant_manager/grant_clerk: Requires MasterKey to create and transfer capabilities
-Create WithdrawalReceipt with tx_context::epoch() for audit trail
-Stuck? Check out: https://move-book.com/programmability/capability.html
+Quick Start:
+1. create_treasury: Create Treasury + MasterKey, share treasury, transfer key to CEO
+2. withdraw_with_master: Check balance >= amount (NO LIMIT for master!)
+3. withdraw_with_manager: Check amount <= withdrawal_limit AND balance >= amount
+4. grant_*: Requires &MasterKey, create cap with custom limits, transfer
+5. Return WithdrawalReceipt with tx_context::epoch() for audit trail
+
+Key Pattern: Tiered capabilities - MasterKey > ManagerKey > ClerkKey
+
+Real Use: Company treasury - CEO unlimited, CFO limited, accountants view-only
+
 """
 
 [[exercises]]
@@ -801,12 +790,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/capability.html"
 hint = """
-create_dao: Use object::uid_to_inner(&dao.id) to get dao_id for capabilities
-vote_with_*: Check status == 0 (Active), check not duplicate (vector::contains)
-Add voter to voters vector, add voting_power to yes_votes or no_votes
-finalize_proposal: If yes_votes >= voting_threshold → status = 1 (Passed), else 2 (Rejected)
-delegate_vote: Create DelegateCap with accumulated voting_power from members
-Stuck? Check out: https://move-book.com/programmability/capability.html
+Quick Start:
+1. create_dao: Store dao_id = object::uid_to_inner(&dao.id), create MemberCaps with voting_power
+2. vote_with_*: Check status == 0 (Active), !vector::contains(voter), add voting_power to yes/no
+3. finalize_proposal: If yes_votes >= threshold → status=1 (Passed), else status=2 (Rejected)
+4. delegate_vote: Create DelegateCap with combined voting_power from multiple members
+
+Key Pattern: Capability carries voting power - enables delegation & compound voting
+
+Real Use: DAOs like Nouns - members delegate voting power to trusted representatives
+
 """
 
 # ====================================
@@ -821,12 +814,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/epoch-and-time.html"
 hint = """
-create_time_lock: Get current time with clock::timestamp_ms(), calculate unlock_time
-Store coin value as u64, convert using coin::value() and coin::into_balance()
-withdraw: Check current_time >= unlock_time, check !is_withdrawn
-Create new coin using balance::create_for_testing() + coin::from_balance()
-The Clock object provides trustless on-chain timestamps!
-Stuck? Check out: https://move-book.com/programmability/epoch-and-time.html
+Quick Start:
+1. create_time_lock: clock::timestamp_ms(&clock) gets current time, add lock_duration_ms
+2. Store coin as Balance: coin::into_balance(coin), store value = coin::value(&coin)
+3. withdraw: Check clock::timestamp_ms() >= unlock_time AND !is_withdrawn
+4. Restore coin: balance::split() → coin::from_balance()
+
+Key Pattern: Clock object = trustless on-chain timestamps (vs tx_context::epoch)
+
+Real Use: Savings accounts - "lock 1000 SUI for 6 months, earn 5% APY"
+
 """
 
 [[exercises]]
@@ -837,12 +834,17 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/epoch-and-time.html"
 hint = """
-create_vesting: Convert Coin to Balance using coin::into_balance() for proper storage
-calculate_vested_amount: Linear formula: total * (elapsed / duration)
-Handle edge cases: before start (0), after end (100%)
-claim_vested: Calculate claimable = vested - claimed, use balance::split()
-Vesting enables gradual token unlocks for employees, investors, founders!
-Stuck? Check out: https://move-book.com/programmability/epoch-and-time.html
+Quick Start:
+1. create_vesting: coin::into_balance() converts Coin → Balance, store total amount
+2. calculate_vested_amount: Linear formula = total * (elapsed / duration)
+   - Before start: return 0
+   - After end: return total_amount
+3. claim_vested: claimable = vested - claimed, balance::split(&mut balance, claimable)
+
+Key Pattern: Linear vesting = tokens unlock proportionally over time
+
+Real Use: Employee stock options - 4 year vest, 1 year cliff (25% after year 1)
+
 """
 
 [[exercises]]
@@ -853,12 +855,17 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/epoch-and-time.html"
 hint = """
-calculate_current_price: Linear decrease from starting_price to reserve_price
-Formula: starting_price - (price_drop * elapsed / duration)
-buy: Check auction started, not ended, not sold. Handle overpayment with refund
-Use coin::split() to take exact payment, balance::join() to add to proceeds
-Dutch auctions start high and decrease - ensures fair market price discovery!
-Stuck? Check out: https://move-book.com/programmability/epoch-and-time.html
+Quick Start:
+1. calculate_current_price: Linear decrease = starting - (price_drop * elapsed / duration)
+   - Cap at reserve_price (minimum)
+2. buy: Check started, !ended, !sold. Get current_price, check payment >= price
+3. Handle overpayment: coin::split() exact amount, refund extra with coin::from_balance()
+4. Store proceeds: balance::join(&mut auction.proceeds, payment_balance)
+
+Key Pattern: Price decreases over time until someone buys (self-adjusting market)
+
+Real Use: NFT drops (Azuki) - starts at 10 ETH, drops to 0.5 ETH over 24h
+
 """
 
 [[exercises]]
@@ -869,12 +876,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/collections.html"
 hint = """
-create_registry: Use table::new() to create empty table, share_object() for public access
-register_user: Check !table::contains() for duplicates, table::add() to insert
-update_user: Use table::borrow_mut() to get mutable reference, modify fields directly
-remove_user: Only owner can remove, use table::remove() to delete entry
-Table is perfect for key-value storage with copy/drop types like String!
-Stuck? Check out: https://move-book.com/programmability/collections.html
+Quick Start:
+1. create_registry: table::new() creates empty Table<address, UserProfile>, share_object()
+2. register_user: Check !table::contains(), table::add() inserts key-value
+3. update_user: table::borrow_mut() gets &mut reference, modify fields directly
+4. remove_user: Verify owner, table::remove() returns value and deletes entry
+
+Key Pattern: Table = on-chain HashMap with copy/drop types (address → struct)
+
+Why Table vs Vector? O(1) lookup by key vs O(n) search. Perfect for registries!
+
 """
 
 [[exercises]]
@@ -885,12 +896,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/collections.html"
 hint = """
-create_wallet: Use bag::new() to create empty bag, transfer to owner
-deposit: Check !bag::contains() for duplicates, bag::add() stores heterogeneous types
-withdraw: Use bag::borrow_mut() to access coin, coin::split() for partial withdrawal
-remove_asset: bag::remove() returns the entire asset, transfer to owner
-Bag allows different value types (Coin<SUI>, Coin<USD>) with same key type!
-Stuck? Check out: https://move-book.com/programmability/collections.html
+Quick Start:
+1. create_wallet: bag::new() creates empty Bag, transfer to owner
+2. deposit: bag::add<T>(key, value) stores ANY type - Coin<SUI>, Coin<USDC>, NFTs
+3. withdraw: bag::borrow_mut<Coin<T>>() gets mutable ref, coin::split() for partial
+4. remove_asset: bag::remove<T>() returns full value, transfer to owner
+
+Key Pattern: Bag = heterogeneous storage (different value types, same key type)
+
+Why Bag? Multi-currency wallet: "SUI" → Coin<SUI>, "USDC" → Coin<USDC> in ONE bag!
+
 """
 
 [[exercises]]
@@ -901,12 +916,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/collections.html"
 hint = """
-create_collection: Use object_table::new(), set next_token_id to 1
-mint_nft: Check max_supply if set, create NFT with new UID, object_table::add()
-transfer_nft: object_table::remove() takes ownership, transfer::public_transfer()
-burn_nft: Remove NFT, unpack struct, object::delete() the UID
-ObjectTable stores objects as values, maintaining their UIDs - perfect for NFTs!
-Stuck? Check out: https://move-book.com/programmability/collections.html
+Quick Start:
+1. create_collection: object_table::new() creates ObjectTable<u64, NFT>, share it
+2. mint_nft: Check max_supply, create NFT with new UID, object_table::add(id, nft)
+3. transfer_nft: object_table::remove() takes ownership, transfer::public_transfer(nft, recipient)
+4. burn_nft: Remove, unpack struct, object::delete(uid)
+
+Key Pattern: ObjectTable stores objects WITH UIDs (vs Table with copy/drop types)
+
+Real Use: NFT collections - each NFT needs UID for ownership tracking
+
 """
 
 [[exercises]]
@@ -917,12 +936,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/collections.html"
 hint = """
-create_vault: Use object_bag::new(), set is_locked to false
-deposit: Wrap data in Asset<T> struct with new UID, object_bag::add()
-withdraw: Check !is_locked, object_bag::remove(), unpack Asset, object::delete() UID
-lock/unlock: Simple boolean flag toggle, only owner can control
-ObjectBag = Bag + ObjectTable = heterogeneous object storage with UIDs!
-Stuck? Check out: https://move-book.com/programmability/collections.html
+Quick Start:
+1. create_vault: object_bag::new() creates ObjectBag, set is_locked = false
+2. deposit: Wrap value in Asset<T> with new UID, object_bag::add(key, asset)
+3. withdraw: Check !is_locked, object_bag::remove(), unpack Asset, object::delete(uid), return value
+4. lock/unlock: Toggle is_locked boolean (only owner)
+
+Key Pattern: ObjectBag = Bag + ObjectTable = heterogeneous objects WITH UIDs
+
+Why ObjectBag? Store NFT + Coin<SUI> + GameItem all in ONE vault with different types!
+
 """
 
 [[exercises]]
@@ -933,11 +956,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/wrapper-pattern.html"
 hint = """
-wrap_gift: Create GiftBox<T> wrapper with inner object, recipient, message
-unwrap_gift: Check sender == recipient, unpack wrapper, object::delete() UID, return inner
-peek_message: Read-only access without unwrapping, check recipient permission
-Wrappers provide object-level access control - only recipient can unwrap!
-Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
+Quick Start:
+1. wrap_gift: Create GiftBox<T> with new UID, store inner object + recipient + message
+2. unwrap_gift: Check sender == recipient, unpack wrapper, object::delete(uid), return inner
+3. peek_message: Read-only access to message without unwrapping (check recipient first)
+
+Key Pattern: Wrapper adds access control - only recipient can unwrap inner object
+
+Real Use: NFT gifts - sender wraps with message, only recipient can unwrap & claim
+
 """
 
 [[exercises]]
@@ -948,11 +975,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/wrapper-pattern.html"
 hint = """
-wrap_document: Create AuthWrapper with authorized_approvers list, empty approvals vector
-approve_document: Check sender in authorized_approvers, not in approvals, push to approvals
-finalize_document: Check approvals >= required, unpack wrapper, return document
-Multi-sig approval workflow enforced by wrapper! Shared object allows multiple approvers.
-Stuck? Check out: https://move-book.com/programmability/wrapper-pattern.html
+Quick Start:
+1. wrap_document: Create AuthWrapper with authorized_approvers list, empty approvals vector
+2. approve_document: Check sender in authorized_approvers, !in approvals, push sender
+3. finalize_document: Check vector::length(approvals) >= required, unpack wrapper, return doc
+
+Key Pattern: Wrapper enforces multi-sig approval before access (shared object pattern)
+
+Real Use: Legal contracts - 3 of 5 board members must approve before execution
+
 """
 
 # ====================================
@@ -967,12 +998,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/dynamic-fields.html"
 hint = """
-add_metadata: Check !dynamic_field::exists(), create MetadataValue, dynamic_field::add()
-get_metadata: Verify exists, dynamic_field::borrow(), return value field
-update_metadata: Verify exists, dynamic_field::borrow_mut(), update value
-remove_metadata: Verify exists, dynamic_field::remove(), returns MetadataValue
-Dynamic fields allow adding key-value pairs at runtime without modifying structs!
-Stuck? Check out: https://move-book.com/programmability/dynamic-fields.html
+Quick Start:
+1. add_metadata: Check !df::exists_(), wrap in MetadataValue struct, df::add(&mut uid, key, value)
+2. get_metadata: Verify df::exists_(), df::borrow() gets immutable ref, return value field
+3. update_metadata: df::borrow_mut() gets mutable ref, modify value field directly
+4. remove_metadata: df::remove() returns MetadataValue, extract value field
+
+Key Pattern: Dynamic Fields add runtime key-value pairs WITHOUT modifying struct definition
+
+Real Use: NFT metadata - add "artist", "description", "royalty" fields after mint
+
 """
 
 [[exercises]]
@@ -983,13 +1018,17 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/dynamic-fields.html"
 hint = """
-add_stat: Check !exists, verify value <= max_value, dynamic_field::add() with StatAttribute
-increase_stat: Borrow mutable, update value (keep <= max_value)
-decrease_stat: Borrow mutable, decrease value (keep >= 0)
-add_counter: Create CounterAttribute with count=0, dynamic_field::add()
-increment_counter: Borrow mutable, increment count
-Dynamic fields store copy/drop types - perfect for stats and counters!
-Stuck? Check out: https://move-book.com/programmability/dynamic-fields.html
+Quick Start:
+1. add_stat: Check !df::exists_(), verify value <= max_value, df::add() with StatAttribute
+2. increase_stat: df::borrow_mut() gets &mut ref, value++, clamp to max_value
+3. decrease_stat: df::borrow_mut(), value--, ensure >= 0
+4. add_counter: df::add() with CounterAttribute { count: 0 }
+5. increment_counter: df::borrow_mut(), count++
+
+Key Pattern: Dynamic Fields store copy/drop types - perfect for numeric stats
+
+Real Use: RPG character stats - strength, agility, mana that level up over time
+
 """
 
 # ====================================
@@ -1004,12 +1043,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/dynamic-object-fields.html"
 hint = """
-attach: Check !dof::exists(), verify owner, dof::add() with Attachment object
-detach: Verify exists and owner, dof::remove() returns Attachment (with UID intact!)
-get_attachment: dof::borrow() returns immutable reference
-get_attachment_mut: dof::borrow_mut() allows modifying attached object
-Dynamic object fields store objects as values, maintaining their UIDs!
-Stuck? Check out: https://move-book.com/programmability/dynamic-object-fields.html
+Quick Start:
+1. attach: dof::exists_() checks if slot taken, verify owner, dof::add() attaches Attachment
+2. detach: dof::remove<String, Attachment>() removes and RETURNS object (UID intact!)
+3. get_attachment: dof::borrow() for immutable read
+4. get_attachment_mut: dof::borrow_mut() for modifying attached object
+
+Key Pattern: DOF stores OBJECTS as values - they keep their UID (vs DF which stores data)
+
+Real Use: Attach mods to weapons, upgrades to items - detach and transfer separately!
+
 """
 
 [[exercises]]
@@ -1020,12 +1063,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/dynamic-object-fields.html"
 hint = """
-attach_component: Check !exists, verify owner and level>0, dof::add(), increment count
-detach_component: Verify exists and owner, dof::remove(), decrement count
-upgrade_component: Borrow mutable, update level (keep <= 10)
-total_component_power: Check exists for common keys, sum (level * 10)
-Dynamic object fields enable flexible object hierarchies with child objects!
-Stuck? Check out: https://move-book.com/programmability/dynamic-object-fields.html
+Quick Start:
+1. attach_component: Check !exists, verify owner & level>0, dof::add(), increment component_count
+2. detach_component: Verify exists & owner, dof::remove(), decrement component_count
+3. upgrade_component: dof::borrow_mut() gets component, update level (max 10)
+4. total_component_power: Check common slots ("engine", "shield"), sum level * 10
+
+Key Pattern: Multiple DOF on same object (engine + shield + weapon all on one ship!)
+
+Pro Tip: Component count tracked separately from DOF - useful for UI/stats!
+
 """
 
 # ====================================
@@ -1040,12 +1087,14 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/dynamic-collections.html"
 hint = """
-create_registry: Use table::new() to create Table<address, UserProfile>
-register_user: Check !table::contains(), create UserProfile, table::add()
-add_custom_field: Borrow profile with table::borrow_mut(), df::add() for custom metadata
-get_custom_field: Borrow profile with table::borrow(), df::borrow() to read metadata
-Dynamic Collections = Table/Bag for main storage + Dynamic Fields for flexibility!
-Stuck? Check out: https://move-book.com/programmability/dynamic-collections.html
+Quick Start:
+1. create_registry: table::new() creates empty Table<address, UserProfile>, share it
+2. register_user: table::contains() checks if user exists, table::add() adds profile
+3. add_custom_field: table::borrow_mut() gets profile, df::add() attaches custom data
+4. get_custom_field: table::borrow() reads profile, df::borrow() reads custom field
+
+Key Pattern: Table stores fixed schema (username), Dynamic Fields add flexible metadata (GitHub link, Twitter)
+
 """
 
 [[exercises]]
@@ -1056,12 +1105,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/dynamic-collections.html"
 hint = """
-create_game: Use object_table::new() for ObjectTable<u64, Character>
-create_character: Create Character with UID, object_table::add()
-attach_equipment: Use dof::add() to attach Equipment objects to character's UID
-detach_equipment: Use dof::remove() to remove and return Equipment
-ObjectTable stores objects while Dynamic Object Fields enable equipment system!
-Stuck? Check out: https://move-book.com/programmability/dynamic-collections.html
+Quick Start:
+1. create_game: object_table::new() for ObjectTable<u64, Character>, share game world
+2. create_character: Create Character with UID, object_table::add(), return character ID
+3. attach_equipment: object_table::borrow_mut() gets character, dof::add() attaches gear
+4. detach_equipment: dof::remove() removes and RETURNS equipment (UID stays intact!)
+5. get_character_power: Check if slots exist (weapon/armor/accessory), sum their power
+
+Key Pattern: ObjectTable stores Character NFTs, DOF attaches Equipment NFTs to characters
+
 """
 
 [[exercises]]
@@ -1072,12 +1124,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/dynamic-collections.html"
 hint = """
-create_portfolio: Use bag::new() for heterogeneous asset storage
-add_asset: bag::add() with different types (Coin<SUI>, Coin<USDC>)
-tag_asset: Use df::add() on portfolio UID for categorization tags
-get_assets_by_tag: Query dynamic fields to filter assets by category
-Bag allows mixed types + Dynamic Fields enable flexible categorization!
-Stuck? Check out: https://move-book.com/programmability/dynamic-collections.html
+Quick Start:
+1. create_portfolio: bag::new() creates Bag (holds mixed types!), transfer to owner
+2. add_asset: bag::add<T>() stores ANY type - Coin<SUI>, Coin<USDC>, NFTs all in ONE Bag
+3. tag_asset: df::add() on portfolio UID tags assets ("DeFi", "NFT", "Gaming")
+4. get_asset_tag: df::borrow() reads tag, filter by category
+
+Key Pattern: Bag = mixed types storage, Dynamic Fields = categorization layer
+
+Why Bag? Table requires same value type. Bag allows Coin<SUI> + Coin<USDC> + NFT together!
+
 """
 
 # ====================================
@@ -1092,12 +1148,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/witness-pattern.html"
 hint = """
-Generic witness pattern: fun create<W>(witness: W): Container<W>
-The witness parameter proves module ownership of type W
-Each module creates its own witness: struct MyWitness has drop {}
-Container<W> is type-specific - only module with W can create Container<W>
-This enables type-safe plugin systems and generic authorization!
-Stuck? Check out: https://move-book.com/programmability/witness-pattern.html
+Quick Start:
+1. create_registry: vec_map::empty() for registered types, share registry
+2. register_type<T>: type_name::with_original_ids<T>() gets type, vec_map::insert() registers it
+3. update_metadata<T>: Requires TypeCapability<T> (proves ownership), vec_map::get_mut() updates
+
+Key Pattern: Witness proves "I own type T" → Only that module can register/update T
+
+Why Witness? Prevents anyone from registering fake "YourToken" - only YOUR module can!
+
 """
 
 [[exercises]]
@@ -1108,12 +1167,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/witness-pattern.html"
 hint = """
-Transferable witness: struct AdminWitness has key, store (can transfer!)
-Generic witness can be reused (vs OTW which is one-time)
-grant_admin: Create AdminWitness, transfer to recipient
-revoke_admin: Transfer AdminWitness back to revoke
-Witness-based auth allows delegation and revocation!
-Stuck? Check out: https://move-book.com/programmability/witness-pattern.html
+Quick Start:
+1. create_marketplace<W>: Consume witness W, create MarketplaceAuthority<W> (has store!)
+2. create_item<T>: Requires &MarketplaceAuthority<T> (reusable badge), creates Item<T>
+3. list_item: vec_map::insert() tracks price, transfer item to marketplace
+4. buy_item: Check payment >= price, vec_map::remove(), transfer payment & item
+
+Key Pattern: Authority<W> can be TRANSFERRED (delegate to employee) and REUSED (mint multiple items)
+
+ vs OTW: One-Time Witness = use once. Generic Witness with store = transfer & reuse!
+
 """
 
 [[exercises]]
@@ -1124,12 +1187,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/witness-pattern.html"
 hint = """
-Witness as proof/receipt: Each step produces a witness for next step
-manufacture() -> ManufactureProof, ship(proof) -> ShipmentProof, deliver(proof) -> done
-Witness must be consumed at end - enforces workflow completion
-Multi-step authorization: Each function requires previous step's proof
-Chained witnesses enable complex workflow verification!
-Stuck? Check out: https://move-book.com/programmability/witness-pattern.html
+Quick Start:
+1. verify_type<W>: Consumes witness, returns VerificationProof<W> (has copy!)
+2. issue_certificate<T>: Requires proof, increment registry, create Certificate<T> NFT
+3. create_verified_container<T>: Requires proof, wraps value T in VerifiedContainer<T>
+4. upgrade_verification: Requires Certificate<T> (authority) to upgrade level
+
+Key Pattern: Witness → Proof → Certificate. Each step proves previous completion!
+
+Real Use: Luxury goods verification - only verified Rolex can be containerized & sold
+
 """
 
 # ====================================
@@ -1144,11 +1211,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/one-time-witness.html"
 hint = """
-init_treasury: Create Treasury, convert Coin to Balance, set is_initialized=true, share_object()
-mint: Verify is_initialized, check balance >= amount, split balance, create Token
-OTW ensures init_treasury can only be called once - WITNESS1 is auto-created during module init!
-The witness parameter proves this is the initialization call.
-Stuck? Check out: https://move-book.com/programmability/one-time-witness.html
+Quick Start:
+1. init_treasury: coin::into_balance() converts Coin → Balance, set is_initialized=true, share_object()
+2. mint: Check is_initialized, balance::split() withdraws, coin::from_balance() creates Coin
+3. Return Coin + Token NFT to sender
+
+Key Pattern: WITNESS1 can ONLY be created during module init - guarantees single initialization!
+
+Why OTW? Prevents double-initialization attacks. Treasury can't be created twice!
+
 """
 
 [[exercises]]
@@ -1159,11 +1230,15 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/one-time-witness.html"
 hint = """
-init_registry: Create GlobalRegistry, empty vector, admin=sender, is_initialized=true, share_object()
-register: Verify !contains(), add to vector, increment count, create RegistrationBadge
-remove_registration: Verify admin, find index, vector::remove(), decrement count
-OTW pattern: WITNESS2 struct name matches module name, auto-created during init!
-Stuck? Check out: https://move-book.com/programmability/one-time-witness.html
+Quick Start:
+1. init_registry: Empty vector, admin=sender, is_initialized=true, share_object()
+2. register: vector::contains() checks duplicates, vector::push_back() adds user
+3. remove_registration: vector::swap_remove() removes by index (admin only!)
+
+Key Pattern: WITNESS2 struct name MUST match module name (witness2 → WITNESS2)
+
+Why OTW? Ensures global registry created once. No one can create fake registry!
+
 """
 
 [[exercises]]
@@ -1174,12 +1249,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/one-time-witness.html"
 hint = """
-init_system: Create CapabilitySystem, admin=sender, is_initialized=true, share_object()
-grant_admin_cap: Verify admin, !is_locked, !contains(), add to vector, create AdminCap, transfer
-revoke_admin_cap: Verify admin, contains(), remove from vector
-lock_system: Verify admin, set is_locked=true
-OTW ensures single initialization - WITNESS3 proves this is the first call!
-Stuck? Check out: https://move-book.com/programmability/one-time-witness.html
+Quick Start:
+1. init_system: admin=sender, is_initialized=true, is_locked=false, share_object()
+2. grant_admin_cap: Verify admin & !is_locked, create AdminCap, track in vector, transfer
+3. revoke_admin_cap: Verify admin, vector::swap_remove() removes capability
+4. lock_system: Set is_locked=true (no more admins can be added!)
+
+Key Pattern: OTW initialization → Grant capabilities → Lock system
+
+Why Lock? Prevents admin from adding more admins after launch (security!)
+
 """
 
 # ====================================
@@ -1194,12 +1273,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/publisher.html"
 hint = """
-init_collection: Claim Publisher with package::claim(), create Display<ArtNFT>
-Set display fields: "name", "description", "image_url", "creator", "edition"
-Use display::new(), display::add() for each field, display::update_version()
-mint_nft: Increment collection.minted, create ArtNFT with edition=minted, transfer to recipient
-Publisher proves package ownership and enables Display metadata for wallets!
-Stuck? Check out: https://move-book.com/programmability/publisher.html
+Quick Start:
+1. init_collection: package::claim() gets Publisher, display::new<ArtNFT>() creates Display
+2. Set fields: display::add() for each ("name" → "{name}", "image_url" → "{image_url}")
+3. display::update_version() publishes changes
+4. mint_nft: Increment minted, create ArtNFT with edition number, transfer to recipient
+
+Key Pattern: Publisher proves ownership → Display defines wallet appearance
+
+ Real Magic: Set Display ONCE, ALL NFTs look beautiful in every Sui wallet automatically!
+
 """
 
 [[exercises]]
@@ -1210,12 +1293,16 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/publisher.html"
 hint = """
-init_game: Claim Publisher, create Display<GameWeapon> with rich metadata
-Set display fields: "name", "description" (use multiple fields!), "type", "rarity", "attack_power", "level"
-forge_weapon: Validate rarity (1-4), create GameWeapon with level=1, increment counters
-level_up_weapon: Verify owner, increment level, increase attack_power by 10%
-Display templates can combine fields: "Level {level} {weapon_type} with {attack_power} attack"
-Stuck? Check out: https://move-book.com/programmability/publisher.html
+Quick Start:
+1. init_game: package::claim(), display::new<GameWeapon>() with rich description
+2. Combine fields in description: "Level {level} {weapon_type} with {attack_power} attack"
+3. forge_weapon: Validate rarity (1-4), create with level=1, increment legendary_count if rare
+4. level_up_weapon: Verify owner, level++, attack_power += 10%
+
+Key Pattern: Display templates can COMBINE multiple fields for dynamic descriptions
+
+Pro Tip: Image URL can be dynamic: ".../{weapon_type}_{rarity}.png" shows different images!
+
 """
 
 [[exercises]]
@@ -1226,10 +1313,14 @@ mode = "test"
 difficulty = "advanced"
 move_book_url = "https://move-book.com/programmability/publisher.html"
 hint = """
-init_verification_system: Claim Publisher, create Display<VerifiedItem> AND Display<VerificationCertificate>
-issue_certificate: Requires &Publisher to prove ownership, create VerificationCertificate, increment registry
-create_verified_item: Attach certificate to item using option::some(), transfer to owner
-is_verified: Check option::is_some(&item.certificate)
-Publisher enables transfer policies, package verification, and authenticity proofs!
-Stuck? Check out: https://move-book.com/programmability/publisher.html"
+Quick Start:
+1. init_verification_system: package::claim(), create Display for BOTH types (Item + Certificate)
+2. issue_certificate: Requires &Publisher (proves authority), create Certificate NFT
+3. create_verified_item: option::some(certificate) attaches proof, transfer item
+4. transfer_verified_item: option::extract() removes certificate, re-attach to new item
+
+Key Pattern: Publisher enables transfer policies & verification - only verified items can trade
+
+Real Use: Marketplaces check Publisher to verify authenticity before allowing sales!
+
 """
