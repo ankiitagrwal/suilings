@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Suilings - Learn Move on Sui",
-    description: "Master smart contract development with interactive exercises. 100% free, 31+ exercises, no setup required.",
+    description: "Master smart contract development with interactive exercises. 100% free, 82+ exercises, no setup required.",
     url: "https://suilings.com",
     siteName: "Suilings",
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Suilings - Learn Move on Sui",
-    description: "Master smart contract development with interactive exercises. 100% free, 31+ exercises, no setup required.",
+    description: "Master smart contract development with interactive exercises. 100% free, 82+ exercises, no setup required.",
     images: ['/og-image.svg'],
   },
 };
