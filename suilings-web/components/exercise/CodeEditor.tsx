@@ -1,23 +1,50 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+  import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Editor from "@monaco-editor/react";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { useTheme } from "next-themes";
 import { Loader2 } from "lucide-react";
+import { useDebounce } from "@/lib/hooks/useDebounce";
 
 export function CodeEditor() {
-  const { currentCode, setCurrentCode } = useExerciseStore();
+  const { currentCode, setCurrentCode, getCurrentExercise } = useExerciseStore();
   const { theme } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const monacoRef = useRef<any>(null);
+  const [isEditorReady, setIsEditorReady] = useState(false);
+  const isUserEditingRef = useRef(false);
+  const previousExerciseRef = useRef<string | null>(null);
+
+  // Memoize current exercise to prevent unnecessary re-renders
+  const currentExercise = useMemo(() => getCurrentExercise(), [getCurrentExercise]);
+  const currentExerciseName = currentExercise?.name || null;
+
+  // Detect exercise change to reset editing flag
+  useEffect(() => {
+    if (currentExerciseName && currentExerciseName !== previousExerciseRef.current) {
+      isUserEditingRef.current = false;
+      previousExerciseRef.current = currentExerciseName;
+    }
+  }, [currentExerciseName]);
+
+  // Debounced code update to reduce store updates during fast typing
+  const debouncedSetCode = useDebounce((code: string) => {
+    setCurrentCode(code);
+  }, 300); // Wait 300ms after user stops typing
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleEditorDidMount = (editor: any, monaco: any) => {
+  const handleEditorDidMount = useCallback((editor: any, monaco: any) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
+    setIsEditorReady(true);
+
+    // Track user editing to prevent unwanted resets
+    editor.onDidChangeModelContent(() => {
+      isUserEditingRef.current = true;
+    });
 
     // Define Move language syntax highlighting
     monaco.languages.register({ id: "move" });
@@ -155,7 +182,52 @@ export function CodeEditor() {
     // Set initial theme
     const initialTheme = theme === "dark" ? "move-dark" : "move-light";
     monaco.editor.setTheme(initialTheme);
-  };
+
+    // Configure auto-indentation for brackets and parentheses
+    monaco.languages.setLanguageConfiguration("move", {
+      autoClosingPairs: [
+        { open: "{", close: "}" },
+        { open: "[", close: "]" },
+        { open: "(", close: ")" },
+        { open: '"', close: '"' },
+        { open: "<", close: ">" },
+      ],
+      surroundingPairs: [
+        { open: "{", close: "}" },
+        { open: "[", close: "]" },
+        { open: "(", close: ")" },
+        { open: '"', close: '"' },
+        { open: "<", close: ">" },
+      ],
+      brackets: [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["<", ">"],
+      ],
+      indentationRules: {
+        increaseIndentPattern: /^.*\{[^}"']*$|^.*\([^)"']*$/,
+        decreaseIndentPattern: /^\s*\}|\)$/,
+      },
+      onEnterRules: [
+        {
+          // Auto-indent after opening brace
+          beforeText: /^\s*\{[^}]*$/,
+          action: { indentAction: monaco.languages.IndentAction.Indent },
+        },
+        {
+          // Auto-indent after opening parenthesis
+          beforeText: /^\s*\([^)]*$/,
+          action: { indentAction: monaco.languages.IndentAction.Indent },
+        },
+        {
+          // Maintain indent on closing brace
+          beforeText: /^\s*\}/,
+          action: { indentAction: monaco.languages.IndentAction.Outdent },
+        },
+      ],
+    });
+  }, [theme]); // Add theme to dependencies since it's used inside
 
   // Update editor theme when app theme changes
   useEffect(() => {
@@ -165,11 +237,60 @@ export function CodeEditor() {
     }
   }, [theme]);
 
-  const handleEditorChange = (value: string | undefined) => {
-    if (value !== undefined) {
-      setCurrentCode(value);
+  // Sync currentCode from store to editor only when exercise changes
+  // This prevents overwriting user's edits when switching tabs
+  useEffect(() => {
+    if (isEditorReady && editorRef.current && !isUserEditingRef.current) {
+      const editorValue = editorRef.current.getValue();
+      // Only update if the values are actually different
+      if (editorValue !== currentCode) {
+        // Use position preservation for better UX
+        const position = editorRef.current.getPosition();
+        editorRef.current.setValue(currentCode);
+        if (position) {
+          editorRef.current.setPosition(position);
+        }
+      }
     }
-  };
+  }, [currentCode, isEditorReady]);
+
+  const handleEditorChange = useCallback((value: string | undefined) => {
+    if (value !== undefined) {
+      isUserEditingRef.current = true;
+      // Immediate update for responsive typing
+      setCurrentCode(value);
+      // Debounced update for store persistence (can be used for auto-save)
+      debouncedSetCode(value);
+    }
+  }, [setCurrentCode, debouncedSetCode]);
+
+  // Memoize editor options to prevent unnecessary re-renders
+  const editorOptions = useMemo(() => ({
+    fontSize: 14,
+    fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+    lineNumbers: "on" as const,
+    minimap: { enabled: true },
+    scrollBeyondLastLine: false,
+    wordWrap: "on" as const,
+    automaticLayout: true,
+    bracketPairColorization: { enabled: true },
+    tabSize: 4,
+    insertSpaces: true,
+    formatOnPaste: true,
+    formatOnType: true,
+    autoIndent: "full" as const,
+    autoClosingBrackets: "always" as const,
+    autoClosingQuotes: "always" as const,
+    // Performance optimizations
+    quickSuggestions: false, // Disable for Move (no intellisense yet)
+    suggestOnTriggerCharacters: false,
+    acceptSuggestionOnEnter: "off" as const,
+    renderLineHighlight: "line" as const,
+    occurrencesHighlight: "singleFile" as const,
+    selectionHighlight: true,
+    // Smooth scrolling
+    smoothScrolling: true,
+  }), []);
 
   return (
     <div className="h-full w-full bg-background">
@@ -185,20 +306,7 @@ export function CodeEditor() {
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         }
-        options={{
-          fontSize: 14,
-          fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-          lineNumbers: "on",
-          minimap: { enabled: true },
-          scrollBeyondLastLine: false,
-          wordWrap: "on",
-          automaticLayout: true,
-          bracketPairColorization: { enabled: true },
-          tabSize: 4,
-          insertSpaces: true,
-          formatOnPaste: true,
-          formatOnType: true,
-        }}
+        options={editorOptions}
       />
     </div>
   );

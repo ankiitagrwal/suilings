@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { Sparkles, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useDebounce } from "@/lib/hooks/useDebounce";
 import { AchievementModal } from "@/components/AchievementModal";
 import { useAchievementDetection } from "@/lib/hooks/useAchievementDetection";
 
@@ -54,6 +55,30 @@ export default function ExercisePage() {
     streakDays,
     rank,
   });
+
+  // Auto-save progress every 30 seconds if user is logged in
+  const autoSaveProgress = useCallback(async () => {
+    const currentExercise = getCurrentExercise();
+    if (user && currentExercise && currentCode) {
+      try {
+        await saveProgress(currentExercise.name, {
+          status: 'in-progress',
+          last_code: currentCode,
+        });
+      } catch (error) {
+        console.error('Auto-save failed:', error);
+      }
+    }
+  }, [user, currentCode, getCurrentExercise, saveProgress]);
+
+  const debouncedAutoSave = useDebounce(autoSaveProgress, 30000); // 30 seconds
+
+  // Trigger auto-save when code changes
+  useEffect(() => {
+    if (user && currentCode) {
+      debouncedAutoSave();
+    }
+  }, [currentCode, user, debouncedAutoSave]);
 
 
   useEffect(() => {
