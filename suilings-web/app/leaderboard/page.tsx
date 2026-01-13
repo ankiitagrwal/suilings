@@ -30,7 +30,6 @@ interface LeaderboardEntry {
   total_exercises: number;
   completion_rate: number;
   streak_days: number;
-  total_time_spent: number;
   last_active: string;
 }
 
@@ -95,13 +94,6 @@ export default function LeaderboardPage() {
     }
     // Fallback if no GitHub username
     return '??';
-  };
-
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    if (hours > 0) return `${hours}h ${minutes}m`;
-    return `${minutes}m`;
   };
 
   const formatDate = (dateString: string) => {
@@ -296,13 +288,6 @@ export default function LeaderboardPage() {
                             {entry.completion_rate.toFixed(0)}%
                           </div>
                           <div className="text-xs text-muted-foreground">Rate</div>
-                        </div>
-                        
-                        <div className="hidden lg:block">
-                          <div className="text-lg font-bold text-blue-500">
-                            {formatTime(entry.total_time_spent)}
-                          </div>
-                          <div className="text-xs text-muted-foreground">Time</div>
                         </div>
                       </div>
                     </div>

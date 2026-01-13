@@ -10,7 +10,7 @@ import { OutputConsole } from "@/components/exercise/OutputConsole";
 import { HintDialog } from "@/components/exercise/HintDialog";
 import { AIChat } from "@/components/ai/AIChat";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
-import { loadExercises } from "@/lib/exerciseLoader";
+import { useExerciseInit } from "@/lib/hooks/useExerciseInit";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { toast } from "sonner";
 import { Sparkles, ChevronRight } from "lucide-react";
@@ -29,6 +29,9 @@ export default function ExercisePage() {
   const [rank, setRank] = useState<number | null>(null);
   const { user } = useAuth();
 
+  // Initialize exercises and progress using shared hook
+  const { exercises } = useExerciseInit({ autoSelectFirst: true });
+
   // Detect mobile on mount
   useEffect(() => {
     const checkMobile = () => {
@@ -43,10 +46,8 @@ export default function ExercisePage() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, [isSidebarOpen]);
+  
   const {
-    exercises,
-    setExercises,
-    setCurrentExercise,
     currentExerciseIndex,
     currentCode,
     setCompilationResult,
@@ -54,7 +55,6 @@ export default function ExercisePage() {
     resetExercise,
     updateExerciseStatus,
     getCurrentExercise,
-    fetchProgress,
     loadExerciseProgress,
     markExerciseComplete,
     saveProgress,
@@ -122,33 +122,10 @@ export default function ExercisePage() {
   }, [user, exercises.length]);
 
 
+  // Warmup compiler in background after initial load
   useEffect(() => {
-    let mounted = true;
+    if (exercises.length === 0) return;
     
-    const init = async () => {
-      if (!mounted) return;
-      
-
-      if (exercises.length === 0) {
-        const loadedExercises = await loadExercises();
-        if (!mounted) return;
-        
-        setExercises(loadedExercises);
-        
-
-        if (loadedExercises.length > 0 && currentExerciseIndex === -1) {
-          setCurrentExercise(0);
-        }
-      }
-      
-
-      if (user && mounted) {
-        await fetchProgress();
-      }
-    };
-    init();
-    
-
     const warmupCompiler = async () => {
       try {
         await fetch('/api/compile/warmup', {
@@ -160,15 +137,13 @@ export default function ExercisePage() {
       }
     };
     
-
+    // Delay warmup to not compete with initial load
     const warmupTimer = setTimeout(warmupCompiler, 2000);
     
     return () => {
-      mounted = false;
       clearTimeout(warmupTimer);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run once on mount, ignore other deps to prevent resets
+  }, [exercises.length]);
 
   useEffect(() => {
     const currentExercise = getCurrentExercise();

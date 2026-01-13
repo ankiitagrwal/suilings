@@ -20,7 +20,6 @@ export async function GET(request: NextRequest) {
         user_id,
         status,
         completed_at,
-        time_spent,
         updated_at
       `);
 
@@ -97,7 +96,6 @@ export async function GET(request: NextRequest) {
     const userStats = allUserIds.map(userId => {
       const userProgress = progressData?.filter((p: any) => p.user_id === userId) || [];
       const completed = userProgress.filter((p: any) => p.status === 'completed').length;
-      const totalTimeSpent = userProgress.reduce((sum: number, p: any) => sum + (p.time_spent || 0), 0);
       const streakDays = calculateStreak(userProgress);
       
       const lastActive = userProgress.length > 0 
@@ -126,7 +124,6 @@ export async function GET(request: NextRequest) {
         total_exercises: totalExercises,
         completion_rate: completionRate,
         streak_days: streakDays,
-        total_time_spent: totalTimeSpent,
         last_active: lastActive.toISOString(),
       };
     });

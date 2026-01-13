@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useExerciseStore } from "@/lib/store/exerciseStore";
+import { useExerciseInit } from "@/lib/hooks/useExerciseInit";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -17,7 +18,8 @@ import {
   Circle,
   ArrowRight,
   Flame,
-  Award
+  Award,
+  AlertCircle
 } from "lucide-react";
 import Link from "next/link";
 import { SimpleHeader } from "@/components/layout/SimpleHeader";
@@ -36,9 +38,12 @@ interface CategoryStats {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { exercises, setCurrentExercise, fetchProgress } = useExerciseStore();
+  const { setCurrentExercise } = useExerciseStore();
   const [streakDays, setStreakDays] = useState(0);
   const [rank, setRank] = useState<number | null>(null);
+  
+  // Use shared initialization hook
+  const { isLoading, error, exercises } = useExerciseInit();
 
   const stats = useMemo(() => {
     if (exercises.length === 0) {
@@ -118,10 +123,6 @@ export default function DashboardPage() {
   const nextAchievement = useMemo(() => getNextAchievement(stats.completed), [stats.completed]);
 
   useEffect(() => {
-    fetchProgress();
-  }, [fetchProgress]);
-
-  useEffect(() => {
     const fetchStats = async () => {
       try {
         const statsResponse = await fetch('/api/stats');
@@ -158,6 +159,26 @@ export default function DashboardPage() {
       
       <main className="flex-1 overflow-y-auto">
         <div className="container mx-auto p-6 space-y-6 pb-16">
+          {isLoading ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-muted-foreground">Loading your progress...</p>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <AlertCircle className="h-12 w-12 mx-auto mb-4 text-destructive" />
+                <p className="text-lg font-semibold mb-2">Failed to load exercises</p>
+                <p className="text-muted-foreground mb-4">{error}</p>
+                <Button onClick={() => window.location.reload()}>
+                  Retry
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <>
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -444,6 +465,8 @@ export default function DashboardPage() {
               </Link>
             </CardContent>
           </Card>
+            </>
+          )}
         </div>
       </main>
 

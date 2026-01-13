@@ -22,7 +22,6 @@ interface ExerciseStore {
   isCompiling: boolean;
   isSyncing: boolean;
   userProgress: Map<string, UserProgress>;
-  exerciseStartTime: number | null; // Track when exercise was started
   
   setExercises: (exercises: Exercise[]) => void;
   setCurrentExercise: (index: number) => void;
@@ -34,10 +33,9 @@ interface ExerciseStore {
   previousExercise: () => void;
   getCurrentExercise: () => Exercise | null;
   resetExercise: () => void;
-  getElapsedTime: () => number; // Get time spent on current exercise
   
   fetchProgress: () => Promise<void>;
-  saveProgress: (exerciseId: string, data: { status?: string; last_code?: string; completed?: boolean; time_spent?: number }) => Promise<void>;
+  saveProgress: (exerciseId: string, data: { status?: string; last_code?: string; completed?: boolean }) => Promise<void>;
   loadExerciseProgress: (exerciseId: string) => Promise<void>;
   markExerciseComplete: (exerciseName: string) => Promise<void>;
 }
@@ -52,7 +50,6 @@ export const useExerciseStore = create<ExerciseStore>()(
       isCompiling: false,
       isSyncing: false,
       userProgress: new Map(),
-      exerciseStartTime: null,
 
       setExercises: (exercises) => set({ exercises }),
 
@@ -66,11 +63,9 @@ export const useExerciseStore = create<ExerciseStore>()(
           } catch {
           }
           
-          // Start timing when exercise is loaded
           set({
             currentExerciseIndex: index,
             compilationResult: null,
-            exerciseStartTime: Date.now(), // Start timer
           });
           
           const savedProgress = get().userProgress.get(exercise.name);
@@ -117,18 +112,8 @@ export const useExerciseStore = create<ExerciseStore>()(
       resetExercise: () => {
         const currentExercise = get().getCurrentExercise();
         if (currentExercise?.initialCode) {
-          set({ 
-            currentCode: currentExercise.initialCode, 
-            compilationResult: null,
-            exerciseStartTime: Date.now(), // Restart timer on reset
-          });
+          set({ currentCode: currentExercise.initialCode, compilationResult: null });
         }
-      },
-
-      getElapsedTime: () => {
-        const startTime = get().exerciseStartTime;
-        if (!startTime) return 0;
-        return Math.floor((Date.now() - startTime) / 1000); // Return seconds
       },
 
       fetchProgress: async () => {
@@ -168,7 +153,7 @@ export const useExerciseStore = create<ExerciseStore>()(
         }
       },
 
-      saveProgress: async (exerciseId: string, data: { status?: string; last_code?: string; completed?: boolean; time_spent?: number }) => {
+      saveProgress: async (exerciseId: string, data: { status?: string; last_code?: string; completed?: boolean }) => {
         try {
           const response = await fetch(`/api/progress/${exerciseId}`, {
             method: 'POST',
@@ -207,16 +192,14 @@ export const useExerciseStore = create<ExerciseStore>()(
       markExerciseComplete: async (exerciseName: string) => {
         try {
           const currentCode = get().currentCode;
-          const timeSpent = get().getElapsedTime(); // Get elapsed time in seconds
           
           get().updateExerciseStatus(exerciseName, 'completed');
           
-          // Save to backend with time spent
+          // Save to backend
           await get().saveProgress(exerciseName, {
             status: 'completed',
             last_code: currentCode,
             completed: true,
-            time_spent: timeSpent,
           });
         } catch (error) {
           console.error('Failed to mark exercise complete:', error);

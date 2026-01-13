@@ -19,7 +19,7 @@ export async function POST(
     }
 
     const body = await request.json()
-    const { status, last_code, completed, time_spent } = body
+    const { status, last_code, completed } = body
 
     const updateData: any = {
       user_id: user.id,
@@ -35,20 +35,6 @@ export async function POST(
     if (completed) {
       updateData.status = 'completed'
       updateData.completed_at = new Date().toISOString()
-    }
-
-    // Add or accumulate time spent
-    if (time_spent !== undefined && time_spent > 0) {
-      const { data: existingData } = await supabase
-        .from('exercise_progress')
-        .select('time_spent')
-        .eq('user_id', user.id)
-        .eq('exercise_id', exerciseId)
-        .single()
-      
-      // Accumulate time if exercise was worked on multiple times
-      const previousTime = existingData?.time_spent || 0;
-      updateData.time_spent = previousTime + time_spent;
     }
 
     const { data: existingProgress } = await supabase
