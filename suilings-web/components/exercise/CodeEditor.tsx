@@ -265,32 +265,41 @@ export function CodeEditor() {
   }, [setCurrentCode, debouncedSetCode]);
 
   // Memoize editor options to prevent unnecessary re-renders
-  const editorOptions = useMemo(() => ({
-    fontSize: 14,
-    fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-    lineNumbers: "on" as const,
-    minimap: { enabled: true },
-    scrollBeyondLastLine: false,
-    wordWrap: "on" as const,
-    automaticLayout: true,
-    bracketPairColorization: { enabled: true },
-    tabSize: 4,
-    insertSpaces: true,
-    formatOnPaste: true,
-    formatOnType: true,
-    autoIndent: "full" as const,
-    autoClosingBrackets: "always" as const,
-    autoClosingQuotes: "always" as const,
-    // Performance optimizations
-    quickSuggestions: false, // Disable for Move (no intellisense yet)
-    suggestOnTriggerCharacters: false,
-    acceptSuggestionOnEnter: "off" as const,
-    renderLineHighlight: "line" as const,
-    occurrencesHighlight: "singleFile" as const,
-    selectionHighlight: true,
-    // Smooth scrolling
-    smoothScrolling: true,
-  }), []);
+  const editorOptions = useMemo(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    
+    return {
+      fontSize: isMobile ? 12 : 14,
+      fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+      lineNumbers: "on" as const,
+      minimap: { enabled: !isMobile }, // Disable minimap on mobile
+      scrollBeyondLastLine: false,
+      wordWrap: "on" as const,
+      automaticLayout: true,
+      bracketPairColorization: { enabled: true },
+      tabSize: 4,
+      insertSpaces: true,
+      formatOnPaste: true,
+      formatOnType: true,
+      autoIndent: "full" as const,
+      autoClosingBrackets: "always" as const,
+      autoClosingQuotes: "always" as const,
+      // Performance optimizations
+      quickSuggestions: false, // Disable for Move (no intellisense yet)
+      suggestOnTriggerCharacters: false,
+      acceptSuggestionOnEnter: "off" as const,
+      renderLineHighlight: "line" as const,
+      occurrencesHighlight: "singleFile" as const,
+      selectionHighlight: true,
+      // Smooth scrolling
+      smoothScrolling: true,
+      // Mobile optimizations
+      glyphMargin: !isMobile,
+      folding: !isMobile,
+      lineDecorationsWidth: isMobile ? 5 : 10,
+      lineNumbersMinChars: isMobile ? 3 : 5,
+    };
+  }, []);
 
   return (
     <div className="h-full w-full bg-background">

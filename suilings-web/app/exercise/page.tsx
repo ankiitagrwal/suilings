@@ -23,10 +23,26 @@ import { useAchievementDetection } from "@/lib/hooks/useAchievementDetection";
 export default function ExercisePage() {
   const [isHintOpen, setIsHintOpen] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
   const [streakDays, setStreakDays] = useState(0);
   const [rank, setRank] = useState<number | null>(null);
   const { user } = useAuth();
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile && !isSidebarOpen) {
+        setIsSidebarOpen(true); // Auto-open sidebar on desktop
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [isSidebarOpen]);
   const {
     exercises,
     setExercises,
@@ -262,11 +278,20 @@ export default function ExercisePage() {
       />
       
       <div className="flex-1 flex overflow-hidden relative">
+        {/* Mobile sidebar overlay */}
+        {isMobile && isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+        
+        {/* Toggle sidebar button */}
         {(!isSidebarOpen || isAIChatOpen) && (
           <Button
             variant="outline"
             size="icon"
-            className="absolute left-0 top-16 z-50 h-10 w-10 rounded-r-lg rounded-l-none shadow-lg bg-background/95 backdrop-blur border-l-0 border-2 hover:bg-accent transition-all"
+            className="absolute left-0 top-4 md:top-16 z-50 h-10 w-10 rounded-r-lg rounded-l-none shadow-lg bg-background/95 backdrop-blur border-l-0 border-2 hover:bg-accent transition-all"
             onClick={() => {
               if (isAIChatOpen) {
                 setIsAIChatOpen(false);
@@ -279,56 +304,81 @@ export default function ExercisePage() {
           </Button>
         )}
         
+        {/* Sidebar - Fixed on mobile, relative on desktop */}
         <div 
           className={cn(
             "transition-all duration-300 ease-in-out overflow-hidden shrink-0",
+            isMobile ? "fixed left-0 top-0 h-full z-50" : "relative",
             (isAIChatOpen || !isSidebarOpen) 
               ? "w-0 opacity-0 pointer-events-none" 
-              : "w-64 opacity-100 pointer-events-auto"
+              : isMobile 
+                ? "w-64 opacity-100 pointer-events-auto"
+                : "w-64 opacity-100 pointer-events-auto"
           )}
         >
           <Sidebar onToggle={() => setIsSidebarOpen(false)} />
         </div>
         
+        {/* Main content area */}
         <main className={cn(
           "flex-1 overflow-hidden transition-all duration-300",
           (!isSidebarOpen && !isAIChatOpen) && "pl-0"
         )}>
-          <PanelGroup direction="horizontal">
-            <Panel defaultSize={35} minSize={25} maxSize={50}>
-              <ExerciseInstructions />
-            </Panel>
-            
-            <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
-            
-            <Panel defaultSize={40} minSize={30}>
-              <PanelGroup direction="vertical">
-                {/* Code Editor */}
-                <Panel defaultSize={60} minSize={30}>
-                  <CodeEditor />
-                </Panel>
-                
-                <PanelResizeHandle className="h-1 bg-border hover:bg-primary transition-colors" />
-                
-                <Panel defaultSize={40} minSize={20}>
-                  <OutputConsole />
-                </Panel>
-              </PanelGroup>
-            </Panel>
+          {/* Mobile: Stack vertically, Desktop: Horizontal panels */}
+          {isMobile ? (
+            <div className="h-full flex flex-col">
+              {/* Instructions - collapsed by default on mobile */}
+              <div className="border-b border-border">
+                <ExerciseInstructions />
+              </div>
+              
+              {/* Code Editor */}
+              <div className="flex-1 min-h-[300px]">
+                <CodeEditor />
+              </div>
+              
+              {/* Output Console */}
+              <div className="h-48 border-t border-border">
+                <OutputConsole />
+              </div>
+            </div>
+          ) : (
+            <PanelGroup direction="horizontal">
+              <Panel defaultSize={35} minSize={25} maxSize={50}>
+                <ExerciseInstructions />
+              </Panel>
+              
+              <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
+              
+              <Panel defaultSize={40} minSize={30}>
+                <PanelGroup direction="vertical">
+                  {/* Code Editor */}
+                  <Panel defaultSize={60} minSize={30}>
+                    <CodeEditor />
+                  </Panel>
+                  
+                  <PanelResizeHandle className="h-1 bg-border hover:bg-primary transition-colors" />
+                  
+                  <Panel defaultSize={40} minSize={20}>
+                    <OutputConsole />
+                  </Panel>
+                </PanelGroup>
+              </Panel>
 
-            {isAIChatOpen && (
-              <>
-                <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
-                <Panel defaultSize={25} minSize={20} maxSize={40}>
-                  <AIChat onClose={() => setIsAIChatOpen(false)} />
-                </Panel>
-              </>
-            )}
-          </PanelGroup>
+              {isAIChatOpen && (
+                <>
+                  <PanelResizeHandle className="w-1 bg-border hover:bg-primary transition-colors" />
+                  <Panel defaultSize={25} minSize={20} maxSize={40}>
+                    <AIChat onClose={() => setIsAIChatOpen(false)} />
+                  </Panel>
+                </>
+              )}
+            </PanelGroup>
+          )}
         </main>
       </div>
 
-      {!isAIChatOpen && (
+      {!isAIChatOpen && !isMobile && (
         <Button
           onClick={() => setIsAIChatOpen(true)}
           className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all z-50"
