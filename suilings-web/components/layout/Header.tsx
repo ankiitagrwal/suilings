@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard,
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
+import { WalletConnect } from "@/components/wallet/WalletConnect";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -199,6 +200,7 @@ export const Header = memo(function Header({ onRun, onReset, onShowHint }: Heade
               </>
             )}
             
+            <WalletConnect />
             <ThemeToggle />
           </div>
         </div>

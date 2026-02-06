@@ -8,3 +8,7 @@ private.md
 *.pem
 # Ignore solution files - for testing only
 solutions/
+build/
+
+# Suilings Credential
+contracts/suilings_credential
