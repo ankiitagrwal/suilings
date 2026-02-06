@@ -44,16 +44,20 @@ export interface CredentialMetadata {
 
 export interface CredentialStats {
   id: string;
+  user_id: string;
   sbt_object_id: string;
   github_username: string;
   wallet_address: string;
   completed_exercises: number;
   completion_date: string;
   streak_days: number;
+  total_time_minutes: number | null;
   mint_transaction_digest: string;
-  blockchain_network: string;
+  mint_status: 'pending' | 'confirmed' | 'failed';
+  blockchain_network: 'mainnet' | 'testnet' | 'devnet' | 'localnet';
   metadata: CredentialMetadata | null;
   created_at: string;
+  updated_at: string;
   days_since_completion: number | null;
   avatar_url: string | null;
   full_name: string | null;
