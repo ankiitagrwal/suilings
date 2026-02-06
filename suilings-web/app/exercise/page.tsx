@@ -77,6 +77,7 @@ export default function ExercisePage() {
   });
 
   // Check if user is eligible for credential after completing required exercises
+  // This automatically opens the credential modal when user completes ALL exercises
   useEffect(() => {
     if (user && completedCount >= REQUIRED_EXERCISES_FOR_CREDENTIAL) {
       // Check if user already has a credential
@@ -86,6 +87,7 @@ export default function ExercisePage() {
           if (response.ok) {
             const data = await response.json();
             // Show modal if eligible (has all exercises but hasn't minted yet)
+            // This ensures the modal only shows once when they first complete all exercises
             if (data.eligible || (data.completed_exercises >= REQUIRED_EXERCISES_FOR_CREDENTIAL && !data.already_minted)) {
               setShowCredentialModal(true);
             }
@@ -390,7 +392,11 @@ export default function ExercisePage() {
         </Button>
       )}
 
-      {/* Test Button for Credential Modal (Remove after testing) */}
+      {/* 
+        DEV MODE ONLY: Test Button for Credential Modal
+        This button allows testing the credential modal without completing all exercises
+        It's only visible in development mode and should NEVER appear in production
+      */}
       {user && process.env.NODE_ENV === 'development' && (
         <CredentialTestButton
           completedCount={completedCount}

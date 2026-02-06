@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCurrentAccount, ConnectButton } from "@mysten/dapp-kit";
 import {
   Dialog,
@@ -52,6 +52,16 @@ export function CredentialMintModal({
     explorerUrl?: string;
   }>({});
 
+  // Reset state when modal opens/closes
+  useEffect(() => {
+    if (!open) {
+      // Reset to initial state when modal closes
+      setStep("intro");
+      setIsLoading(false);
+      setCredentialData({});
+    }
+  }, [open]);
+
   const handleLinkWallet = async () => {
     if (!account?.address) {
       toast.error("Please connect your wallet first");
@@ -84,19 +94,19 @@ export function CredentialMintModal({
       toast.success("Wallet linked successfully!");
       setStep("minting");
       
-      // Automatically proceed to minting
+      // Automatically proceed to minting (keep loading state)
       await handleMintCredential(walletAddress);
     } catch (error) {
       console.error("Failed to link wallet:", error);
       toast.error(error instanceof Error ? error.message : "Failed to link wallet");
       setStep("intro");
-    } finally {
       setIsLoading(false);
     }
   };
 
   const handleMintCredential = async (walletAddress: string) => {
-    setIsLoading(true);
+    // Don't set loading again if already loading from handleLinkWallet
+    // setIsLoading(true); - Already set by handleLinkWallet
 
     try {
       // Trigger backend to mint SBT
