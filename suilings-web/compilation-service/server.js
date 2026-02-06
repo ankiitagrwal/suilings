@@ -13,7 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Trust proxy - required for reverse proxies (nginx, AWS ALB, etc.)
-app.set('trust proxy', true);
+// Set to 1 for single proxy layer (more secure than true)
+app.set('trust proxy', 1);
 
 // Configuration
 const RUNNER_CRATE_PATH = process.env.RUNNER_CRATE_PATH || path.join(__dirname, 'runner-crate');

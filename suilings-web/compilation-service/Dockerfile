@@ -37,6 +37,20 @@ WORKDIR /app
 # Create non-root user
 RUN useradd -m -u 1001 appuser
 
+# Setup Sui config for appuser (non-interactive)
+RUN mkdir -p /home/appuser/.sui/sui_config && \
+    echo "---" > /home/appuser/.sui/sui_config/client.yaml && \
+    echo "keystore:" >> /home/appuser/.sui/sui_config/client.yaml && \
+    echo "  File: ~/.sui/sui_config/sui.keystore" >> /home/appuser/.sui/sui_config/client.yaml && \
+    echo "envs:" >> /home/appuser/.sui/sui_config/client.yaml && \
+    echo "  - alias: testnet" >> /home/appuser/.sui/sui_config/client.yaml && \
+    echo "    rpc: \"https://sui-testnet-rpc.publicnode.com\"" >> /home/appuser/.sui/sui_config/client.yaml && \
+    echo "    ws: ~" >> /home/appuser/.sui/sui_config/client.yaml && \
+    echo "active_env: testnet" >> /home/appuser/.sui/sui_config/client.yaml && \
+    echo "active_address: ~" >> /home/appuser/.sui/sui_config/client.yaml && \
+    touch /home/appuser/.sui/sui_config/sui.keystore && \
+    chown -R appuser:appuser /home/appuser/.sui
+
 # Copy package files from compilation-service directory
 COPY suilings-web/compilation-service/package*.json ./
 
