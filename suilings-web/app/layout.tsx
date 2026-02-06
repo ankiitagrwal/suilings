@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "@mysten/dapp-kit/dist/index.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { WalletProvider } from "@/components/wallet/WalletProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -65,8 +67,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster richColors position="bottom-right" />
+          <WalletProvider>
+            {children}
+            <Toaster richColors position="bottom-right" />
+          </WalletProvider>
         </ThemeProvider>
       </body>
     </html>

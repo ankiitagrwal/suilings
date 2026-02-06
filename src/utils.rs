@@ -89,7 +89,6 @@ pub fn build_exercise(exercise: &Exercise) -> Result<String, ()> {
             "build",
             "--path",
             crate_path.to_str().unwrap(),
-            "--skip-fetch-latest-git-deps",
         ])
         .output()
         .map_err(|e| {
@@ -136,7 +135,6 @@ pub fn test_exercise(exercise: &Exercise) -> Result<String, ()> {
             "test",
             "--path",
             crate_path.to_str().unwrap(),
-            "--skip-fetch-latest-git-deps",
         ])
         .output()
         .map_err(|e| {

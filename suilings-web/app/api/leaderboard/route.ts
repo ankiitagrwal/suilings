@@ -6,6 +6,10 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient();
     
+    // Use admin client to bypass RLS for leaderboard aggregation
+    // This is safe because we only expose aggregated stats, not individual progress details
+    const adminClient = createAdminClient();
+    
     const { data: { user } } = await supabase.auth.getUser();
     
     const currentUser = user;
@@ -13,8 +17,8 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const filter = searchParams.get('filter') || 'all-time';
-
-    let query = supabase
+    
+    let query = adminClient
       .from('exercise_progress')
       .select(`
         user_id,
@@ -51,7 +55,6 @@ export async function GET(request: NextRequest) {
     // Only fetch all users for "all-time" filter
     if (filter === 'all-time') {
       try {
-        const adminClient = createAdminClient();
         const { data: { users: allAuthUsers }, error: usersError } = await adminClient.auth.admin.listUsers();
         
         // Combine: users with progress + users without progress
@@ -79,7 +82,6 @@ export async function GET(request: NextRequest) {
     const totalExercises = totalExercisesCount || 82;
 
     // Fetch user metadata (for GitHub usernames) from auth
-    const adminClient = createAdminClient();
     let userMetadataMap: Map<string, any> = new Map();
     
     try {

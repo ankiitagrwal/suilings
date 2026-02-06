@@ -133,8 +133,8 @@ app.post('/api/compile', async (req, res) => {
 
     // Build command
     const command = mode === 'test'
-      ? `sui move test --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`
-      : `sui move build --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`;
+      ? `sui move test --path ${RUNNER_CRATE_PATH}`
+      : `sui move build --path ${RUNNER_CRATE_PATH}`;
 
     try {
       // Execute compilation

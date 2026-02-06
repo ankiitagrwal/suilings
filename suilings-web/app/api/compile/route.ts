@@ -145,8 +145,8 @@ export async function POST(request: Request) {
     
     const command =
       mode === "test"
-        ? `${suiPath} move test --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`
-        : `${suiPath} move build --path ${RUNNER_CRATE_PATH} --skip-fetch-latest-git-deps`;
+        ? `${suiPath} move test --path ${RUNNER_CRATE_PATH}`
+        : `${suiPath} move build --path ${RUNNER_CRATE_PATH}`;
 
     try {
       const { stdout, stderr } = await execAsync(command, {

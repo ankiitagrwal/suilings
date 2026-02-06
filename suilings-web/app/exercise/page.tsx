@@ -19,6 +19,9 @@ import { cn } from "@/lib/utils";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { AchievementModal } from "@/components/AchievementModal";
 import { useAchievementDetection } from "@/lib/hooks/useAchievementDetection";
+import { CredentialMintModal } from "@/components/credential/CredentialMintModal";
+import { REQUIRED_EXERCISES_FOR_CREDENTIAL } from "@/lib/config/credential-config";
+import { CredentialTestButton } from "@/components/credential/CredentialTestButton";
 
 export default function ExercisePage() {
   const [isHintOpen, setIsHintOpen] = useState(false);
@@ -27,6 +30,7 @@ export default function ExercisePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
   const [streakDays, setStreakDays] = useState(0);
   const [rank, setRank] = useState<number | null>(null);
+  const [showCredentialModal, setShowCredentialModal] = useState(false);
   const { user } = useAuth();
 
   // Initialize exercises and progress using shared hook
@@ -71,6 +75,31 @@ export default function ExercisePage() {
     streakDays,
     rank,
   });
+
+  // Check if user is eligible for credential after completing required exercises
+  // This automatically opens the credential modal when user completes ALL exercises
+  useEffect(() => {
+    if (user && completedCount >= REQUIRED_EXERCISES_FOR_CREDENTIAL) {
+      // Check if user already has a credential
+      const checkEligibility = async () => {
+        try {
+          const response = await fetch('/api/credential/check-eligibility');
+          if (response.ok) {
+            const data = await response.json();
+            // Show modal if eligible (has all exercises but hasn't minted yet)
+            // This ensures the modal only shows once when they first complete all exercises
+            if (data.eligible || (data.completed_exercises >= REQUIRED_EXERCISES_FOR_CREDENTIAL && !data.already_minted)) {
+              setShowCredentialModal(true);
+            }
+          }
+        } catch (error) {
+          console.error('Failed to check credential eligibility:', error);
+        }
+      };
+      
+      checkEligibility();
+    }
+  }, [completedCount, user]);
 
   // Auto-save progress every 30 seconds if user is logged in
   const autoSaveProgress = useCallback(async () => {
@@ -363,7 +392,36 @@ export default function ExercisePage() {
         </Button>
       )}
 
+      {/* 
+        DEV MODE ONLY: Test Button for Credential Modal
+        This button allows testing the credential modal without completing all exercises
+        It's only visible in development mode and should NEVER appear in production
+      */}
+      {user && process.env.NODE_ENV === 'development' && (
+        <CredentialTestButton
+          completedCount={completedCount}
+          onTriggerModal={() => setShowCredentialModal(true)}
+        />
+      )}
+
       <HintDialog open={isHintOpen} onOpenChange={setIsHintOpen} />
+      
+      {/* Achievement Modal */}
+      <AchievementModal
+        achievement={currentAchievement}
+        onClose={closeAchievement}
+      />
+      
+      {/* Credential Mint Modal */}
+      {user && (
+        <CredentialMintModal
+          open={showCredentialModal}
+          onOpenChange={setShowCredentialModal}
+          completedExercises={completedCount}
+          githubUsername={user.user_metadata?.user_name || user.user_metadata?.preferred_username || ''}
+          streakDays={streakDays}
+        />
+      )}
     </div>
   );
 }
