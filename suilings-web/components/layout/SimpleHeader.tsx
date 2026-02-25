@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { LayoutDashboard, BookOpen, Trophy, MessageSquare } from "lucide-react";
+import { LayoutDashboard, BookOpen, Trophy, MessageSquare, Code2 } from "lucide-react";
 
 interface SimpleHeaderProps {
   showNavigation?: boolean;
@@ -50,6 +50,12 @@ export const SimpleHeader = memo(function SimpleHeader({ showNavigation = true }
                   <Link href="/exercise">
                     <BookOpen className="h-3.5 w-3.5" />
                     Exercises
+                  </Link>
+                </Button>
+                <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                  <Link href="/playground">
+                    <Code2 className="h-3.5 w-3.5" />
+                    Playground
                   </Link>
                 </Button>
                 <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>

@@ -53,8 +53,16 @@ export async function GET(
       );
     }
 
-    // Return the first matching credential
     const credential = data[0];
+
+    // TEMPORARY: Hide SBT for test users (HIDE_SBT_FOR_USERNAMES)
+    const { HIDE_SBT_FOR_USERNAMES } = await import("@/lib/config/credential-config");
+    if (HIDE_SBT_FOR_USERNAMES.some((u) => (credential.github_username || "").toLowerCase() === u.toLowerCase())) {
+      return NextResponse.json(
+        { verified: false, message: "No credential found for this identifier" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({
       verified: true,

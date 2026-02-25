@@ -9,7 +9,7 @@ import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { calculateProgress } from "@/lib/exerciseLoader";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, MessageSquare, MoreVertical } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, MessageSquare, MoreVertical, Code2 } from "lucide-react";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -64,6 +64,12 @@ export const Header = memo(function Header({ onRun, onReset, onShowHint }: Heade
                 <Link href="/dashboard">
                   <LayoutDashboard className="h-3.5 w-3.5" />
                   Dashboard
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                <Link href="/playground">
+                  <Code2 className="h-3.5 w-3.5" />
+                  Playground
                 </Link>
               </Button>
               <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
@@ -162,6 +168,12 @@ export const Header = memo(function Header({ onRun, onReset, onShowHint }: Heade
                   <Link href="/dashboard" className="flex items-center">
                     <LayoutDashboard className="h-4 w-4 mr-2" />
                     Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/playground" className="flex items-center">
+                    <Code2 className="h-4 w-4 mr-2" />
+                    Playground
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

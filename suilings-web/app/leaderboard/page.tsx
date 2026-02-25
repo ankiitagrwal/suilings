@@ -24,6 +24,7 @@ interface LeaderboardEntry {
   rank: number;
   user_id: string;
   username: string;
+  displayName?: string;
   email: string;
   github_username?: string;
   completed_exercises: number;
@@ -85,14 +86,10 @@ export default function LeaderboardPage() {
     return "bg-muted";
   };
 
-  const getInitials = (username: string, githubUsername?: string) => {
-    // For "You", show "YO"
-    if (username === 'You') return 'YO';
-    // For others, use first 2 characters of GitHub username
-    if (githubUsername && githubUsername.length >= 2) {
-      return githubUsername.substring(0, 2).toUpperCase();
-    }
-    // Fallback if no GitHub username
+  const getInitials = (entry: LeaderboardEntry) => {
+    if (entry.displayName === 'You') return 'YO';
+    const name = entry.github_username || entry.username;
+    if (name && name.length >= 2) return name.substring(0, 2).toUpperCase();
     return '??';
   };
 
@@ -157,11 +154,11 @@ export default function LeaderboardPage() {
                     </div>
                     <Avatar className="h-12 w-12">
                       <AvatarFallback className="bg-primary text-primary-foreground">
-                        {getInitials(userPosition.username, userPosition.github_username)}
+                        {getInitials(userPosition)}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <div className="font-semibold">{userPosition.username || '\u00A0'}</div>
+                      <div className="font-semibold">{userPosition.displayName || userPosition.username || '\u00A0'}</div>
                       <div className="text-sm text-muted-foreground">
                         {userPosition.email ? userPosition.email : `Rank #${userPosition.rank}`}
                       </div>
@@ -230,12 +227,13 @@ export default function LeaderboardPage() {
               ) : (
                 <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                   {leaderboard.map((entry) => (
-                    <div
+                    <Link
                       key={entry.user_id}
+                      href={`/u/${entry.username || entry.github_username || 'user'}`}
                       className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${
                         entry.user_id === user?.id 
                           ? 'bg-primary/5 border-primary/50' 
-                          : 'hover:bg-accent'
+                          : 'hover:bg-accent cursor-pointer'
                       }`}
                     >
                       {/* Rank and User Info */}
@@ -246,14 +244,14 @@ export default function LeaderboardPage() {
                         
                         <Avatar className="h-10 w-10">
                           <AvatarFallback className={entry.rank <= 3 ? getRankBadgeColor(entry.rank) : ''}>
-                            {getInitials(entry.username, entry.github_username)}
+                            {getInitials(entry)}
                           </AvatarFallback>
                         </Avatar>
                         
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="font-semibold truncate text-muted-foreground">
-                              {entry.username || '\u00A0'}
+                              {entry.displayName || entry.username || '\u00A0'}
                             </span>
                             {entry.user_id === user?.id && (
                               <Badge variant="outline" className="text-xs">You</Badge>
@@ -290,7 +288,7 @@ export default function LeaderboardPage() {
                           <div className="text-xs text-muted-foreground">Rate</div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}

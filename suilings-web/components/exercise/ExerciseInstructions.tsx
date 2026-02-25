@@ -49,28 +49,31 @@ export function ExerciseInstructions() {
 
   return (
     <div className="h-full flex flex-col overflow-hidden bg-background">
-      <ScrollArea className="flex-1 overflow-y-auto">
-        <div className="p-6 space-y-4 pb-8">
-          {/* Exercise Title */}
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
-              <Info className="h-6 w-6 text-primary shrink-0" />
-              <span>{currentExercise.displayName || currentExercise.name}</span>
-            </h2>
-            {currentExercise.displayName && (
-              <p className="text-xs text-muted-foreground ml-8">
-                ({currentExercise.name})
-              </p>
-            )}
-          </div>
+      {/* Exercise Title - Fixed at top */}
+      <div className="p-6 pb-4 border-b border-border">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold flex items-center gap-2">
+            <Info className="h-6 w-6 text-primary shrink-0" />
+            <span>{currentExercise.displayName || currentExercise.name}</span>
+          </h2>
+          {currentExercise.displayName && (
+            <p className="text-xs text-muted-foreground ml-8">
+              ({currentExercise.name})
+            </p>
+          )}
+        </div>
+      </div>
 
+      {/* Exercise Instructions */}
+      <ScrollArea className="flex-1">
+        <div className="p-6 space-y-4 pb-8">
           {/* Exercise Description */}
           {currentExercise.description && (
             <Card className="border-blue-500/30 bg-blue-500/5">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2 text-blue-600 dark:text-blue-400">
                   <BookOpen className="h-5 w-5" />
-                  Instructions
+                  What to do
                 </CardTitle>
               </CardHeader>
               <CardContent>

@@ -119,9 +119,10 @@ export async function GET(request: NextRequest) {
 
       return {
         user_id: userId,
-        username: isCurrentUser ? 'You' : '', // Empty for privacy
+        username: githubUsername || userId.substring(0, 8), // Always use real username for links
+        displayName: isCurrentUser ? 'You' : (githubUsername || userId.substring(0, 8)), // Display name can be "You"
         email: isCurrentUser ? currentUser?.email || '' : '', // Only show current user's email
-        github_username: githubUsername, // For avatar initials
+        github_username: githubUsername, // For avatar initials and profile links
         completed_exercises: completed,
         total_exercises: totalExercises,
         completion_rate: completionRate,
