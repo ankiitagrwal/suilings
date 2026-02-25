@@ -16,25 +16,39 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   let profile = null;
   let profileError = null;
 
-  const { data: profileByUsername, error: error1 } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("username", username)
-    .maybeSingle();
-
-  if (profileByUsername) {
-    profile = profileByUsername;
-  } else {
-    const { data: profileByGithub, error: error2 } = await supabase
+  // Support lookup by UUID (e.g. from leaderboard when user has no username in profiles yet)
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(username);
+  if (isUuid) {
+    const { data: profileById, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("github_username", username)
+      .eq("id", username)
+      .maybeSingle();
+    if (profileById) profile = profileById;
+    else profileError = error;
+  }
+
+  if (!profile) {
+    const { data: profileByUsername, error: error1 } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("username", username)
       .maybeSingle();
 
-    if (profileByGithub) {
-      profile = profileByGithub;
+    if (profileByUsername) {
+      profile = profileByUsername;
     } else {
-      profileError = error1 || error2;
+      const { data: profileByGithub, error: error2 } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("github_username", username)
+        .maybeSingle();
+
+      if (profileByGithub) {
+        profile = profileByGithub;
+      } else {
+        profileError = error1 || error2;
+      }
     }
   }
 

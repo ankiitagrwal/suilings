@@ -108,6 +108,10 @@ DROP POLICY IF EXISTS "Users can view own progress" ON exercise_progress;
 CREATE POLICY "Users can view own progress"
   ON exercise_progress FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Public can view progress for profiles" ON exercise_progress;
+CREATE POLICY "Public can view progress for profiles"
+  ON exercise_progress FOR SELECT USING (true);
+
 DROP POLICY IF EXISTS "Users can insert own progress" ON exercise_progress;
 CREATE POLICY "Users can insert own progress"
   ON exercise_progress FOR INSERT WITH CHECK (auth.uid() = user_id);

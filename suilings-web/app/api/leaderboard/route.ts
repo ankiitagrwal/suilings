@@ -95,6 +95,17 @@ export async function GET(request: NextRequest) {
       console.warn('Could not fetch user metadata for leaderboard');
     }
 
+    // Fetch profiles so leaderboard links use same username as profile page (avoids wrong profile when clicking)
+    const profileByUserId = new Map<string, { username?: string; github_username?: string }>();
+    try {
+      const { data: profiles } = await adminClient.from('profiles').select('id, username, github_username').in('id', allUserIds);
+      profiles?.forEach((p: any) => {
+        profileByUserId.set(p.id, { username: p.username, github_username: p.github_username });
+      });
+    } catch (error) {
+      console.warn('Could not fetch profiles for leaderboard');
+    }
+
     const userStats = allUserIds.map(userId => {
       const userProgress = progressData?.filter((p: any) => p.user_id === userId) || [];
       const completed = userProgress.filter((p: any) => p.status === 'completed').length;
@@ -113,16 +124,18 @@ export async function GET(request: NextRequest) {
       const completionRate = totalExercises > 0 ? (completed / totalExercises) * 100 : 0;
       const isCurrentUser = userId === currentUserId;
       
-      // Get GitHub username from metadata (if available)
+      // Prefer profile table for username so /u/username resolves to same user's profile (fixes leaderboard→profile mismatch)
+      const profile = profileByUserId.get(userId);
       const metadata = userMetadataMap.get(userId) || {};
-      const githubUsername = metadata.user_name || metadata.preferred_username || '';
+      const linkUsername = (profile?.username || profile?.github_username) || userId;
+      const displayUsername = metadata.user_name || metadata.preferred_username || profile?.username || profile?.github_username || userId.substring(0, 8);
 
       return {
         user_id: userId,
-        username: githubUsername || userId.substring(0, 8), // Always use real username for links
-        displayName: isCurrentUser ? 'You' : (githubUsername || userId.substring(0, 8)), // Display name can be "You"
-        email: isCurrentUser ? currentUser?.email || '' : '', // Only show current user's email
-        github_username: githubUsername, // For avatar initials and profile links
+        username: linkUsername, // Used for profile URL – must match profiles table
+        displayName: isCurrentUser ? 'You' : displayUsername,
+        email: isCurrentUser ? currentUser?.email || '' : '',
+        github_username: displayUsername,
         completed_exercises: completed,
         total_exercises: totalExercises,
         completion_rate: completionRate,
