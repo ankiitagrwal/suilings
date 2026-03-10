@@ -20,9 +20,11 @@ export async function PATCH(request: NextRequest) {
       bio,
       githubUsername,
       twitterUsername,
-      discordUsername,
       websiteUrl,
       location,
+      openToWork,
+      skillsSummary,
+      availableRoles,
     } = body;
 
     // Validate inputs
@@ -32,21 +34,29 @@ export async function PATCH(request: NextRequest) {
         { status: 400 }
       );
     }
+    if (skillsSummary && skillsSummary.length > 300) {
+      return NextResponse.json(
+        { error: "Skills summary must be less than 300 characters" },
+        { status: 400 }
+      );
+    }
+    if (availableRoles !== undefined && !Array.isArray(availableRoles)) {
+      return NextResponse.json(
+        { error: "availableRoles must be an array" },
+        { status: 400 }
+      );
+    }
 
-    // Build update object with only defined fields
-    // Only include columns that exist in the profiles table
     const updates: Record<string, unknown> = {};
     if (displayName !== undefined) updates.full_name = displayName;
     if (bio !== undefined) updates.bio = bio;
     if (location !== undefined) updates.location = location;
-    
-    // Optional social fields - only update if they exist in your profiles table
     if (githubUsername !== undefined) updates.github_username = githubUsername;
     if (twitterUsername !== undefined) updates.twitter_username = twitterUsername;
     if (websiteUrl !== undefined) updates.website = websiteUrl;
-    
-    // Discord username might not exist in profiles table, skip it
-    // if (discordUsername !== undefined) updates.discord_username = discordUsername;
+    if (openToWork !== undefined) updates.open_to_work = openToWork;
+    if (skillsSummary !== undefined) updates.skills_summary = skillsSummary;
+    if (availableRoles !== undefined) updates.available_roles = availableRoles;
 
     // Update profile (using existing profiles table)
     const { data, error } = await supabase

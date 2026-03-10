@@ -1,0 +1,50 @@
+---
+description: React & Next.js component design patterns — composition, hooks, Server vs Client boundaries
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# React & Next.js Component Patterns
+
+## Server vs Client Boundary
+```typescript
+// ✅ Default: Server Component — no directive needed
+export default async function ProfilePage({ params }) { ... }
+
+// ✅ Only add 'use client' when you need browser APIs, event handlers, or hooks
+'use client';
+export function ProfileEditForm() { ... }
+```
+- Keep Server Components as deep as possible; push `'use client'` to leaf nodes.
+- Never use `useEffect` to fetch data — use Server Components or TanStack Query.
+
+## Component Structure (top → bottom)
+```typescript
+// 1. Imports
+// 2. Types / interfaces local to this file
+// 3. Component function (named export preferred)
+// 4. Sub-components or helpers used only here
+// 5. Default export at the bottom
+```
+
+## Composition over Prop Drilling
+```typescript
+// ❌ BAD — prop drilling 3+ levels
+<Layout user={user} theme={theme} onLogout={onLogout} />
+
+// ✅ GOOD — slot / compound pattern
+<Layout>
+  <Layout.Header><UserMenu /></Layout.Header>
+  <Layout.Body>{children}</Layout.Body>
+</Layout>
+```
+
+## Custom Hooks
+- One hook = one concern. Name: `use<Domain><Action>` → `useProfileUpdate`, `useSnippetSearch`.
+- Return a stable object shape: `{ data, isLoading, error, refetch }`.
+- Keep side effects inside hooks, not inside components.
+
+## Performance
+- `React.memo` only for proven re-render bottlenecks — measure first.
+- Wrap expensive computations with `useMemo`; stable callbacks with `useCallback` when passed to memoized children.
+- Use `Suspense` + `loading.tsx` for async boundaries in the App Router.

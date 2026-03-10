@@ -6,9 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Loader2, Save } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, Save, Briefcase } from "lucide-react";
 import { toast } from "sonner";
+
+const ROLE_OPTIONS = [
+  "Smart Contract Dev",
+  "Protocol Engineer",
+  "Frontend Dev",
+  "Full Stack Dev",
+  "DevRel",
+  "Security Auditor",
+  "Blockchain Architect",
+  "Technical Writer",
+];
 
 interface ProfileEditFormProps {
   initialData: {
@@ -18,6 +31,9 @@ interface ProfileEditFormProps {
     twitterUsername?: string | null;
     websiteUrl?: string | null;
     location?: string | null;
+    openToWork?: boolean | null;
+    skillsSummary?: string | null;
+    availableRoles?: string[] | null;
   };
   username: string;
 }
@@ -25,7 +41,21 @@ interface ProfileEditFormProps {
 export function ProfileEditForm({ initialData, username }: ProfileEditFormProps) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
-  const [formData, setFormData] = useState(initialData);
+  const [formData, setFormData] = useState({
+    ...initialData,
+    openToWork: initialData.openToWork ?? false,
+    availableRoles: initialData.availableRoles ?? [],
+  });
+
+  const toggleRole = (role: string) => {
+    const current = formData.availableRoles ?? [];
+    setFormData({
+      ...formData,
+      availableRoles: current.includes(role)
+        ? current.filter((r) => r !== role)
+        : [...current, role],
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +128,82 @@ export function ProfileEditForm({ initialData, username }: ProfileEditFormProps)
               maxLength={100}
             />
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Open to Work */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Briefcase className="h-5 w-5" />
+            Work Availability
+          </CardTitle>
+          <CardDescription>
+            Signal to companies that you&apos;re open to new opportunities
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-medium text-sm">Open to Work</p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Show a badge on your profile and appear in the developer directory
+              </p>
+            </div>
+            <Switch
+              id="openToWork"
+              checked={formData.openToWork}
+              onCheckedChange={(checked) =>
+                setFormData({ ...formData, openToWork: checked })
+              }
+            />
+          </div>
+
+          {formData.openToWork && (
+            <>
+              <div>
+                <Label htmlFor="skillsSummary">What are you looking for?</Label>
+                <Textarea
+                  id="skillsSummary"
+                  value={formData.skillsSummary || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, skillsSummary: e.target.value })
+                  }
+                  placeholder="Describe the kind of work you're interested in, your expertise, what excites you..."
+                  maxLength={300}
+                  rows={3}
+                  className="mt-1.5"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  {formData.skillsSummary?.length || 0}/300 characters
+                </p>
+              </div>
+
+              <div>
+                <Label className="mb-2 block">Roles I&apos;m interested in</Label>
+                <div className="flex flex-wrap gap-2">
+                  {ROLE_OPTIONS.map((role) => {
+                    const selected = formData.availableRoles?.includes(role);
+                    return (
+                      <button
+                        key={role}
+                        type="button"
+                        onClick={() => toggleRole(role)}
+                        className="focus:outline-none"
+                      >
+                        <Badge
+                          variant={selected ? "default" : "outline"}
+                          className="cursor-pointer select-none transition-colors"
+                        >
+                          {role}
+                        </Badge>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
         </CardContent>
       </Card>
 

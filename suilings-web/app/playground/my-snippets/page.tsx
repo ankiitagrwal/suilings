@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { SimpleHeader } from "@/components/layout/SimpleHeader";
+import { Footer } from "@/components/layout/Footer";
 import { SnippetGrid, type SnippetData } from "@/components/playground/SnippetGrid";
 import { SearchFilter, type SearchParams } from "@/components/playground/SearchFilter";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,7 @@ export default function MySnippetsPage() {
       // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        router.push("/auth/signin");
+        router.push("/login");
         return;
       }
 
@@ -126,6 +127,7 @@ export default function MySnippetsPage() {
           emptyMessage="You haven't created any snippets yet"
         />
       </div>
+      <Footer />
     </>
   );
 }

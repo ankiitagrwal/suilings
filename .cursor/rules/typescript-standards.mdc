@@ -1,0 +1,46 @@
+---
+description: TypeScript coding standards — strict typing, error handling, naming conventions
+globs: **/*.ts,**/*.tsx
+alwaysApply: false
+---
+
+# TypeScript Standards
+
+## Strict Typing
+```typescript
+// ❌ BAD
+const handler = async (data: any) => { ... }
+
+// ✅ GOOD
+const handler = async (data: ProfileUpdatePayload): Promise<ApiResponse<Profile>> => { ... }
+```
+- Never use `any`. Use `unknown` with type guards, or define a precise type.
+- Always type function return values explicitly for public/exported functions.
+- Prefer `interface` for object shapes; use `type` for unions, intersections, and aliases.
+
+## Error Handling
+```typescript
+// ❌ BAD
+} catch (e) {}
+
+// ✅ GOOD
+} catch (error) {
+  const message = error instanceof Error ? error.message : 'Unknown error';
+  console.error('[ServiceName] operation failed', { error, context });
+  throw new ServiceError(message, { cause: error });
+}
+```
+
+## Naming Conventions
+| Construct | Convention | Example |
+|-----------|-----------|---------|
+| Types / Interfaces | PascalCase | `UserProfile`, `ApiResponse<T>` |
+| Functions / Hooks | camelCase | `fetchProfile`, `useAuth` |
+| Constants | SCREAMING_SNAKE | `MAX_RETRIES`, `API_BASE_URL` |
+| Files (components) | PascalCase | `ProfileHeader.tsx` |
+| Files (utilities) | kebab-case | `format-date.ts` |
+
+## Utility Patterns
+- Use `satisfies` for object literal type-checking without widening.
+- Prefer `readonly` arrays and object properties for data flowing downward.
+- Extract repeated generic patterns into utility types (`Nullable<T>`, `AsyncResult<T>`).

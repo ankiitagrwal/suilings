@@ -1,0 +1,51 @@
+---
+description: Next.js API route conventions — validation, auth guard, response shape, error codes
+globs: app/api/**/route.ts
+alwaysApply: false
+---
+
+# API Route Conventions
+
+## Standard Route Structure
+```typescript
+export async function POST(request: Request) {
+  // 1. Auth guard
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return unauthorized();
+
+  // 2. Input validation
+  const body = await request.json();
+  const parsed = schema.safeParse(body);
+  if (!parsed.success) return badRequest(parsed.error.flatten());
+
+  // 3. Business logic / DB call
+  const result = await performAction(parsed.data, user.id);
+
+  // 4. Response
+  return NextResponse.json({ data: result }, { status: 200 });
+}
+```
+
+## Response Shape (always consistent)
+```typescript
+// Success
+{ data: T, message?: string }
+
+// Error
+{ error: string, details?: unknown }
+```
+
+## Helper Utilities (create in `lib/api/`)
+```typescript
+const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+const badRequest   = (details) => NextResponse.json({ error: 'Bad Request', details }, { status: 400 });
+const serverError  = (msg = 'Internal Server Error') => NextResponse.json({ error: msg }, { status: 500 });
+```
+
+## Rules
+- Every mutating route (`POST`, `PUT`, `PATCH`, `DELETE`) **must** authenticate first.
+- Use Zod (or equivalent) for runtime input validation — never trust `request.json()` directly.
+- Return appropriate HTTP status codes (200, 201, 400, 401, 403, 404, 409, 500).
+- Use `lib/supabase/server` (`createClient`) — never the browser client in routes.
+- Log errors with context: `console.error('[api/profile/update]', error)`.

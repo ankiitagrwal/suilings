@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { SimpleHeader } from "@/components/layout/SimpleHeader";
+import { Footer } from "@/components/layout/Footer";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileStats } from "@/components/profile/ProfileStats";
 import { SnippetCard, type SnippetData } from "@/components/playground/SnippetCard";
@@ -109,6 +110,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       githubUsername: profile.github_username || profile.username,
       location: profile.location,
       createdAt: profile.created_at,
+      openToWork: profile.open_to_work ?? false,
     },
     stats: {
       completedExercises,
@@ -199,6 +201,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

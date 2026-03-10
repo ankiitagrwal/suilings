@@ -1,0 +1,47 @@
+---
+description: Supabase data access patterns — client selection, RLS, query design, migrations
+globs: lib/supabase/**,app/api/**/route.ts,lib/hooks/**
+alwaysApply: false
+---
+
+# Data Layer & Supabase Patterns
+
+## Client Selection Matrix
+| Context | Client | Import |
+|---------|--------|--------|
+| Server Component / API Route | Server client | `lib/supabase/server` |
+| Client Component / Hook | Browser client | `lib/supabase/client` |
+| Migration / Admin task | Admin client | `lib/supabase/admin` |
+
+Never use the admin client in user-facing API routes — it bypasses RLS.
+
+## Query Design
+```typescript
+// ❌ BAD — select * wastes bandwidth
+const { data } = await supabase.from('profiles').select('*');
+
+// ✅ GOOD — explicit column selection
+const { data } = await supabase
+  .from('profiles')
+  .select('id, username, avatar_url, bio')
+  .eq('username', username)
+  .single();
+```
+
+## Error Handling Pattern
+```typescript
+const { data, error } = await supabase.from('profiles').select('id').single();
+if (error) {
+  console.error('[data/profiles] fetch failed', { error });
+  throw new DatabaseError(error.message, { cause: error });
+}
+```
+
+## Migration Conventions
+- One migration = one logical change. File: `NNN_<description>.sql` (e.g., `003_add_skills_table.sql`).
+- Always define RLS policies in the same migration as the table.
+- Add indexes on foreign keys and frequently filtered columns.
+- Never mutate existing migration files — create a new one.
+
+## RLS Rule
+Every table must have RLS enabled with explicit policies. Default: deny all.

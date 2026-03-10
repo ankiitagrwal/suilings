@@ -1,0 +1,29 @@
+---
+description: Core architecture principles and project structure conventions
+alwaysApply: true
+---
+
+# Architecture & Project Structure
+
+## Layered Architecture
+Enforce strict separation of concerns across three layers:
+- **Presentation** — `components/`, `app/**/page.tsx` (UI only, no business logic)
+- **Application** — `lib/hooks/`, `lib/store/` (orchestrates data + state)
+- **Infrastructure** — `app/api/**/route.ts`, `lib/supabase/` (I/O, external services)
+
+## Directory Conventions
+```
+components/<feature>/          # Feature-scoped UI components
+lib/hooks/use<Feature>.ts      # Custom hooks (one concern per hook)
+lib/store/<feature>Store.ts    # Zustand stores (one domain per store)
+lib/supabase/                  # DB clients: client | server | admin
+app/api/<resource>/route.ts    # REST API routes (resource-per-file)
+types/<domain>.ts              # Shared TypeScript types per domain
+```
+
+## Golden Rules
+- Pages fetch data via hooks or server components — never call Supabase directly in a page component.
+- API routes handle I/O only — validate input, call a service/lib function, return response.
+- Never import `lib/supabase/server` in client components; use `lib/supabase/client` only.
+- Co-locate types with the feature they belong to; promote to `types/` only when shared across 3+ features.
+- Prefer composition over inheritance. Build small, single-responsibility units.

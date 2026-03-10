@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, Twitter, Globe, MapPin, Calendar, Edit } from "lucide-react";
+import { Github, Twitter, Globe, MapPin, Calendar, Edit, Briefcase } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 
@@ -18,6 +18,7 @@ interface ProfileHeaderProps {
     websiteUrl?: string | null;
     location?: string | null;
     createdAt: string;
+    openToWork?: boolean | null;
   };
   stats: {
     completedExercises: number;
@@ -48,9 +49,17 @@ export function ProfileHeader({ profile, stats, isOwnProfile }: ProfileHeaderPro
           <div className="flex-1">
             <div className="flex items-start justify-between">
               <div>
-                <h1 className="text-3xl font-bold">
-                  {profile.displayName || profile.username}
-                </h1>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h1 className="text-3xl font-bold">
+                    {profile.displayName || profile.username}
+                  </h1>
+                  {profile.openToWork && (
+                    <Badge className="bg-green-500/15 text-green-600 border-green-500/30 hover:bg-green-500/20 gap-1.5 font-medium">
+                      <Briefcase className="h-3.5 w-3.5" />
+                      Open to Work
+                    </Badge>
+                  )}
+                </div>
                 <p className="text-muted-foreground">@{profile.username}</p>
               </div>
               {isOwnProfile && (
