@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-muted-foreground">
             <p>
-              © 2025 All Rights Reserved @{" "}
+              © 2026 All Rights Reserved @{" "}
               <a
                 href="https://github.com/ankiitagrwal"
                 target="_blank"
