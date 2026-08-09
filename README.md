@@ -205,9 +205,9 @@ suilings/
 
 ## 🌟 Community
 
-- **Discord:** [Join our community](https://discord.gg/suilings) (coming soon)
-- **Twitter/X:** [@Suilings](https://twitter.com/suiilings)
-- **GitHub Discussions:** [Ask questions & share ideas](https://github.com/ankiitagrwal/suilings/discussions) (coming soon)
+- **Twitter/X:** [@suiilings](https://x.com/suiilings) — updates and announcements
+- **GitHub Issues:** [Ask questions, report bugs, share ideas](https://github.com/ankiitagrwal/suilings/issues)
+- **Discord:** coming soon
 
 ---
 
@@ -228,10 +228,8 @@ We welcome contributions! Here's how you can help:
 - Enhance error messages
 
 ### Report Issues
-- Found a bug? [Open an issue](https://github.com/ankiitagrwal/suilings/issues)
-- Have a suggestion? [Start a discussion](https://github.com/ankiitagrwal/suilings/discussions)
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+- Found a bug? [Open an issue](https://github.com/ankiitagrwal/suilings/issues/new)
+- Have a suggestion? [Open a feature request](https://github.com/ankiitagrwal/suilings/issues/new)
 
 ---
 
@@ -277,7 +275,7 @@ suilings watch
 
 **Made with ❤️ by the Suilings team**
 
-[Website](https://suilings.xyz) • [GitHub](https://github.com/ankiitagrwal/suilings) • [Discord](https://discord.gg/suilings) • [Twitter](https://twitter.com/suilings)
+[Website](https://suilings.xyz) • [GitHub](https://github.com/ankiitagrwal/suilings) • [Twitter/X](https://x.com/suiilings)
 
 ⭐ Star us on GitHub if you find Suilings helpful!
 

@@ -12,3 +12,6 @@ build/
 
 # Suilings Credential
 contracts/suilings_credential
+
+# macOS
+.DS_Store
