@@ -6,7 +6,17 @@ export function Footer() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-muted-foreground">
-            <p>© 2025 All Rights Reserved @ Cyphronix Software</p>
+            <p>
+              © 2025 All Rights Reserved @{" "}
+              <a
+                href="https://github.com/ankiitagrwal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline"
+              >
+                Ankit Agrawal
+              </a>
+            </p>
             <p className="mt-1 text-xs">
               All exercises based on{" "}
               <a 
