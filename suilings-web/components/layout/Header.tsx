@@ -9,7 +9,7 @@ import { useExerciseStore } from "@/lib/store/exerciseStore";
 import { calculateProgress } from "@/lib/exerciseLoader";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, MessageSquare, MoreVertical, Code2, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, RotateCcw, Lightbulb, LayoutDashboard, Trophy, MessageSquare, MoreVertical, Code2, Users, Briefcase } from "lucide-react";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -82,6 +82,12 @@ export const Header = memo(function Header({ onRun, onReset, onShowHint }: Heade
                 <Link href="/developers">
                   <Users className="h-3.5 w-3.5" />
                   Developers
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
+                <Link href="/jobs">
+                  <Briefcase className="h-3.5 w-3.5" />
+                  Jobs
                 </Link>
               </Button>
               <Button variant="ghost" size="sm" className="gap-1.5 text-xs" asChild>
@@ -192,6 +198,12 @@ export const Header = memo(function Header({ onRun, onReset, onShowHint }: Heade
                   <Link href="/developers" className="flex items-center">
                     <Users className="h-4 w-4 mr-2" />
                     Developers
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/jobs" className="flex items-center">
+                    <Briefcase className="h-4 w-4 mr-2" />
+                    Jobs
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

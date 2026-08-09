@@ -19,6 +19,8 @@ interface ProfileHeaderProps {
     location?: string | null;
     createdAt: string;
     openToWork?: boolean | null;
+    skillsSummary?: string | null;
+    availableRoles?: string[];
   };
   stats: {
     completedExercises: number;
@@ -77,6 +79,24 @@ export function ProfileHeader({ profile, stats, isOwnProfile }: ProfileHeaderPro
               <p className="mt-4 text-sm text-muted-foreground max-w-2xl">
                 {profile.bio}
               </p>
+            )}
+
+            {/* Skills & Roles */}
+            {(profile.skillsSummary || (profile.availableRoles && profile.availableRoles.length > 0)) && (
+              <div className="mt-3 space-y-2">
+                {profile.skillsSummary && (
+                  <p className="text-sm text-muted-foreground">{profile.skillsSummary}</p>
+                )}
+                {profile.availableRoles && profile.availableRoles.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {profile.availableRoles.map((role) => (
+                      <Badge key={role} variant="secondary" className="text-xs">
+                        {role}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
 
             {/* Meta Info */}

@@ -27,3 +27,19 @@ types/<domain>.ts              # Shared TypeScript types per domain
 - Never import `lib/supabase/server` in client components; use `lib/supabase/client` only.
 - Co-locate types with the feature they belong to; promote to `types/` only when shared across 3+ features.
 - Prefer composition over inheritance. Build small, single-responsibility units.
+
+## Code Quality & Optimisation
+- **No dead code** — never leave commented-out blocks, unused imports, or unreachable branches.
+- **DRY** — if logic appears twice, extract it. A utility function, a hook, or a shared component.
+- **No magic numbers/strings** — extract to a named constant: `MAX_BIO_LENGTH = 300` not `slice(0, 300)`.
+- **Keep files lean** — if a file exceeds ~250 lines, it is doing too much; split by concern.
+- **No over-engineering** — do not add abstraction layers that have no current consumer. YAGNI.
+```typescript
+// ❌ BAD — inline logic repeated, magic number
+if (bio.length > 300) { ... }
+if (username.length > 300) { ... }
+
+// ✅ GOOD — extracted, named, reusable
+const MAX_FIELD_LENGTH = 300;
+const isTooLong = (value: string) => value.length > MAX_FIELD_LENGTH;
+```

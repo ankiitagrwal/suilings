@@ -111,6 +111,8 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       location: profile.location,
       createdAt: profile.created_at,
       openToWork: profile.open_to_work ?? false,
+      skillsSummary: profile.skills_summary ?? null,
+      availableRoles: profile.available_roles ?? [],
     },
     stats: {
       completedExercises,

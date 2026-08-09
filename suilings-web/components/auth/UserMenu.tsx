@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/hooks/useAuth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { User, FileCode, LogOut } from 'lucide-react'
+import { User, FileCode, LogOut, Briefcase, Building2 } from 'lucide-react'
 import Link from 'next/link'
 import {
   DropdownMenu,
@@ -59,6 +59,18 @@ export function UserMenu() {
           <Link href="/playground/my-snippets" className="cursor-pointer">
             <FileCode className="mr-2 h-4 w-4" />
             My Snippets
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/applications" className="cursor-pointer">
+            <Briefcase className="mr-2 h-4 w-4" />
+            My Applications
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/company/dashboard" className="cursor-pointer">
+            <Building2 className="mr-2 h-4 w-4" />
+            Company Dashboard
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
