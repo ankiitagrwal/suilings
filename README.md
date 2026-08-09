@@ -273,7 +273,7 @@ suilings watch
 
 <div align="center">
 
-**Made with ❤️ by the Suilings team**
+**Made with ❤️ by [Ankit Agrawal](https://github.com/ankiitagrwal)**
 
 [Website](https://suilings.xyz) • [GitHub](https://github.com/ankiitagrwal/suilings) • [Twitter/X](https://x.com/suiilings)
 
